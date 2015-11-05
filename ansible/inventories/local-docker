@@ -1,0 +1,104 @@
+[localhost]
+localhost ansible_connection=local
+
+[systems]
+anon-files
+donkey
+data-info
+iplant-email
+iplant-groups
+metadactyl
+metadata
+notificationagent
+saved-searches
+tree-urls
+user-preferences
+user-sessions
+infosquito
+info-typer
+kifshare
+monkey
+
+[amqp-brokers]
+rabbitmq ansible_connection=local
+
+[condor]
+condor ansible_connection=local
+
+[condor-submission]
+condor-submission ansible_connection=local
+
+[elasticsearch]
+elasticsearch ansible_connection=local
+
+[icat]
+icat ansible_connection=local
+
+[elk]
+elk ansible_connection=local
+
+[docker-registry]
+hub.docker.com
+
+[db]
+db ansible_connection=local
+
+[irods]
+irods ansible_connection=local
+
+[ui]
+ui ansible_connection=local
+
+[grouper]
+grouper ansible_connection=local
+
+[anon-files]
+anon-files ansible_connection=local
+
+[infosquito]
+infosquito ansible_connection=local
+
+[info-typer]
+info-typer ansible_connection=local
+
+[kifshare]
+kifshare ansible_connection=local
+
+[monkey]
+monkey ansible_connection=local
+
+[donkey]
+donkey ansible_connection=local
+
+[data-info]
+data-info ansible_connection=local
+
+[iplant-email]
+iplant-email ansible_connection=local
+
+[iplant-groups]
+iplant-groups ansible_connection=local
+
+[jex]
+jex ansible_connection=local
+
+[metadactyl]
+metadactyl ansible_connection=local
+
+[metadata]
+metadata ansible_connection=local
+
+[notificationagent]
+notificationagent ansible_connection=local
+
+[saved-searches]
+saved-searches ansible_connection=local
+
+[tree-urls]
+tree-urls ansible_connection=local
+
+[user-preferences]
+user-preferences ansible_connection=local
+
+[user-sessions]
+user-sessions ansible_connection=local

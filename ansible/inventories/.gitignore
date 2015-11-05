@@ -1,4 +1,5 @@
 *
 !example.cfg
+!local-docker
 !.gitignore
 !group_vars/all

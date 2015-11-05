@@ -1,0 +1,6 @@
+---
+- hosts: localhost
+  tasks:
+   - name: create local configs
+     local_action: template src=roles/services/templates/{{item}}.properties.j2 dest={{de_config_dir}}/{{item}}.properties mode=0644
+     with_items: "{{groups['systems']}}"
