@@ -1,0 +1,14 @@
+---
+
+- name: copy docker.repo
+  copy: src=docker.repo dest=/etc/yum.repos.d owner=root group=root mode=0644 
+  tags: docker
+
+- name: install docker-engine
+  yum: name=docker-engine state=latest
+  tags: docker
+
+- name: enable and start docker-engine
+  service: name=docker state=restarted enabled=yes
+  tags: docker
+
