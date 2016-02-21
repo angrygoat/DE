@@ -1,0 +1,43 @@
+---
+
+- name: create rserve user/group
+  user: name={{ rserve_user }}
+
+- name: install epel-release for R
+  yum: name=epel-release state=present
+  when: ansible_distribution == 'CentOS' and ansible_distribution_major_version == '7'
+
+- name: install R for CentOS 7
+  yum: 
+     name=R state=present
+  when: ansible_distribution == 'CentOS' and ansible_distribution_major_version == '7'
+
+- name: download Rserve package
+  get_url: url={{ rserve_source }} dest=/home/{{ ansible_ssh_user }}/
+  when: ansible_distribution == 'CentOS' and ansible_distribution_major_version == '7'
+
+- name: install Rserve package
+  sudo: yes
+  sudo_user: root
+  shell:
+    R CMD INSTALL {{ rserve_targz }}
+
+- name: copy Rserve.conf file
+  sudo: yes
+  sudo_user: root
+  copy: src={{ rserve_conf }} dest=/etc/ owner=root group=root mode=0644
+
+- name: copy Rserve systemd file
+  sudo: yes
+  sudo_user: root
+  copy: src={{ rserve_systemd }} dest=/usr/lib/systemd/system/ owner=root group=root mode=0644
+
+- name: enable Rserve
+  sudo: yes
+  sudo_user: root
+  service: name=r.service enabled=yes
+
+- name: start Rserve
+  sudo: yes
+  sudo_user: root
+  service: name=r.service state=started
