@@ -1,0 +1,27 @@
+#!/bin/bash
+# Generates responses for iRODS' iCAT setup_irods.sh script.
+
+RESPFILE=$1
+
+echo "{{ irods_service_acct_user }}" > $RESPFILE  	# service account user ID
+echo "{{ irods_service_acct_user }}" >> $RESPFILE 	# service account group ID
+echo "{{ irods_zone }}" >> $RESPFILE            	# initial zone name
+echo "{{ irods_port }}" >> $RESPFILE            	# service port
+echo "{{ port_range_begin }}" >> $RESPFILE      	# transport starting port
+echo "{{ port_range_end }}" >> $RESPFILE        	# transport ending port
+echo "{{ vault_path }}" >> $RESPFILE 			# vault path
+echo "{{ zone_key }}" >> $RESPFILE 			# zone SID
+echo "{{ negotiation_key }}"  >> $RESPFILE 		# neg key
+echo "{{ control_plane_port }}" >> $RESPFILE		# control plane port
+echo "{{ control_plane_key }}" >> $RESPFILE     	# control plane key
+echo "{{ schema_uri }}" >> $RESPFILE            	# schema validation URI
+echo "{{ irods_admin }}" >> $RESPFILE       		# iRODS admin account
+echo "{{ irods_admin_password }}" >> $RESPFILE      	# iRODS admin password
+echo "yes" >> $RESPFILE                   		# confirm iRODS settings
+#echo "{{ inventory_hostname }}" >> $RESPFILE   	# database hostname
+echo "{{ irods_icat_host }}" >> $RESPFILE    		# database hostname
+echo "{{ irods_icat_dbport }}" >> $RESPFILE             # database port
+echo "{{ irods_icat_db }}" >> $RESPFILE               	# database DB name
+echo "{{ irods_icat_user }}" >> $RESPFILE       	# database admin username
+echo "{{ irods_icat_password }}" >> $RESPFILE   	# database admin password
+echo "yes" >> $RESPFILE                   		# confirm database settings
