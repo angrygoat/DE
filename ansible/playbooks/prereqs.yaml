@@ -5,3 +5,4 @@
 - include: postgres.yaml
 - include: condor.yaml
 - include: docker.yaml
+- include: irods.yml

@@ -3,6 +3,7 @@
 
 RESPFILE=$1
 
+# setup_irods.sh seems to want zone first
 echo "{{ irods_service_acct_user }}" > $RESPFILE  	# service account user ID
 echo "{{ irods_service_acct_user }}" >> $RESPFILE 	# service account group ID
 echo "{{ irods_zone }}" >> $RESPFILE            	# initial zone name

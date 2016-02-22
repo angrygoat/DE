@@ -2,6 +2,12 @@
 
 ### do we want the irods database hosted locally, or on de-db?
 
+- name: ensure epel-release is installed for irods dependencies below
+  yum: name=epel-release state=latest
+  when: ansible_os_family == "RedHat" and
+        ansible_distribution_major_version == "7"
+  tags: irods
+
 - name: ensure pyscopg2 is installed for ansible postgres module
   yum: name=python-psycopg2 state=latest
   when: ansible_os_family == "RedHat" and
@@ -107,6 +113,16 @@
 
 - name: Install iCAT on CentOS7
   yum:  name={{ irods_icat_rpm }} state=present
+  when: ansible_os_family == 'RedHat' and
+        ansible_distribution_major_version == '7'
+
+- name: ensure irods group exists
+  group: name={{ irods_admin }} state=present
+  when: ansible_os_family == 'RedHat' and
+        ansible_distribution_major_version == '7'
+
+- name: ensure irods user exists
+  user: name={{ irods_admin }} state=present group={{ irods_admin }}
   when: ansible_os_family == 'RedHat' and
         ansible_distribution_major_version == '7'
 
