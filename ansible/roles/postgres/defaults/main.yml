@@ -1,6 +1,6 @@
 ---
 
-postgresql_version: "{{de-db_pgsql_major}}"
+postgresql_version: "{{de_db_pgsql_major}}"
 
 # This will be the main admin user, which is only allowed to connect
 # from localhost, mainly for provisioning, maintenance and scripts.
