@@ -35,7 +35,7 @@
         ansible_distribution_major_version == "7"
 
 - name: init postgres if necessary
-  shell: "/usr/pgsql-{{de_db_pgsql_major}}/bin/postgresql94-setup initdb"
+  shell: "/usr/pgsql-{{de_db_pgsql_major}}/bin/postgresql{{de_db_pgsql_cli}}-setup initdb"
   when: ansible_distribution == "CentOS" and
         ansible_distribution_major_version == "7"
   ignore_errors: true

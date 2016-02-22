@@ -52,8 +52,8 @@
 - name: install devel, contrib and postgis on CentOS7
   yum: name={{item}} state=latest
   with_items:
-    - libpqxx-devel
-    - postgresql94-contrib
-    - postgis
+    #- libpqxx-devel
+    - postgresql{{de_db_pgsql_cli}}-contrib
+    #- postgis
   when: ansible_distribution == "CentOS" and
         ansible_distribution_major_version == "7"
