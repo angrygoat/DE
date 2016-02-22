@@ -1,5 +1,7 @@
 ---
 
-include: iptables.yaml
-include: condor.yaml
-include: docker.yaml
+- include: iptables.yaml
+- include: java7.yaml
+- include: postgres.yaml
+- include: condor.yaml
+- include: docker.yaml

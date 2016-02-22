@@ -52,6 +52,6 @@
     - db
     - conf
 
-- name: restart postgresql-9.4
+- name: restart postgresql
   sudo: yes
-  service: name=postgresql-9.4 state=restarted
+  service: name=postgresql-{{de-db_pgsql_major}} state=restarted
