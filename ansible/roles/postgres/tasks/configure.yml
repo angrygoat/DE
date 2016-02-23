@@ -52,6 +52,14 @@
     - db
     - conf
 
+- name: restart postgresql
+  sudo: yes
+  service: name=postgresql-{{de_db_pgsql_major}} state=restarted
+  tags:
+    - postgresql
+    - db
+    - conf
+
 - name: post install -- set admin user's password
   sudo: yes
   sudo_user: postgres
@@ -61,7 +69,3 @@
     - postgresql
     - db
     - conf
-
-- name: restart postgresql
-  sudo: yes
-  service: name=postgresql-{{de_db_pgsql_major}} state=restarted
