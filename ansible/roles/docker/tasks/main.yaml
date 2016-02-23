@@ -1,5 +1,20 @@
 ---
 
+- name: add the docker group
+  sudo: yes
+  group: name=docker state=present
+  tags: docker
+
+- name: add the docker user
+  sudo: yes
+  user: name=docker shell=/bin/bash groups=docker append=yes
+  tags: docker
+
+- name: add the current user to the docker group
+  sudo: yes
+  user: name={{ ansible_ssh_user }} groups=docker append=yes
+  tags: docker
+
 - name: copy docker.repo
   copy: src=docker.repo dest=/etc/yum.repos.d owner=root group=root mode=0644 
   tags: docker
@@ -7,6 +22,12 @@
 - name: install docker-engine
   yum: name=docker-engine state=latest
   tags: docker
+
+- name: install/update docker-compose
+  sudo: yes
+  get_url: url=https://github.com/docker/compose/releases/download/1.6.0/docker-compose-Linux-x86_64 dest=/usr/bin/docker-compose mode=0755 owner=root group=root validate_certs=no
+  tags:
+      - install_docker-compose
 
 - name: enable and start docker-engine
   service: name=docker state=restarted enabled=yes
