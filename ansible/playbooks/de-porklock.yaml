@@ -7,5 +7,4 @@
       - porklock
   roles:
       - de-porklock
-  environment:
-    https_proxy: "{{ proxy_env.https_proxy }}"
+
