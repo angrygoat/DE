@@ -8,6 +8,21 @@ local_cfg_dest: cfg_files
 facepalm_proxy_host: null
 facepalm_proxy_port: 80
 
+net:
+  dmz: 172.0.0.0/8
+  vpn: 172.0.0.0/8
+  trust: 152.54.0.0/16
+  campus: 152.54.0.0/16
+  wifi: 152.54.0.0/16
+
+# A proxy host and port to be used by the database initialization utility,
+# facepalm. This does not affect network requests not made by facepalm.
+
+proxy_env:
+  https_proxy: null
+  http_proxy: null
+
+
 docker:
   log_driver: syslog
   tag: latest
