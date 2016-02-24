@@ -1,6 +1,6 @@
 ---
 - name: Configure proxies for docker (for example, on renci lab vms)
-- hosts: docker-ready
+- hosts: docker-ready:&systems
   sudo: yes
   roles:
       - docker-proxy
