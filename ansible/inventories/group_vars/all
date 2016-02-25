@@ -45,6 +45,22 @@ cas:
   uid_domain: dfc.org
 # --- /CAS properties --- #
 
+# --- Tomcat --- #
+
+
+ssl_certificate_server_dir: /usr/share/tomcat/cert
+ssl_cert_file: server.crt
+ssl_key_file: server.key
+cas_ssl_cert_file: server.crt
+cas_ssl_key_file: server.key
+
+
+tomcat_http_port: 8080
+tomcat_https_port: 8443
+tomcat_admin_username: admin
+tomcat_admin_password: renci!a7
+tomcat_user: tomcat
+
 
 ldap_slapd_dpkg_reconfigure_done: false
 ldap_dpkg_reconfigure: false
