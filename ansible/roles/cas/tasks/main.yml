@@ -71,6 +71,8 @@
 - name: cas | download overlay
   git: repo={{cas.git_url}}
        dest=/home/{{ ansible_ssh_user }}/casbuild/{{cas.git_project_name}}
+  environment:
+            https_proxy: "{{ proxy_env.https_proxy }}"
 
 
 - name: cas | build cas overlay
