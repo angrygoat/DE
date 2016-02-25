@@ -12,7 +12,7 @@ ldap:
    tld: dfc
    domain_name:	dfc
    host:
-   user_starttls: false
+   use_starttls: false
    enable_ssl: false
    base_dn: ou=Users,dc=DFC,dc=unc,dc=edu
    search_base_dn: ou=Users,dc=DFC,dc=unc,dc=edu
@@ -114,6 +114,8 @@ net:
 proxy_env:
   https_proxy: null
   http_proxy: null
+  http_maven_proxy_host: null
+  http_maven_proxy_port: 8080
 
 
 docker:
