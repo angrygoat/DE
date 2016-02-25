@@ -15,7 +15,7 @@
     - properties
 
 - name: add proxy for maven
-  template: src=maven/settings.xml dest=/{{ansible_user}}/.m2/settings.xml
+  template: src=maven/settings.xml dest=/{{ansible_ssh_user}}/.m2/settings.xml
   tags:
     - cas
     - properties
@@ -70,12 +70,12 @@
 
 - name: cas | download overlay
   git: repo={{cas.git_url}}
-       dest=/home/{{ ansible_user }}/casbuild/{{cas.git_project_name}}
+       dest=/home/{{ ansible_ssh_user }}/casbuild/{{cas.git_project_name}}
 
 
 - name: cas | build cas overlay
   shell:
-       cd /home/{{ansible_user}}/casbuild/{{cas.git_project_name}}; mvn clean; mvn package;
+       cd /home/{{ansible_ssh_user}}/casbuild/{{cas.git_project_name}}; mvn clean; mvn package;
        cp target/{{cas.git_project_name}}.war target/cas.war;
        cp target/cas.war /usr/share/tomcat/webapps/cas.war
 
