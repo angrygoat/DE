@@ -26,7 +26,7 @@ suffix          "{{ ldap.dc }}"
 rootdn          "{{ ldap.manager_dn }}"
 rootpw          {{ root_password.stdout }}
 #This directory has to be created and would contain the ldap database.
-directory       /var/lib/ldap/{{ ldap_domain_name }}/
+directory       /var/lib/ldap/{{ ldap.domain_name }}/
 index objectClass                       eq,pres
 index ou,cn,mail,surname,givenname      eq,pres,sub
 index uidNumber,gidNumber,loginShell    eq,pres
