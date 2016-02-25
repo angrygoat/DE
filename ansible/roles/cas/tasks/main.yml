@@ -16,7 +16,7 @@
 
 
 - name: Install maven
-  yum: name={{ mvn }} state=installed
+  yum: name=maven state=installed
   sudo: yes
 
 - name: add proxy for maven
