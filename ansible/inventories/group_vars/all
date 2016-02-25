@@ -10,6 +10,7 @@ ldap:
    location: Chapel Hill
    organization: DFC
    tld: dfc
+   domain_name:	dfc
    host:
    user_starttls: false
    enable_ssl: false

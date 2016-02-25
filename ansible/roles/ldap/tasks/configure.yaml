@@ -59,7 +59,7 @@
     - auth
 
 - name: Create and sign the the new certificate 
-  shell: openssl req -new -x509 -subj '/C={{ ldap.country }}/ST={{ ldap.state }}/L={{ ldap.location }}/O={{ ldap_organization }}/CN={{ ansible_hostname }}/' -days 3650 -key my.key -out cert.crt -extensions v3_ca chdir={{ app_path }}/certs/
+  shell: openssl req -new -x509 -subj '/C={{ ldap.country }}/ST={{ ldap.state }}/L={{ ldap.location }}/O={{ ldap.organization }}/CN={{ ansible_hostname }}/' -days 3650 -key my.key -out cert.crt -extensions v3_ca chdir={{ app_path }}/certs/
          creates={{ app_path }}/certs/cert.crt
   tags:
     - ldap
