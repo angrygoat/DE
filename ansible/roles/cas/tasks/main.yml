@@ -15,7 +15,7 @@
     - properties
 
 - name: add proxy for maven
-  template: src=maven/settings.xml dest=/{{ansible_ssh_user}}/.m2/settings.xml
+  template: src=maven/settings.xml dest=/home/{{ansible_ssh_user}}/.m2/settings.xml
   tags:
     - cas
     - properties
