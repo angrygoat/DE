@@ -14,6 +14,11 @@
     - cas
     - properties
 
+
+- name: Install maven
+  yum: name={{ mvn }} state=installed
+  sudo: yes
+
 - name: add proxy for maven
   template: src=maven/settings.xml dest=/home/{{ansible_ssh_user}}/.m2/settings.xml
   tags:
