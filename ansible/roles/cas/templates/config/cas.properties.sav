@@ -51,7 +51,7 @@ st.timeToKillInSeconds=10
 #========================================
 # LDAP Properties
 #========================================
-ldap.url=ldap://{{ldap_host}}
+ldap.url=ldap://{{ldap.host}}
 
 # LDAP connection timeout in milliseconds
 ldap.connectTimeout=3000
@@ -88,13 +88,13 @@ ldap.pool.idleTime=600
 #========================================
 
 # Base DN of users to be authenticated
-ldap.authn.baseDn={{ldap_search_base_dn}}
+ldap.authn.baseDn={{ldap.search_base_dn}}
 
 # Manager DN for authenticated searches
-ldap.authn.managerDN={{ldap_manager_dn}}
+ldap.authn.managerDN={{ldap.manager_dn}}
 
 # Manager password for authenticated searches
-ldap.authn.managerPassword={{ldap_admin_password}}
+ldap.authn.managerPassword={{ldap.admin_password}}
 
 # Search filter used for configurations that require searching for DNs
 #ldap.searchFilter=(uid={user})

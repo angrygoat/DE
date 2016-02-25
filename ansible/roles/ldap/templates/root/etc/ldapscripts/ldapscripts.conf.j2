@@ -29,15 +29,10 @@ SERVER="ldap://{{inventory_hostname}}"
 
 # Suffixes
 # DEBIAN: values from /etc/pam_ldap.conf are used.
-SUFFIX="{{ldap_dc}}" # Global suffix
-GSUFFIX="{{ldap_g_suffix}}"        # Groups ou (just under $SUFFIX)
-USUFFIX="{{ldap_u_suffix}}"         # Users ou (just under $SUFFIX)
-MSUFFIX="{{ldap_m_suffix}}"      # Machines ou (just under $SUFFIX)
-
-#SUFFIX="dc=example,dc=com" # Global suffix
-#GSUFFIX="ou=Groups"        # Groups ou (just under $SUFFIX)
-#USUFFIX="ou=Users"         # Users ou (just under $SUFFIX)
-#MSUFFIX="ou=Machines"      # Machines ou (just under $SUFFIX)
+SUFFIX="{{ldap.dc}}" # Global suffix
+GSUFFIX="{{ldap.g_suffix}}"        # Groups ou (just under $SUFFIX)
+USUFFIX="{{ldap.u_suffix}}"         # Users ou (just under $SUFFIX)
+MSUFFIX="{{ldap.m_suffix}}"      # Machines ou (just under $SUFFIX)
 
 # Authentication type
 # If empty, use simple authentication
@@ -48,7 +43,7 @@ SASLAUTH=""
 # Simple authentication parameters
 # DEBIAN: values from /etc/pam_ldap.conf are used.
 # The following BIND* parameters are ignored if SASLAUTH is set
-BINDDN="cn=admin,{{ldap_dc}}"
+BINDDN="cn=admin,{{ldap.dc}}"
 #BINDDN="cn=Manager,dc=example,dc=com"
 # The following file contains the raw password of the BINDDN
 # Create it with something like : echo -n 'secret' > $BINDPWDFILE

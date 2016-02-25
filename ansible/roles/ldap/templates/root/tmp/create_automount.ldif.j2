@@ -1,30 +1,30 @@
-dn: ou=admin,{{ldap_dc}}
+dn: ou=admin,{{ldap.dc}}
 ou: admin
 objectClass: top
 objectClass: organizationalUnit
 
-dn: ou=automount,ou=admin,{{ldap_dc}}
+dn: ou=automount,ou=admin,{{ldap.dc}}
 ou: automount
 objectClass: top
 objectClass: organizationalUnit
 
-dn: ou=auto.master,ou=automount,ou=admin,{{ldap_dc}}
+dn: ou=auto.master,ou=automount,ou=admin,{{ldap.dc}}
 ou: auto.master
 objectClass: top
 objectClass: automountMap
 
-dn: cn=/home,ou=auto.master,ou=automount,ou=admin,{{ldap_dc}}
+dn: cn=/home,ou=auto.master,ou=automount,ou=admin,{{ldap.dc}}
 cn: /home
 objectClass: top
 objectClass: automount
-automountInformation: ldap:ou=auto.home,ou=automount,ou=admin,{{ldap_dc}} --timeout=60 --ghost
+automountInformation: ldap:ou=auto.home,ou=automount,ou=admin,{{ldap.dc}} --timeout=60 --ghost
 
-dn: ou=auto.home,ou=automount,ou=admin,{{ldap_dc}}
+dn: ou=auto.home,ou=automount,ou=admin,{{ldap.dc}}
 ou: auto.home
 objectClass: top
 objectClass: automountMap
 
-dn: cn=/,ou=auto.home,ou=automount,ou=admin,{{ldap_dc}}
+dn: cn=/,ou=auto.home,ou=automount,ou=admin,{{ldap.dc}}
 cn: /
 objectClass: top
 objectClass: automount

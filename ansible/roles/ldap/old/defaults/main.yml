@@ -1,8 +1,7 @@
 # basic defaults
-ldap_genadminpw: p4sswurd
-ldap_password: p4sswurd
-ldap_password_size: 8
-ldap_host: "{{ groups['cas']}}"
+ldap.password: p4sswurd
+ldap.password_size: 8
+ldap.host: "{{ groups['cas']}}"
 ldap_slapd_dpkg_reconfigure_done: false
 dpkg_reconfigure: false
 global_user: root
@@ -15,10 +14,10 @@ ldap_include_create_sudo: false
 ldap_include_create_sudo_master: false
 ldap_include_testde: true
 
-ldap_dc: DC=odum,DC=unc,DC=edu
-ldap_g_suffix: Groups
-ldap_u_suffix: Users
-ldap_m_suffix: Machines
+ldap.dc: DC=odum,DC=unc,DC=edu
+ldap.g_suffix: Groups
+ldap.u_suffix: Users
+ldap.m_suffix: Machines
 
 
 # This is used to store files that indicate that an operation has been run. Note that if you change this after you have

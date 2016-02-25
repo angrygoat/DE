@@ -1,5 +1,3 @@
-#dn: dc={{ ldap_domain_name.split('.')[0] }},dc={{ ldap_domain_name.split('.')[1] }}
-dn: {{ ldap_dc }}
+dn: {{ ldap.dc }}
 objectClass: domain
-#dc: {{ ldap_domain_name.split('.')[0] }}
-dc: {{ ldap_tld }}
+dc: {{ ldap.tld }}
