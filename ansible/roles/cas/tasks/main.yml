@@ -80,16 +80,3 @@
        cp target/{{cas.git_project_name}}.war target/cas.war;
        cp target/cas.war /usr/share/tomcat/webapps/cas.war
 
- # KLUDGE
-- include: ../../apache_vhost/tasks/main.yml 
-     context_path='{{ cas.context_path }}'
-     hostname="localhost"
-     ssl="{{cas.do_ssl_config}}"
-     vhost_required="no" # KLUDGE
-   #  ssl_cert_file='{{ssl_certificate_server_dir}}/{{ ssl_cert_file }}'  # KLUDGE
-    # ssl_key_file='{{ssl_certificate_server_dir}}/{{ ssl_key_file }}'
-    # ssl_chain_file='{{ssl_certificate_server_dir}}/{{ ssl_chain_file }}'
-  tags:
-    - cas
-    - deploy
-    - apache_vhost
