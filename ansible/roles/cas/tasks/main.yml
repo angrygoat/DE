@@ -17,7 +17,7 @@
 - name: add proxy for maven
   template: src=maven/settings.xml dest=/root/.m2/settings.xml
   sudo: yes
-  sudo_user: {{ansible_user}}
+  sudo_user: "{{ansible_user}}"
   tags:
     - cas
     - properties
@@ -74,11 +74,11 @@
   git: repo={{cas.git_url}}
        dest=/home/{{ ansible_user }}/casbuild/{{cas.git_project_name}}
   sudo: yes
-  sudo_user: {{ansible_user}}
+  sudo_user: "{{ansible_user}}"
 
 - name: cas | build cas overlay
   sudo: yes
-  sudo_user: {{ansible_user}}
+  sudo_user: "{{ansible_user}}"
   shell:
        cd /home/{{ansible_user}}/casbuild/{{cas.git_project_name}}; mvn clean; mvn package;
        cp target/{{cas.git_project_name}}.war target/cas.war;
