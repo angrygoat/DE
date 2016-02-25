@@ -14,10 +14,10 @@
     - auth
 
 - name: Display all variables/facts known for a host
-  debug: var={{ldap_dc}}
+  debug: var={{ldap.dc}}
 
 - name: ldap Install users and groups 
-  shell: ldapadd -w {{ldap_password}} -x -D cn=admin,{{ldap_dc}} -f create_users_and_groups.ldif && touch {{ldap_create_user_and_groups_done}} chdir=/tmp creates={{ldap_create_user_and_groups_done}}
+  shell: ldapadd -w {{ldap.password}} -x -D cn=admin,{{ldap.dc}} -f create_users_and_groups.ldif && touch {{ldap_create_user_and_groups_done}} chdir=/tmp creates={{ldap_create_user_and_groups_done}}
   when: ldap_include_create_user_and_groups
   tags: 
     - ldap 
@@ -59,7 +59,7 @@
     - auth
 
 - name: ldap Install automount
-  shell: ldapadd -w $ldap_password -x -D cn=admin,{{ldap_dc}} -f create_automount.ldif && touch {{ldap_create_automount_done}} chdir=/tmp creates={{ldap_create_automount_done}}
+  shell: ldapadd -w $ldap.password -x -D cn=admin,{{ldap.dc}} -f create_automount.ldif && touch {{ldap_create_automount_done}} chdir=/tmp creates={{ldap_create_automount_done}}
   when: ldap_include_create_automount
   tags: 
     - ldap
@@ -87,7 +87,7 @@
     - auth
 
 - name: ldap Install sudo master
-  shell: ldapadd -w {{ldap_password}} -x -D cn=admin,{{ldap_dc}} -f create_sudo_master.ldif && touch {{ldap_create_sudo_master_done}} chdir=/tmp creates={{ldap_create_sudo_master_done}}
+  shell: ldapadd -w {{ldap.password}} -x -D cn=admin,{{ldap.dc}} -f create_sudo_master.ldif && touch {{ldap_create_sudo_master_done}} chdir=/tmp creates={{ldap_create_sudo_master_done}}
   when: ldap_include_create_sudo_master
   tags: 
     - ldap
@@ -102,7 +102,7 @@
 
 
 - name: ldap Install testde users
-  shell: ldapadd -w {{ldap_password}} -x -D cn=admin,{{ldap_dc}} -f testde.ldif && touch {{ldap_create_testde_done}} chdir=/tmp creates={{ldap_create_testde_done}}
+  shell: ldapadd -w {{ldap.password}} -x -D cn=admin,{{ldap.dc}} -f testde.ldif && touch {{ldap_create_testde_done}} chdir=/tmp creates={{ldap_create_testde_done}}
   when: ldap_include_testde
   tags:
     - ldap

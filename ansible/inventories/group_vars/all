@@ -1,3 +1,72 @@
+
+# lab environment variables
+
+# --- LDAP properties --- #
+
+ldap:
+   dc: dc=DFC,dc=unc,dc=edu
+   country: US
+   state: North Carolina
+   location: Chapel Hill
+   organization: DFC
+   tld: dfc
+   host:
+   user_starttls: false
+   enable_ssl: false
+   base_dn: ou=Users,dc=DFC,dc=unc,dc=edu
+   search_base_dn: ou=Users,dc=DFC,dc=unc,dc=edu
+   group_base_dn: ou=Groups,dc=DFC,dc=unc,dc=edu
+   manager_dn:  cn=Manager,dc=DFC,dc=unc,dc=edu
+   admin_password:
+   authn_format: cn=%s,dc=com
+   trusted_cert:
+   port: 389
+   password:
+   password_size: 8
+   g_suffix: Groups
+   u_suffix: Users
+   m_suffix: Machines
+
+
+
+# --- CAS properties --- #
+
+cas:
+  app_list: all iPlant applications
+  base: http://some.server1.at.a.place:8443/cas
+  context_path: cas
+  do_ssl_config: true
+  git_url:  https://github.com/DICE-UNC/cas-overlay.git
+  git_project_name: DFC-CAS-overlay
+  group_attribute: entitlement
+  no_logout_url: http://some.server1.at.a.place
+  port: 8443
+  uid_domain: dfc.org
+# --- /CAS properties --- #
+
+
+ldap_slapd_dpkg_reconfigure_done: false
+ldap_dpkg_reconfigure: false
+ldap_include_create_user_and_groups: true
+ldap_include_create_indexes: true
+ldap_include_create_autofs: false
+ldap_include_create_automount: false
+ldap_include_create_sudo: false
+ldap_include_create_sudo_master: false
+ldap_include_testde: true
+
+
+ldap_ansible_done_dir: /etc/ansible/.done
+ldap_done_dir: "{{ldap_ansible_done_dir}}/ldap"
+ldap_create_user_and_groups_done: "{{ldap_done_dir}}/create-users-and-groups"
+ldap_create_indexes_done: "{{ldap_done_dir}}/create-indexes"
+ldap_create_autofs_done: "{{ldap_done_dir}}/create-autofs"
+ldap_create_automount_done: "{{ldap_done_dir}}/create-automount"
+ldap_create_sudo_done: "{{ldap_done_dir}}/create-sudo"
+ldap_create_sudo_master_done: "{{ldap_done_dir}}/create-sudo-master"
+ldap_create_testde_done: "{{ldap_done_dir}}/create-testde"
+ldap_slapd_dpkg_reconfigure_done: "{{ldap_done_dir}}/slapd-dpkg-reconfigure-done"
+
 ansible_ssh_port: 22
 global_config_dir: /etc/iplant
 de_config_dir: "{{ global_config_dir }}/de"
@@ -154,13 +223,6 @@ de_feedback_to_addr: ""
 de_mail_from_addr: "{{ de_feedback_to_addr }}"
 de_mail_to_addr: "{{ de_feedback_to_addr }}"
 
-
-cas_base:
-cas_group_attribute: entitlement
-cas_uid_domain:
-
-cas_no_logout_url: http://user.iplantcollaborative.org
-cas_app_list: all CyVerse applications
 
 chat_room_url:
 

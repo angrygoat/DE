@@ -11,7 +11,7 @@
     - auth
 
 - name: Generate the root password for ldap
-  shell: slappasswd -s {{ ldap_password }}
+  shell: slappasswd -s {{ ldap.password }}
   register: root_password
   tags:
     - ldap
@@ -59,7 +59,7 @@
     - auth
 
 - name: Create and sign the the new certificate 
-  shell: openssl req -new -x509 -subj '/C={{ ldap_country }}/ST={{ ldap_state }}/L={{ ldap_location }}/O={{ ldap_organization }}/CN={{ ansible_hostname }}/' -days 3650 -key my.key -out cert.crt -extensions v3_ca chdir={{ app_path }}/certs/
+  shell: openssl req -new -x509 -subj '/C={{ ldap.country }}/ST={{ ldap.state }}/L={{ ldap.location }}/O={{ ldap_organization }}/CN={{ ansible_hostname }}/' -days 3650 -key my.key -out cert.crt -extensions v3_ca chdir={{ app_path }}/certs/
          creates={{ app_path }}/certs/cert.crt
   tags:
     - ldap
@@ -67,7 +67,7 @@
 
 - name: copy the supporting files
   copy: src=ldap dest=/etc/sysconfig/ldap mode=0755
-  #when: ldap_enable_ssl and ansible_os_family == 'RedHat'
+  #when: ldap.enable_ssl and ansible_os_family == 'RedHat'
   when: ansible_os_family == 'RedHat'
   notify: 
    - restart slapd
@@ -88,8 +88,8 @@
     - auth
 
 - name: add the base domain
-  #shell: ldapadd -x -D "cn=Manager,dc={{ ldap_domain_name.split('.')[0] }},dc={{ ldap_domain_name.split('.')[1] }}" -w {{ ldap_password }} -f /tmp/domain.ldif && touch {{ app_path }}/rootdn_created creates={{ app_path }}/rootdn_created
-  shell: ldapadd -x -D "{{ ldap_manager_dn }}" -w {{ ldap_password }} -f /tmp/domain.ldif && touch {{ ldap_done_dir }}/rootdn_created creates={{ app_path }}/rootdn_created
+  #shell: ldapadd -x -D "cn=Manager,dc={{ ldap_domain_name.split('.')[0] }},dc={{ ldap_domain_name.split('.')[1] }}" -w {{ ldap.password }} -f /tmp/domain.ldif && touch {{ app_path }}/rootdn_created creates={{ app_path }}/rootdn_created
+  shell: ldapadd -x -D "{{ ldap.manager_dn }}" -w {{ ldap.password }} -f /tmp/domain.ldif && touch {{ ldap_done_dir }}/rootdn_created creates={{ app_path }}/rootdn_created
   ignore_errors: yes
   tags:
     - ldap
