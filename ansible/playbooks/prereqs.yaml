@@ -6,4 +6,4 @@
 - include: docker.yaml
 - include: postgres.yaml
 - include: db-creator.yaml
-- include: irods.yml
+#- include: irods.yml
