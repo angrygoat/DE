@@ -35,7 +35,7 @@
 
 - name: ensure ssl certificate directory exists (if required)
   file: path={{ ssl_certificate_server_dir }} state=directory owner={{tomcat_user}} group={{tomcat_user}}
-  when: cas_do_ssl_config
+  when: cas.do_ssl_config
   tags:
     - cas
     - properties
@@ -43,7 +43,7 @@
 
 - name: copy SSL public key
   copy: src={{ cas_ssl_cert_file }} dest={{ssl_certificate_server_dir}}/{{cas_ssl_cert_file}}
-  when: cas_do_ssl_config
+  when: cas.do_ssl_config
   tags:
     - cas
     - properties
@@ -51,7 +51,7 @@
 
 - name: copy SSL private key
   copy: src={{ cas_ssl_key_file }} dest={{ssl_certificate_server_dir}}/{{cas_ssl_key_file}}
-  when: cas_do_ssl_config
+  when: cas.do_ssl_config
   tags:
         - cas
         - properties
@@ -59,7 +59,7 @@
 
 - name: set data ownership [all data is owned by tomcat]
   file: path={{ssl_certificate_server_dir}} owner={{tomcat_user}} group={{tomcat_user}} recurse=true
-  when: cas_do_ssl_config
+  when: cas.do_ssl_config
   tags:
     - cas
     - properties
@@ -70,21 +70,21 @@
 
 
 - name: cas | download overlay
-  git: repo={{cas_git_url}}
-       dest=/home/{{ ansible_user }}/casbuild/{{cas_git_project_name}}
+  git: repo={{cas.git_url}}
+       dest=/home/{{ ansible_user }}/casbuild/{{cas.git_project_name}}
 
 - name: cas | build cas overlay
   sudo: yes
   shell:
-       cd /home/{{ansible_user}}/casbuild/{{cas_git_project_name}}; mvn clean; mvn package;
-       cp target/{{cas_git_project_name}}.war target/cas.war;
+       cd /home/{{ansible_user}}/casbuild/{{cas.git_project_name}}; mvn clean; mvn package;
+       cp target/{{cas.git_project_name}}.war target/cas.war;
        cp target/cas.war /usr/share/tomcat/webapps/cas.war
 
  # KLUDGE
 - include: ../../apache_vhost/tasks/main.yml 
-     context_path='{{ cas_context_path }}' 
+     context_path='{{ cas.context_path }}'
      hostname="localhost"
-     ssl="{{cas_do_ssl_config}}"
+     ssl="{{cas.do_ssl_config}}"
      vhost_required="no" # KLUDGE
    #  ssl_cert_file='{{ssl_certificate_server_dir}}/{{ ssl_cert_file }}'  # KLUDGE
     # ssl_key_file='{{ssl_certificate_server_dir}}/{{ ssl_key_file }}'

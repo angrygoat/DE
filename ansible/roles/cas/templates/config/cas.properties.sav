@@ -1,9 +1,9 @@
 cas.host={{inventory_hostname}}
 
-cas.securityContext.serviceProperties.service=http://{{inventory_hostname}}:{{cas_port}}/cas/services/j_acegi_cas_security_check
+cas.securityContext.serviceProperties.service=http://{{inventory_hostname}}:{{cas.port}}/cas/services/j_acegi_cas_security_check
 cas.securityContext.serviceProperties.adminRoles=ROLE_ADMIN
-cas.securityContext.casProcessingFilterEntryPoint.loginUrl=http:/{{inventory_hostname}}:{{cas_port}}/cas/login
-cas.securityContext.ticketValidator.casServerUrlPrefix=http://{{inventory_hostname}}:{{cas_port}}/cas
+cas.securityContext.casProcessingFilterEntryPoint.loginUrl=http:/{{inventory_hostname}}:{{cas.port}}/cas/login
+cas.securityContext.ticketValidator.casServerUrlPrefix=http://{{inventory_hostname}}:{{cas.port}}/cas
 cas.themeResolver.defaultThemeName=cas-theme-default
 cas.viewResolver.basename=default_views
 # Spring Security's EL-based access rules for the /status URI of CAS that exposes health check information

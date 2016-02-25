@@ -13,12 +13,12 @@ ldap:
    host:
    user_starttls: false
    enable_ssl: false
-   base_dn:
+   base_dn: ou=Users,dc=DFC,dc=unc,dc=edu
    search_base_dn: ou=Users,dc=DFC,dc=unc,dc=edu
-   group_base_dn:
+   group_base_dn: ou=Groups,dc=DFC,dc=unc,dc=edu
    manager_dn:  cn=Manager,dc=DFC,dc=unc,dc=edu
    admin_password:
-   authn_format:
+   authn_format: cn=%s,dc=com
    trusted_cert:
    port: 389
    password:
@@ -26,6 +26,23 @@ ldap:
    g_suffix: Groups
    u_suffix: Users
    m_suffix: Machines
+
+
+
+# --- CAS properties --- #
+
+cas:
+  app_list: all iPlant applications
+  base: http://some.server1.at.a.place:8443/cas
+  context_path: cas
+  do_ssl_config: true
+  git_url:  https://github.com/DICE-UNC/cas-overlay.git
+  git_project_name: DFC-CAS-overlay
+  group_attribute: entitlement
+  no_logout_url: http://some.server1.at.a.place
+  port: 8443
+  uid_domain: dfc.org
+# --- /CAS properties --- #
 
 
 ldap_slapd_dpkg_reconfigure_done: false
@@ -206,13 +223,6 @@ de_feedback_to_addr: ""
 de_mail_from_addr: "{{ de_feedback_to_addr }}"
 de_mail_to_addr: "{{ de_feedback_to_addr }}"
 
-
-cas_base:
-cas_group_attribute: entitlement
-cas_uid_domain:
-
-cas_no_logout_url: http://user.iplantcollaborative.org
-cas_app_list: all CyVerse applications
 
 chat_room_url:
 
