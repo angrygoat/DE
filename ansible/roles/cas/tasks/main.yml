@@ -84,6 +84,12 @@
     - cas
     - properties
 
+- name: ensure casbuild directory exists
+  file: name=/home/{{ansible_ssh_user}}/casbuild state=directory owner={{ansible_ssh_user}}
+  tags:
+    - cas
+    - properties
+
 - name: make sure ansible user owns all of the cas build dir
   file: path=/home/{{ ansible_ssh_user }}/casbuild/ owner={{ansible_ssh_user}} group={{ansible_ssh_user}} recurse=true
   tags:
