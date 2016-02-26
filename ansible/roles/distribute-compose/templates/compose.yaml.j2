@@ -1,17 +1,17 @@
 iplant_data_apps:
-  image: {{ data_container.unc_remote_registry }}/{{ data_container.image_name }}:latest
+  image: "{{data_container.unc_remote_registry}}/{{data_container.image_name}}:latest"
   container_name: iplant-data-apps
 
 iplant_data_de_ui:
-  image: {{ data_container.unc_remote_registry }}/{{ data_container.image_name }}:latest
+  image: "{{data_container.unc_remote_registry}}/{{data_container.image_name}}:latest"
   container_name: iplant-data-de-ui
 
 iplant_data_de_ui_nginx:
-  image: {{ data_container.unc_remote_registry }}/{{ data_container.image_name }}:latest
+  image: "{{data_container.unc_remote_registry}}/{{data_container.image_name}}:latest"
   container_name: iplant-data-de-ui-nginx
 
 iplant_data_terrain:
-  image: {{ data_container.unc_remote_registry }}/{{ data_container.image_name }}:latest
+  image: "{{data_container.unc_remote_registry}}/{{data_container.image_name}}:latest"
   container_name: iplant-data-terrain
 
 ###
