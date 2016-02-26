@@ -107,3 +107,7 @@
   environment:
     https_proxy: "{{ proxy_env.https_proxy }}"
     https_proxy: "{{ proxy_env.http_proxy }}"
+
+- name: copy war to tomcat
+  shell: cp  /home/{{ansible_ssh_user}}/casbuild/{{cas.git_project_name}}/target/cas.war /usr/share/tomcat/webapps/cas.war
+  sudo: yes
