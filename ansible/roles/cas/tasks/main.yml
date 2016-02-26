@@ -19,6 +19,12 @@
   yum: name=maven state=installed
   sudo: yes
 
+- name: ensure .m2 directory exists
+  file: name=/home/{{ansible_ssh_user}}/.m2 state=directory owner={{ansible_ssh_user}}
+  tags:
+    - cas
+    - properties
+
 - name: add proxy for maven
   template: src=maven/settings.xml dest=/home/{{ansible_ssh_user}}/.m2/settings.xml
   tags:
@@ -72,6 +78,11 @@
 # WAR file deployment and virtual host configuration
 #
 
+- name: ensure git installed
+  yum: name=git state=latest
+  tags:
+    - cas
+    - properties
 
 - name: cas | download overlay
   git: repo={{cas.git_url}}
@@ -85,6 +96,8 @@
        cd /home/{{ansible_ssh_user}}/casbuild/{{cas.git_project_name}}; mvn clean; mvn package;
        cp target/{{cas.git_project_name}}.war target/cas.war;
        cp target/cas.war /usr/share/tomcat/webapps/cas.war
+  sudo: yes
+  become_user: {{ ansible_ssh_user }}
   environment:
     https_proxy: "{{ proxy_env.https_proxy }}"
     https_proxy: "{{ proxy_env.http_proxy }}"
