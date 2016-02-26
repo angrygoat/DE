@@ -96,7 +96,6 @@
        cd /home/{{ansible_ssh_user}}/casbuild/{{cas.git_project_name}}; mvn clean; mvn package;
        cp target/{{cas.git_project_name}}.war target/cas.war;
        cp target/cas.war /usr/share/tomcat/webapps/cas.war
-  sudo: yes
   become_user: "{{ ansible_ssh_user }}"
   environment:
     https_proxy: "{{ proxy_env.https_proxy }}"
