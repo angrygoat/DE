@@ -84,9 +84,16 @@
     - cas
     - properties
 
+- name: make sure ansible user owns all of the cas build dir
+  file: path=/home/{{ ansible_ssh_user }}/casbuild/ owner={{ansible_ssh_user}} group={{ansible_ssh_user}} recurse=true
+  tags:
+    - cas
+    - properties
+
 - name: cas | download overlay
   git: repo={{cas.git_url}}
        dest=/home/{{ ansible_ssh_user }}/casbuild/{{cas.git_project_name}}
+  become_user: "{{ ansible_ssh_user }}"
   environment:
             https_proxy: "{{ proxy_env.https_proxy }}"
 
