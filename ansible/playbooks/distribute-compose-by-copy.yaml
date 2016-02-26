@@ -3,5 +3,5 @@
   hosts: docker-ready
   sudo: yes
   roles:
-      - distribute-compose
+      - distribute-compose-by-copy
 
