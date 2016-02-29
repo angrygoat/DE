@@ -92,6 +92,7 @@ ldap_create_testde_done: "{{ldap_done_dir}}/create-testde"
 ldap_slapd_dpkg_reconfigure_done: "{{ldap_done_dir}}/slapd-dpkg-reconfigure-done"
 
 ansible_ssh_port: 22
+ansible_ssh_user: ansible
 global_config_dir: /etc/iplant
 de_config_dir: "{{ global_config_dir }}/de"
 local_cfg_dest: cfg_files
@@ -493,10 +494,10 @@ irods_admin_users: "{{ irods.user }},{{ irods.admins }}"
 irods:
   host: "{{ groups['irods'][0] }}"
   port: 1247
-  user:
+  user: rods
   password:
-  zone: iplant
-  home: /iplant/home
+  zone:
+  home: /xxxx/home
   default_resource: ""
   admins: rodsadmin
   data_curators_group: data-curators
