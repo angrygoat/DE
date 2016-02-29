@@ -6,7 +6,7 @@
   sudo: false
   gather_facts: false
   vars_files:
-    - ../group_vars/{{de_env}}
+    - ~/group_vars/odum
   pre_tasks:
     - name: create the output directory
       file: path={{de_config_dir}} state=directory
