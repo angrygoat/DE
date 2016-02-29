@@ -26,4 +26,4 @@
   tasks:
   - debug: msg="writing {{ config_template }} to {{ de_config_dir }}/{{ config_name }}"
   - name: write local service configs
-    local_action: template src="{{ config_template }}" dest="{{ de_config_dir }}/{{ config_name }}" mode=0644
+    local_action: template src="{{config_template}}" dest="{{de_config_dir}}/{{config_name}}" mode=0644
