@@ -1,0 +1,19 @@
+- name: ensure target directories exist
+  file: dest={{item}} state=directory owner=root group=root
+  with_items:
+    - /etc/docker-gc
+    - /etc/nginx
+  tags:
+      - service_config
+
+- name: Place docker-cleanup, ui config files
+  template: src={{item.src}} dest={{item.dest}} owner=root group=root mode=0644
+  with_items:
+    - {src: docker-cleanup/docker-gc-exclude.j2, dest: /etc/docker-gc/docker-gc-exclude }
+    - {src: docker-cleanup/docker-gc-exclude-containers.j2, dest: /etc/docker-gc/docker-gc-exclude-containers }
+    - {src: ui/de-application.yaml.j2, dest: /etc/iplant/de/de-application.yaml }
+    - {src: ui/de.properties.j2, dest: /etc/iplant/de/de.properties }
+    - {src: ui/nginx.conf.j2, dest: /etc/nginx/nginx.conf }
+  tags:
+      - service_config
+

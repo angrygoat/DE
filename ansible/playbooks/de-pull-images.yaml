@@ -12,7 +12,7 @@
 #       service_name_short: "{{data_container.service_name_short}}"
 
 - name: Update anon-files
-  hosts: anon-files:&systems
+  hosts: anon-files
   sudo: true
   gather_facts: false
   tags:
@@ -20,8 +20,8 @@
     - anon-files
   roles:
     - role: util-cfg-docker-pull-configs
-      service_name: "{{anon_files.compose_service}}"
-      service_name_short: "{{anon_files.service_name_short}}"
+      service_name: "{{ anon_files.compose_service }}"
+      service_name_short: "{{ anon_files.service_name_short }}"
 
     - role: util-cfg-docker-pull
       service_name: "{{anon_files.compose_service}}"
