@@ -1,11 +1,11 @@
 FROM tianon/true
 
-COPY /etc/iplant/de/logging/ /etc/iplant/de/logging/
-COPY /etc/nginx/ /etc/nginx/
-COPY /etc/iplant/de/*.properties /etc/iplant/de/
-COPY /etc/iplant/de/de-application.yaml /etc/iplant/de/
-COPY /etc/iplant/de/logstash-forwarder/ /etc/logstash-forwarder/
-COPY /etc/docker-gc/docker-gc-* /etc/docker-gc/
+COPY config_files/iplant/de/logging/ /etc/iplant/de/logging/
+COPY config_files/nginx/ /etc/nginx/
+COPY config_files/iplant/de/*.properties /etc/iplant/de/
+COPY config_files/iplant/de/de-application.yaml /etc/iplant/de/
+COPY config_files/iplant/de/logstash-forwarder/ /etc/logstash-forwarder/
+COPY config_files/docker-gc/docker-gc-* /etc/docker-gc/
 
 VOLUME /etc/iplant/de/logging/
 VOLUME /etc/iplant/de/
