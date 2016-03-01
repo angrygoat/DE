@@ -80,6 +80,15 @@
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport 31300:31399 -j ACCEPT
 {% endif %}
 
+
+{% if inventory_hostname in groups['docker-registry'] %}
+# service port range for docker registry
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport 5000 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.trust }} --dport 5000 -j ACCEPT
+
+{% endif %}
+
+
 {% if inventory_hostname in groups['terrain'] %}
 # terrain port from DMZ
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ terrain.port }} -j ACCEPT
