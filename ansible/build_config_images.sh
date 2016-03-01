@@ -29,7 +29,7 @@ docker build -t diceunc/config_user_sessions -f DockerfileConfigs .
 
 docker push diceunc/config_anon_files
 docker push diceunc/config_apps
-docker push  diceiunc/config_iplant_data_apps
+docker push  diceunc/config_iplant_data_apps
 docker push  diceunc/config_data_info
 docker  push  diceunc/config_dewey
 docker  push  diceunc/config_de_ui
