@@ -58,6 +58,8 @@
 # docker-registry ports from DMZ
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ docker.registry.port }} -j ACCEPT
 -A INPUT -m state --state NEW -m udp -p udp -s {{ net.dmz }} --dport {{ docker.registry.port }} -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.trust }} --dport {{ docker.registry.port }} -j ACCEPT
+-A INPUT -m state --state NEW -m udp -p udp -s {{ net.trust }} --dport {{ docker.registry.port }} -j ACCEPT
 {% endif %}
 
 {% if inventory_hostname in groups['irods'] %}
