@@ -499,6 +499,7 @@ irods:
   zone:
   home: /xxxx/home
   default_resource: ""
+  resc: ""
   admins: rodsadmin
   data_curators_group: data-curators
   bad_chars: \u0060\u0027\u000A\u0009
