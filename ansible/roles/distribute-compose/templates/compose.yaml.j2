@@ -23,91 +23,91 @@ iplant_data_terrain:
 # restart all services in the event of a configuration change that only affects a few.
 ###
 config_anon_files:
-  image: docker.example.org:65000/de-configs-{{compose.de_env}}:{{compose.de_tag}}
+  image: {{ docker.registry.base }}/de-configs-{{compose.de_env}}:{{compose.de_tag}}
   container_name: config-anon-files
 
 config_apps:
-  image: docker.example.org:65000/de-configs-{{compose.de_env}}:{{compose.de_tag}}
+  image: {{ docker.registry.base }}/de-configs-{{compose.de_env}}:{{compose.de_tag}}
   container_name: config-apps
 
 config_clockwork:
-  image: docker.example.org:65000/de-configs-{{compose.de_env}}:{{compose.de_tag}}
+  image: {{ docker.registry.base }}/de-configs-{{compose.de_env}}:{{compose.de_tag}}
   container_name: config-clockwork
 
 config_clm:
-  image: docker.example.org:65000/de-configs-{{compose.de_env}}:{{compose.de_tag}}
+  image: {{ docker.registry.base }}/de-configs-{{compose.de_env}}:{{compose.de_tag}}
   container_name: config-clm
 
 config_data_info:
-  image: docker.example.org:65000/de-configs-{{compose.de_env}}:{{compose.de_tag}}
+  image: {{ docker.registry.base }}/de-configs-{{compose.de_env}}:{{compose.de_tag}}
   container_name: config-data-info
 
 config_de_ui:
-  image: docker.example.org:65000/de-configs-{{compose.de_env}}:{{compose.de_tag}}
+  image: {{ docker.registry.base }}/de-configs-{{compose.de_env}}:{{compose.de_tag}}
   container_name: config-de-ui
 
 config_de_ui_nginx:
-  image: docker.example.org:65000/de-configs-{{compose.de_env}}:{{compose.de_tag}}
+  image: {{ docker.registry.base }}/de-configs-{{compose.de_env}}:{{compose.de_tag}}
   container_name: config-de-ui-nginx
 
 config_dewey:
-  image: docker.example.org:65000/de-configs-{{compose.de_env}}:{{compose.de_tag}}
+  image: {{ docker.registry.base }}/de-configs-{{compose.de_env}}:{{compose.de_tag}}
   container_name: config-dewey
 
 config_info_typer:
-  image: docker.example.org:65000/de-configs-{{compose.de_env}}:{{compose.de_tag}}
+  image: {{ docker.registry.base }}/de-configs-{{compose.de_env}}:{{compose.de_tag}}
   container_name: config-info-typer
 
 config_infosquito:
-  image: docker.example.org:65000/de-configs-{{compose.de_env}}:{{compose.de_tag}}
+  image: {{ docker.registry.base }}/de-configs-{{compose.de_env}}:{{compose.de_tag}}
   container_name: config-infosquito
 
 config_iplant_email:
-  image: docker.example.org:65000/de-configs-{{compose.de_env}}:{{compose.de_tag}}
+  image: {{ docker.registry.base }}/de-configs-{{compose.de_env}}:{{compose.de_tag}}
   container_name: config-iplant-email
 
 config_iplant_groups:
-  image: docker.example.org:65000/de-configs-{{compose.de_env}}:{{compose.de_tag}}
+  image: {{ docker.registry.base }}/de-configs-{{compose.de_env}}:{{compose.de_tag}}
   container_name: config-iplant-groups
 
 config_jex_events:
-  image: docker.example.org:65000/de-configs-{{compose.de_env}}:{{compose.de_tag}}
+  image: {{ docker.registry.base }}/de-configs-{{compose.de_env}}:{{compose.de_tag}}
   container_name: config-jex-events
 
 config_kifshare:
-  image: docker.example.org:65000/de-configs-{{compose.de_env}}:{{compose.de_tag}}
+  image: {{ docker.registry.base }}/de-configs-{{compose.de_env}}:{{compose.de_tag}}
   container_name: config-kifshare
 
 config_metadata:
-  image: docker.example.org:65000/de-configs-{{compose.de_env}}:{{compose.de_tag}}
+  image: {{ docker.registry.base }}/de-configs-{{compose.de_env}}:{{compose.de_tag}}
   container_name: config-metadata
 
 config_monkey:
-  image: docker.example.org:65000/de-configs-{{compose.de_env}}:{{compose.de_tag}}
+  image: {{ docker.registry.base }}/de-configs-{{compose.de_env}}:{{compose.de_tag}}
   container_name: config-monkey
 
 config_notification_agent:
-  image: docker.example.org:65000/de-configs-{{compose.de_env}}:{{compose.de_tag}}
+  image: {{ docker.registry.base }}/de-configs-{{compose.de_env}}:{{compose.de_tag}}
   container_name: config-notification-agent
 
 config_saved_searches:
-  image: docker.example.org:65000/de-configs-{{compose.de_env}}:{{compose.de_tag}}
+  image: {{ docker.registry.base }}/de-configs-{{compose.de_env}}:{{compose.de_tag}}
   container_name: config-saved-searches
 
 config_terrain:
-  image: docker.example.org:65000/de-configs-{{compose.de_env}}:{{compose.de_tag}}
+  image: {{ docker.registry.base }}/de-configs-{{compose.de_env}}:{{compose.de_tag}}
   container_name: config-terrain
 
 config_tree_urls:
-  image: docker.example.org:65000/de-configs-{{compose.de_env}}:{{compose.de_tag}}
+  image: {{ docker.registry.base }}/de-configs-{{compose.de_env}}:{{compose.de_tag}}
   container_name: config-tree-urls
 
 config_user_preferences:
-  image: docker.example.org:65000/de-configs-{{compose.de_env}}:{{compose.de_tag}}
+  image: {{ docker.registry.base }}/de-configs-{{compose.de_env}}:{{compose.de_tag}}
   container_name: config-user-preferences
 
 config_user_sessions:
-  image: docker.example.org:65000/de-configs-{{compose.de_env}}:{{compose.de_tag}}
+  image: {{ docker.registry.base }}/de-configs-{{compose.de_env}}:{{compose.de_tag}}
   container_name: config-user-sessions
 
 ###
