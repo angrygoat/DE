@@ -33,3 +33,6 @@
   service: name=docker state=restarted enabled=yes
   tags: docker
 
+- include: login.yaml
+  when: "{{docker.registry.login}} == yes"
+  tags: docker
