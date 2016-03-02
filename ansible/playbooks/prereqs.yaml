@@ -1,5 +1,5 @@
 ---
-
+- include: timezone.yaml
 - include: iptables.yaml
 - include: java7.yaml
 - include: condor.yaml
@@ -7,5 +7,4 @@
 - include: distribute-compose.yaml
 - include: postgres.yaml
 - include: db-creator.yaml
-- include: timezone.yaml
 #- include: irods.yml
