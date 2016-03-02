@@ -3,7 +3,7 @@
         <proxy>
             <id>httpProxy</id>
             <active>true</active>
-            <protocol>http</protocol>
+            <protocol>{{proxy_env.use_proxy}}</protocol>
             <host>{{proxy_env.http_maven_proxy_host}}</host>
             <port>{{proxy_env.http_maven_proxy_port}}</port>
             <username></username>
@@ -12,7 +12,7 @@
         </proxy>
         <proxy>
             <id>httpsProxy</id>
-            <active>true</active>
+            <active>{{proxy_env.use_proxy}}</active>
             <protocol>https</protocol>
             <host>{{proxy_env.http_maven_proxy_host}}</host>
             <port>{{proxy_env.http_maven_proxy_port}}</port>
