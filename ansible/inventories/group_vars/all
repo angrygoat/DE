@@ -130,13 +130,14 @@ docker:
     port: 5000
     base: "{{ groups['docker-registry'][0] }}:5000"
 
-
 compose:
   de_env: dev
   de_tag: latest
 
 java:
   version: 1.7.0
+
+timezone: America/New_York
 
 # Indicates whether or not this environment is a complete environment or piggybacks off some other
 # environment
