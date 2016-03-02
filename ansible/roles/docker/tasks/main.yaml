@@ -25,7 +25,7 @@
 
 - name: install/update docker-compose
   sudo: yes
-  get_url: url=https://github.com/docker/compose/releases/download/1.6.0/docker-compose-Linux-x86_64 dest=/usr/bin/docker-compose mode=0755 owner=root group=root validate_certs=no
+  get_url: url=https://github.com/docker/compose/releases/download/1.6.2/docker-compose-Linux-x86_64 dest=/usr/bin/docker-compose mode=0755 owner=root group=root validate_certs=no force=yes
   tags:
       - install_docker-compose
 
