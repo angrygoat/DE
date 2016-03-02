@@ -201,7 +201,7 @@ data_info:
 
 de_ui:
   image: {{ data_container.unc_remote_registry }}/{{ data_container.image_name }}:{{ compose.de_tag }}
-  container_name: {{ de.ui.custom_container }}
+  container_name: {{ de.container_name }}
   restart: on-failure:3
   expose:
     - "8080"
