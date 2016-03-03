@@ -96,8 +96,6 @@
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ terrain.port }} -j ACCEPT
 {% endif %}
 
-
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 {% if inventory_hostname in groups['data-info'] %}
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ terrain.port }} -j ACCEPT
 {% endif %}
