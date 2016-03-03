@@ -484,7 +484,7 @@ user_preferences:
   environment:
     - JAVA_TOOL_OPTIONS="-Xmx512M"
   ports:
-    - "{{user_preferences.port}}    :60000"
+    - "{{user_preferences.port}}:60000"
   log_driver: "syslog"
   log_opt:
     syslog-tag: user-preferences
