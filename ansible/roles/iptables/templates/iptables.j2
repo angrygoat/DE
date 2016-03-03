@@ -96,6 +96,73 @@
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ terrain.port }} -j ACCEPT
 {% endif %}
 
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+{% if inventory_hostname in groups['data-info'] %}
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ terrain.port }} -j ACCEPT
+{% endif %}
+
+
+{% if inventory_hostname in groups['iplant-email'] %}
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ iplant_email.port }} -j ACCEPT
+{% endif %}
+
+
+{% if inventory_hostname in groups['anon-files'] %}
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ terrain.port }} -j ACCEPT
+{% endif %}
+
+
+{% if inventory_hostname in groups['apps'] %}
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ apps.port }} -j ACCEPT
+{% endif %}
+
+
+{% if inventory_hostname in groups['elasticsearch'] %}
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ elasticsearch.port }} -j ACCEPT
+{% endif %}
+
+
+{% if inventory_hostname in groups['iplant-groups'] %}
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ iplant_groups.port }} -j ACCEPT
+{% endif %}
+
+
+{% if inventory_hostname in groups['jex'] %}
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ jex.port }} -j ACCEPT
+{% endif %}
+
+
+{% if inventory_hostname in groups['jexevents'] %}
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ jexevents.port }} -j ACCEPT
+{% endif %}
+
+{% if inventory_hostname in groups['kifshare'] %}
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ kifshare.port }} -j ACCEPT
+{% endif %}
+
+
+{% if inventory_hostname in groups['metadata'] %}
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ metadata.port }} -j ACCEPT
+{% endif %}
+
+{% if inventory_hostname in groups['notificationagent'] %}
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ notificationagent.port }} -j ACCEPT
+{% endif %}
+
+{% if inventory_hostname in groups['saved-searches'] %}
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ saved_searches.port }} -j ACCEPT
+{% endif %}
+
+{% if inventory_hostname in groups['tree-urls'] %}
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ tree_urls.port }} -j ACCEPT
+{% endif %}
+
+
+{% if inventory_hostname in groups['user-preferences'] %}
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ user_preferences.port }} -j ACCEPT
+{% endif %}
+
 {% if inventory_hostname in groups['ui'] %}
 # http and https, campus for now
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.campus }} --dport 80 -j ACCEPT
