@@ -84,14 +84,11 @@
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport 31300:31399 -j ACCEPT
 {% endif %}
 
-
 {% if inventory_hostname in groups['docker-registry'] %}
 # service port range for docker registry
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport 5000 -j ACCEPT
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.trust }} --dport 5000 -j ACCEPT
-
 {% endif %}
-
 
 {% if inventory_hostname in groups['terrain'] %}
 # terrain port from DMZ
@@ -102,64 +99,68 @@
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ terrain.port }} -j ACCEPT
 {% endif %}
 
-
 {% if inventory_hostname in groups['iplant-email'] %}
+# iplant-email port from DMZ
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ iplant_email.port }} -j ACCEPT
 {% endif %}
 
-
 {% if inventory_hostname in groups['anon-files'] %}
+# anon-files port from DMZ
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ terrain.port }} -j ACCEPT
 {% endif %}
 
-
 {% if inventory_hostname in groups['apps'] %}
+# apps port from DMZ
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ apps.port }} -j ACCEPT
 {% endif %}
 
-
 {% if inventory_hostname in groups['elasticsearch'] %}
+# elasticsearch port from DMZ
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ elasticsearch.port }} -j ACCEPT
 {% endif %}
 
-
 {% if inventory_hostname in groups['iplant-groups'] %}
+# iplant-groups port from DMZ
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ iplant_groups.port }} -j ACCEPT
 {% endif %}
 
-
 {% if inventory_hostname in groups['jex'] %}
+# jex port from DMZ
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ jex.port }} -j ACCEPT
 {% endif %}
 
-
 {% if inventory_hostname in groups['jexevents'] %}
+# jex-events port from DMZ
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ jexevents.port }} -j ACCEPT
 {% endif %}
 
 {% if inventory_hostname in groups['kifshare'] %}
+# kifshare port from DMZ
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ kifshare.port }} -j ACCEPT
 {% endif %}
 
-
 {% if inventory_hostname in groups['metadata'] %}
+# metadata port from DMZ
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ metadata.port }} -j ACCEPT
 {% endif %}
 
 {% if inventory_hostname in groups['notificationagent'] %}
+# notificationagent port from DMZ
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ notificationagent.port }} -j ACCEPT
 {% endif %}
 
 {% if inventory_hostname in groups['saved-searches'] %}
+# saved-searches port from DMZ
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ saved_searches.port }} -j ACCEPT
 {% endif %}
 
 {% if inventory_hostname in groups['tree-urls'] %}
+# tree-urls port from DMZ
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ tree_urls.port }} -j ACCEPT
 {% endif %}
 
-
 {% if inventory_hostname in groups['user-preferences'] %}
+# user-preferences port from DMZ
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ user_preferences.port }} -j ACCEPT
 {% endif %}
 
