@@ -1,8 +1,8 @@
 - name: ensure target directories exist
-  file: dest={{item}} state=directory owner=root group=root
-  with_items:
-    - /etc/docker-gc
-    - /etc/nginx
+  file: dest={{local_cfg_dest}} state=directory
+  #with_items:
+  #  - /etc/docker-gc
+  #  - /etc/nginx
   tags:
       - service_config
 
