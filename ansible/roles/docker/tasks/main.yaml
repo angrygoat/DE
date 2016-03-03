@@ -31,7 +31,7 @@
 
 - name: place the docker-compose yaml file
   sudo: yes
-  template: src=compose.yaml.j2 dest=/etc/compose.yaml owner=root group=root mode=0644
+  template: src=compose.yaml.j2 dest=/etc/compose.yaml owner=root group=root mode=0644 force=yes
 
 - name: enable and start docker-engine
   service: name=docker state=restarted enabled=yes
