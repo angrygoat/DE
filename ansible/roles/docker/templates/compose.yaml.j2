@@ -121,7 +121,7 @@ anon_files:
   environment:
     - JAVA_TOOL_OPTIONS="-Xmx1G"
   ports:
-    - "65001:60000"
+    - "{{anon_files.port}}:60000"
   log_driver: "syslog"
   log_opt:
     syslog-tag: anon-files
@@ -139,7 +139,7 @@ apps:
   environment:
     - JAVA_TOOL_OPTIONS="-Xmx1G"
   ports:
-    - "65002:60000"
+    - "{{apps.port}}:60000"
   log_driver: "syslog"
   log_opt:
     syslog-tag: apps
@@ -189,7 +189,7 @@ data_info:
   environment:
     - JAVA_TOOL_OPTIONS="-Xmx1G"
   ports:
-    - "65014:60000"
+    - "{{data_info.port}}:60000"
   log_driver: "syslog"
   log_opt:
     syslog-tag: data-info
@@ -305,7 +305,7 @@ iplant_email:
   environment:
     - JAVA_TOOL_OPTIONS="-Xmx512M"
   ports:
-    - "65003:60000"
+    - "{{iplant_email.port}}:60000"
   log_driver: "syslog"
   log_opt:
     syslog-tag: iplant-email
@@ -325,7 +325,7 @@ iplant_groups:
   environment:
     - JAVA_TOOL_OPTIONS="-Xmx512M"
   ports:
-    - "65004:60000"
+    - "{{iplant_groups.port}}:60000"
   log_driver: "syslog"
   log_opt:
     syslog-tag: iplant-groups
@@ -341,7 +341,7 @@ jex_events:
   command: --mode events --config /etc/iplant/de/jexevents.properties
   restart: on-failure:3
   ports:
-    - "65005:60000"
+    - "{{jexevents.port}}:60000"
   log_driver: "syslog"
   log_opt:
     syslog-tag: jexevents
@@ -359,7 +359,7 @@ kifshare:
   environment:
     - JAVA_TOOL_OPTIONS="-Xmx1G"
   ports:
-    - "65006:60000"
+    - "{{kifshare.port}}:60000"
   log_driver: "syslog"
   log_opt:
     syslog-tag: kifshare
@@ -377,7 +377,7 @@ metadata:
   environment:
     - JAVA_TOOL_OPTIONS="-Xmx1G"
   ports:
-    - "65007:60000"
+    - "{{metadata.port}}:60000"
   log_driver: "syslog"
   log_opt:
     syslog-tag: metadata
@@ -411,7 +411,7 @@ notification_agent:
   environment:
     - JAVA_TOOL_OPTIONS="-Xmx512M"
   ports:
-    - "65008:60000"
+    - "{{notificationagent.port}}:60000"
   log_driver: "syslog"
   log_opt:
     syslog-tag: notificationagent
@@ -429,7 +429,7 @@ saved_searches:
   environment:
     - JAVA_TOOL_OPTIONS="-Xmx512M"
   ports:
-    - "65009:60000"
+    - "{{saved_searches.port}}:60000"
   log_driver: "syslog"
   log_opt:
     syslog-tag: saved-searches
@@ -447,7 +447,7 @@ terrain:
   environment:
     - JAVA_TOOL_OPTIONS="-Xmx1G"
   ports:
-    - "65010:60000"
+    - "{{terrain.port}}:60000"
   log_driver: "syslog"
   log_opt:
     syslog-tag: terrain
@@ -466,7 +466,7 @@ tree_urls:
   environment:
     - JAVA_TOOL_OPTIONS="-Xmx512M"
   ports:
-    - "65011:60000"
+    - "{{tree_urls.port}}:60000"
   log_driver: "syslog"
   log_opt:
     syslog-tag: tree-urls
@@ -484,7 +484,7 @@ user_preferences:
   environment:
     - JAVA_TOOL_OPTIONS="-Xmx512M"
   ports:
-    - "65012:60000"
+    - "{{user_preferences.port}}    :60000"
   log_driver: "syslog"
   log_opt:
     syslog-tag: user-preferences
@@ -502,7 +502,7 @@ user_sessions:
   environment:
     - JAVA_TOOL_OPTIONS="-Xmx512M"
   ports:
-    - "65013:60000"
+    - "{{user_sessions.port}}:60000"
   log_driver: "syslog"
   log_opt:
     syslog-tag: user-sessions
