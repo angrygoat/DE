@@ -4,7 +4,8 @@
 - include: java7.yaml
 - include: condor.yaml
 - include: docker.yaml
-- include: distribute-compose.yaml
+# moved this into the docker role
+#- include: distribute-compose.yaml
 - include: postgres.yaml
 - include: db-creator.yaml
 #- include: irods.yml
