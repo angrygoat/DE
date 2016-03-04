@@ -1,4 +1,48 @@
 ---
+- name: Start iplant-data-terrain
+  hosts: terrain:&systems
+  sudo: true
+  gather_facts: false
+  tags:
+    - services
+    - terrain
+  roles:
+    - role: util-cfg-docker-up
+      service_name: iplant_data_terrain
+
+- name: Start iplant-data-apps
+  hosts: apps:&systems
+  sudo: true
+  gather_facts: false
+  tags:
+    - services
+    - apps
+  roles:
+    - role: util-cfg-docker-up
+      service_name: iplant_data_apps
+
+- name: Start iplant-data-de-ui-nginx
+  hosts: ui:&systems
+  sudo: true
+  gather_facts: false
+  tags:
+    - services
+    - ui
+  roles:
+    - role: util-cfg-docker-up
+      service_name: iplant_data_de_ui_nginx
+
+- name: Start iplant-data-de-ui
+  hosts: ui:&systems
+  sudo: true
+  gather_facts: false
+  tags:
+    - services
+    - ui
+  roles:
+    - role: util-cfg-docker-up
+      service_name: iplant_data_de_ui
+
 - name: Start anon-files
   hosts: anon-files:&systems
   sudo: true

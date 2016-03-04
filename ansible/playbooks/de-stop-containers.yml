@@ -296,3 +296,51 @@
       ignore_errors: yes
       service_name: "{{user_sessions.compose_service}}"
       service_name_short: "{{user_sessions.service_name_short}}"
+
+- name: Stop iplant-data-terrain
+  hosts: terrain:&systems
+  sudo: true
+  gather_facts: false
+  tags:
+    - services
+    - terrain
+  roles:
+    - role: util-cfg-docker-stop
+      ignore_errors: yes
+      service_name: iplant_data_terrain
+
+- name: Stop iplant-data-apps
+  hosts: apps:&systems
+  sudo: true
+  gather_facts: false
+  tags:
+    - services
+    - apps
+  roles:
+    - role: util-cfg-docker-stop
+      ignore_errors: yes
+      service_name: iplant_data_apps
+
+- name: Stop iplant-data-de-ui-nginx
+  hosts: ui:&systems
+  sudo: true
+  gather_facts: false
+  tags:
+    - services
+    - ui
+  roles:
+    - role: util-cfg-docker-stop
+      ignore_errors: yes
+      service_name: iplant_data_de_ui_nginx
+
+- name: Stop iplant-data-de-ui
+  hosts: ui:&systems
+  sudo: true
+  gather_facts: false
+  tags:
+    - services
+    - ui
+  roles:
+    - role: util-cfg-docker-stop
+      ignore_errors: yes
+      service_name: iplant_data_de_ui

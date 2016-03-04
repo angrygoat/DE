@@ -1,16 +1,51 @@
 ---
-# - name: Remove iplant-data
-#   hosts: docker-ready:&systems
-#   sudo: true
-#   gather_facts: false
-#   tags:
-#     - services
-#     - iplant-data
-#   roles:
-#     - role: util-cfg-docker-rm
-#       ignore_errors: yes
-#       service_name: "{{data_container.compose_service}}"
-#       service_name_short: "{{data_container.service_name_short}}"
+- name: Remove iplant-data-terrain
+  hosts: terrain:&systems
+  sudo: true
+  gather_facts: false
+  tags:
+    - services
+    - iplant-data
+  roles:
+    - role: util-cfg-docker-rm
+      ignore_errors: yes
+      service_name: iplant_data_terrain
+
+- name: Remove iplant-data-apps
+  hosts: apps:&systems
+  sudo: true
+  gather_facts: false
+  tags:
+    - services
+    - iplant-data
+  roles:
+    - role: util-cfg-docker-rm
+      ignore_errors: yes
+      service_name: iplant_data_apps
+
+- name: Remove iplant-data-de-ui-nginx
+  hosts: ui:&systems
+  sudo: true
+  gather_facts: false
+  tags:
+    - services
+    - iplant-data
+  roles:
+    - role: util-cfg-docker-rm
+      ignore_errors: yes
+      service_name: iplant_data_de_ui_nginx
+
+- name: Remove iplant-data-de-ui
+  hosts: ui:&systems
+  sudo: true
+  gather_facts: false
+  tags:
+    - services
+    - iplant-data
+  roles:
+    - role: util-cfg-docker-rm
+      ignore_errors: yes
+      service_name: iplant_data_de_ui
 
 - name: Remove anon-files
   hosts: anon-files:&systems
