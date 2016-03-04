@@ -8,6 +8,7 @@
   postgresql_user: login_host={{db_host}} login_user={{db_admin}} login_password={{db_admin_password}} state=present
         name={{grouper.db.user}} password={{grouper.db.pass}} role_attr_flags=CREATEDB,NOCREATEROLE,NOCREATEUSER
   sudo: yes
+  ignore_errors: yes
 
 - name: ensure that postgresql db exists
   postgresql_db: login_host={{db_host}} login_user={{db_admin}} login_password={{db_admin_password}}
