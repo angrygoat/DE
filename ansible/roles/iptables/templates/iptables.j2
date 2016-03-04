@@ -176,6 +176,11 @@
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.wifi }} --dport 443 -j ACCEPT
 {% endif %}
 
+{% if inventory_hostname in groups['ldap'] %}
+-A INPUT -m state --state NEW -m tcp -p tcp -s 172.0.0.0/8 --dport 389 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp -s 152.54.0.0/16 --dport 389 -j ACCEPT
+{% endif %}
+
 -A INPUT -j REJECT --reject-with icmp-host-prohibited
 -A FORWARD -j REJECT --reject-with icmp-host-prohibited
 COMMIT
