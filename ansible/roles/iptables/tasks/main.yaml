@@ -23,5 +23,9 @@
 - name: and its init script for old-schoolers
   copy: src=iptables dest=/etc/init.d/iptables owner=root group=root mode=0755
 
-- name: enable iptables at boot
+- name: restart iptables, enable at boot
   service: name=iptables state=restarted enabled=yes
+
+- name: restart docker on docker-ready hosts
+  service: name=docker state=restarted
+  when: ('docker-ready' in group_names)
