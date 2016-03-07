@@ -1,4 +1,4 @@
-# Managed by Ansible. Manual customizations may be overwritten.
+# Managed by Ansible. Manual customization may be overwritten.
 
 *filter
 :INPUT ACCEPT [0:0]
@@ -14,6 +14,7 @@
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.trust }} --dport 22 -j ACCEPT
 
 {% if inventory_hostname in groups['amqp-brokers'] %}
+# allow AMQP broker port from DMZ
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ amqp_broker.port }} -j ACCEPT
 {% endif %}
 
@@ -24,7 +25,6 @@
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport 443 -j ACCEPT
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport 8443 -j ACCEPT
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.trust }} --dport 8443 -j ACCEPT
-
 {% endif %}
 
 {% if inventory_hostname in groups['condor'] %}
@@ -35,7 +35,7 @@
 {% endif %}
 
 {% if inventory_hostname in groups['condor-submission'] %}
-# condor-submission range from DMZ (until we pick a condor_shared_port)
+# condor-submission range from DMZ until we pick a condor_shared_port
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} -j ACCEPT
 -A INPUT -m state --state NEW -m udp -p udp -s {{ net.dmz }} -j ACCEPT
 {% endif %}
@@ -64,30 +64,31 @@
 -A INPUT -m state --state NEW -m udp -p udp -s {{ net.trust }} --dport {{ docker.registry.port }} -j ACCEPT
 {% endif %}
 
+{% if inventory_hostname in groups['grouper'] %}
+# http, https plus tomcat for testing
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport 80 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport 443 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport 8080 -j ACCEPT
+{% endif %}
+
 {% if inventory_hostname in groups['irods'] %}
 # irods from DMZ and Trust
--A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport 1247 -j ACCEPT
--A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport 20000:20199 -j ACCEPT
--A INPUT -m state --state NEW -m udp -p udp -s {{ net.dmz }} --dport 20000:20199 -j ACCEPT
--A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.trust }} --dport 1247 -j ACCEPT
--A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.trust }} --dport 20000:20199 -j ACCEPT
--A INPUT -m state --state NEW -m udp -p udp -s {{ net.trust }} --dport 20000:20199 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ irods.port }} -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ irods.portrange }} -j ACCEPT
+-A INPUT -m state --state NEW -m udp -p udp -s {{ net.dmz }} --dport {{ irods.portrange }} -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.trust }} --dport {{ irods.port }} -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.trust }} --dport {{ irods.portrange }} -j ACCEPT
+-A INPUT -m state --state NEW -m udp -p udp -s {{ net.trust }} --dport {{ irods.portrange }} -j ACCEPT
 {% endif %}
 
 {% if inventory_hostname in groups['rserve'] %}
 # rserve from DMZ
--A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport 6311 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ rserve_port }} -j ACCEPT
 {% endif %}
 
 {% if inventory_hostname in groups['services'] %}
 # service port range from DMZ
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport 31300:31399 -j ACCEPT
-{% endif %}
-
-{% if inventory_hostname in groups['docker-registry'] %}
-# service port range for docker registry
--A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport 5000 -j ACCEPT
--A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.trust }} --dport 5000 -j ACCEPT
 {% endif %}
 
 {% if inventory_hostname in groups['terrain'] %}
@@ -139,6 +140,11 @@
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ kifshare.port }} -j ACCEPT
 {% endif %}
 
+{% if inventory_hostname in groups['ldap'] %}
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ ldap.port }} -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.trust }} --dport {{ ldap.port }} -j ACCEPT
+{% endif %}
+
 {% if inventory_hostname in groups['metadata'] %}
 # metadata port from DMZ
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ metadata.port }} -j ACCEPT
@@ -174,11 +180,6 @@
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.campus }} --dport 443 -j ACCEPT
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.vpn }} --dport 443 -j ACCEPT
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.wifi }} --dport 443 -j ACCEPT
-{% endif %}
-
-{% if inventory_hostname in groups['ldap'] %}
--A INPUT -m state --state NEW -m tcp -p tcp -s 172.0.0.0/8 --dport 389 -j ACCEPT
--A INPUT -m state --state NEW -m tcp -p tcp -s 152.54.0.0/16 --dport 389 -j ACCEPT
 {% endif %}
 
 -A INPUT -j REJECT --reject-with icmp-host-prohibited
