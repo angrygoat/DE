@@ -21,8 +21,10 @@ http {
         listen 443 ssl;
         server_name {{ server.server_name }};
 
-        ssl_certificate {{ server.ssl_certificate }};
-        ssl_certificate_key {{ server.ssl_certificate_key }};
+        #ssl_certificate {{ server.ssl_certificate }};
+        ssl_certificate {{ grouper.ssl_certificate }};
+        #ssl_certificate_key {{ server.ssl_certificate_key }};
+        ssl_certificate_key {{ grouper.ssl_certificate_key }};
 
         access_log /var/log/nginx/access.log;
         error_log /var/log/nginx/error.log;
