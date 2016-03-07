@@ -90,16 +90,6 @@
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport 8080 -j ACCEPT
 {% endif %}
 
-{% if inventory_hostname in groups['irods'] %}
-# irods from DMZ and Trust
--A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ irods.port }} -j ACCEPT
--A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ irods.portrange }} -j ACCEPT
--A INPUT -m state --state NEW -m udp -p udp -s {{ net.dmz }} --dport {{ irods.portrange }} -j ACCEPT
--A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.trust }} --dport {{ irods.port }} -j ACCEPT
--A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.trust }} --dport {{ irods.portrange }} -j ACCEPT
--A INPUT -m state --state NEW -m udp -p udp -s {{ net.trust }} --dport {{ irods.portrange }} -j ACCEPT
-{% endif %}
-
 {% if inventory_hostname in groups['iplant-email'] %}
 # iplant-email port from DMZ
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ iplant_email.port }} -j ACCEPT
@@ -108,6 +98,16 @@
 {% if inventory_hostname in groups['iplant-groups'] %}
 # iplant-groups port from DMZ
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ iplant_groups.port }} -j ACCEPT
+{% endif %}
+
+{% if inventory_hostname in groups['irods'] %}
+# irods from DMZ and Trust
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ irods.port }} -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ irods.portrange }} -j ACCEPT
+-A INPUT -m state --state NEW -m udp -p udp -s {{ net.dmz }} --dport {{ irods.portrange }} -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.trust }} --dport {{ irods.port }} -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.trust }} --dport {{ irods.portrange }} -j ACCEPT
+-A INPUT -m state --state NEW -m udp -p udp -s {{ net.trust }} --dport {{ irods.portrange }} -j ACCEPT
 {% endif %}
 
 {% if inventory_hostname in groups['jex'] %}
