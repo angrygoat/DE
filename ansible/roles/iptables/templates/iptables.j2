@@ -18,6 +18,16 @@
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ amqp_broker.port }} -j ACCEPT
 {% endif %}
 
+{% if inventory_hostname in groups['anon-files'] %}
+# anon-files port from DMZ
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ anon_files.port }} -j ACCEPT
+{% endif %}
+
+{% if inventory_hostname in groups['apps'] %}
+# apps port from DMZ
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ apps.port }} -j ACCEPT
+{% endif %}
+
 {% if inventory_hostname in groups['cas'] %}
 # allow CAS/LDAP ports from DMZ
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport 80 -j ACCEPT
@@ -38,6 +48,10 @@
 # condor-submission range from DMZ until we pick a condor_shared_port
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} -j ACCEPT
 -A INPUT -m state --state NEW -m udp -p udp -s {{ net.dmz }} -j ACCEPT
+{% endif %}
+
+{% if inventory_hostname in groups['data-info'] %}
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ data_info.port }} -j ACCEPT
 {% endif %}
 
 {% if inventory_hostname in groups['dataverse'] %}
@@ -64,6 +78,11 @@
 -A INPUT -m state --state NEW -m udp -p udp -s {{ net.trust }} --dport {{ docker.registry.port }} -j ACCEPT
 {% endif %}
 
+{% if inventory_hostname in groups['elasticsearch'] %}
+# elasticsearch port from DMZ
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ elasticsearch.port }} -j ACCEPT
+{% endif %}
+
 {% if inventory_hostname in groups['grouper'] %}
 # http, https plus tomcat for testing
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport 80 -j ACCEPT
@@ -81,43 +100,9 @@
 -A INPUT -m state --state NEW -m udp -p udp -s {{ net.trust }} --dport {{ irods.portrange }} -j ACCEPT
 {% endif %}
 
-{% if inventory_hostname in groups['rserve'] %}
-# rserve from DMZ
--A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ rserve_port }} -j ACCEPT
-{% endif %}
-
-{% if inventory_hostname in groups['services'] %}
-# service port range from DMZ
--A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport 31300:31399 -j ACCEPT
-{% endif %}
-
-{% if inventory_hostname in groups['terrain'] %}
-# terrain port from DMZ
--A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ terrain.port }} -j ACCEPT
-{% endif %}
-
-{% if inventory_hostname in groups['data-info'] %}
--A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ terrain.port }} -j ACCEPT
-{% endif %}
-
 {% if inventory_hostname in groups['iplant-email'] %}
 # iplant-email port from DMZ
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ iplant_email.port }} -j ACCEPT
-{% endif %}
-
-{% if inventory_hostname in groups['anon-files'] %}
-# anon-files port from DMZ
--A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ terrain.port }} -j ACCEPT
-{% endif %}
-
-{% if inventory_hostname in groups['apps'] %}
-# apps port from DMZ
--A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ apps.port }} -j ACCEPT
-{% endif %}
-
-{% if inventory_hostname in groups['elasticsearch'] %}
-# elasticsearch port from DMZ
--A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ elasticsearch.port }} -j ACCEPT
 {% endif %}
 
 {% if inventory_hostname in groups['iplant-groups'] %}
@@ -141,6 +126,7 @@
 {% endif %}
 
 {% if inventory_hostname in groups['ldap'] %}
+# LDAP port from DMZ and Trust
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ ldap.port }} -j ACCEPT
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.trust }} --dport {{ ldap.port }} -j ACCEPT
 {% endif %}
@@ -155,9 +141,24 @@
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ notificationagent.port }} -j ACCEPT
 {% endif %}
 
+{% if inventory_hostname in groups['rserve'] %}
+# rserve from DMZ
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ rserve_port }} -j ACCEPT
+{% endif %}
+
 {% if inventory_hostname in groups['saved-searches'] %}
 # saved-searches port from DMZ
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ saved_searches.port }} -j ACCEPT
+{% endif %}
+
+{% if inventory_hostname in groups['services'] %}
+# service port range from DMZ
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport 31300:31399 -j ACCEPT
+{% endif %}
+
+{% if inventory_hostname in groups['terrain'] %}
+# terrain port from DMZ
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ terrain.port }} -j ACCEPT
 {% endif %}
 
 {% if inventory_hostname in groups['tree-urls'] %}
