@@ -318,7 +318,7 @@ iplant_email:
     - exim_sender:local-exim
 
 iplant_groups:
-  image: {{iplant_groups_docker_repo}}/iplant-groups:{{compose.de_tag}}
+  image: {{iplant_groups_docker_repo}}/{{iplant_groups.image_name}}:{{compose.de_tag}}
   container_name: iplant-groups
   command: --config /etc/iplant/de/iplant-groups.properties
   restart: on-failure:3
