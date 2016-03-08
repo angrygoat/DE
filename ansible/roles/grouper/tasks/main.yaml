@@ -45,6 +45,14 @@
   tags:
     - config
 
+- name: generate grouper.client.properties
+  sudo: yes
+  template: src=grouper.client.properties.j2 dest=/etc/grouper/grouper.client.properties owner=root group=root mode=0644
+  register: grouper_properties_v
+  tags:
+    - config
+    - config_grouper
+
 - name: generate grouper.properties
   sudo: yes
   template: src=grouper.properties.j2 dest=/etc/grouper/grouper.properties owner=root group=root mode=0644
