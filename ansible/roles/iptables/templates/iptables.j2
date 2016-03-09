@@ -171,6 +171,13 @@
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ user_preferences.port }} -j ACCEPT
 {% endif %}
 
+
+{% if inventory_hostname in groups['user-sessions'] %}
+# user-preferences port from DMZ
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ user_sessions.port }} -j ACCEPT
+{% endif %}
+
+
 {% if inventory_hostname in groups['ui'] %}
 # http and https, campus for now
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.campus }} --dport 80 -j ACCEPT
