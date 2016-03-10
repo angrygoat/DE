@@ -89,8 +89,11 @@
 {% if inventory_hostname in groups['grouper'] %}
 # http, https plus tomcat for testing
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport 80 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.docker }} --dport 80 -j ACCEPT
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport 443 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.docker }} --dport 443 -j ACCEPT
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport 8080 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.docker }} --dport 8080 -j ACCEPT
 {% endif %}
 
 {% if inventory_hostname in groups['iplant-email'] %}
@@ -102,6 +105,7 @@
 {% if inventory_hostname in groups['iplant-groups'] %}
 # iplant-groups port from DMZ
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ iplant_groups.port }} -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.docker }} --dport {{ iplant_groups.port }} -j ACCEPT
 {% endif %}
 
 {% if inventory_hostname in groups['irods'] %}
