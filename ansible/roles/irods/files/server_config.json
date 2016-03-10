@@ -39,6 +39,9 @@
         {
             "filename": "ipc-custom"
         }, 
+	{
+	    "filename": "ipc-uuid"
+	},
         {
             "filename": "core"
         }

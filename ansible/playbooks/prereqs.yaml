@@ -2,10 +2,8 @@
 - include: timezone.yaml
 - include: iptables.yaml
 - include: java7.yaml
+- include: irods-config.yaml
 - include: condor.yaml
 - include: docker.yaml
-# moved this into the docker role
-#- include: distribute-compose.yaml
 - include: postgres.yaml
 - include: db-creator.yaml
-#- include: irods.yml
