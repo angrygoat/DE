@@ -321,3 +321,37 @@
     - role: util-cfg-docker-up
       service_name: "{{user_sessions.compose_service}}"
       service_name_short: "{{user_sessions.service_name_short}}"
+
+- name: Restart Grouper data contaner
+  hosts: grouper:&systems
+  sudo: true
+  gather_facts: false
+  tags:
+    - services
+    - grouper
+  roles:
+    - role: util-cfg-docker-systemd-restart
+      service_name: "{{data_container.service_name_short}}"
+
+- name: Restart Grouper contaner
+  hosts: grouper:&systems
+  sudo: true
+  gather_facts: false
+  tags:
+    - services
+    - grouper
+  roles:
+    - role: util-cfg-docker-systemd-restart
+      service_name: "{{grouper.service_name_short}}"
+
+- name: Restart Grouper nginx contaner
+  hosts: grouper:&systems
+  sudo: true
+  gather_facts: false
+  tags:
+    - services
+    - grouper
+  roles:
+    - role: util-cfg-docker-systemd-restart
+      service_name: "{{grouper.http_server.service_name_short}}"
+
