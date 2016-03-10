@@ -189,11 +189,32 @@
 
 - name: create DE/services irods user
   sudo: yes
-  become_user: irods
+  sudo_user: irods
   shell: "iadmin mkuser {{ irods_user }}#{{ irods_zone }} rodsadmin"
+  ignore_errors: true
+
+- name: if DE/services user already exists, make sure it's an admin
+  sudo: yes
+  sudo_user: irods
+  shell: "iadmin moduser {{ irods_user }}#{{ irods_zone }} type rodsadmin"
 
 - name: set DE/services user password
   sudo: yes
-  become_user: irods
+  sudo_user: irods
   shell: "iadmin moduser {{ irods_user }}#{{ irods_zone }} password {{ irods_password }}"
 
+- name: ensure /zone/home/shared exists
+  sudo: yes
+  sudo_user: irods
+  shell: "imkdir {{ irods_zone }}/home/shared"
+  ignore_errors: true
+
+- name: set /zone/home/shared ownership
+  sudo: yes
+  sudo_user: irods
+  shell: "ichmod {{ irods_user }}#{{ irods_zone }} own {{ irods_zone }}/home/shared"
+
+- name: with inheritance
+  sudo: yes
+  sudo_user: irods
+  shell: "ichmod inherit {{ irods_zone }}/home/shared"
