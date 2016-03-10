@@ -15,7 +15,7 @@
 
 {% if inventory_hostname in groups['amqp-brokers'] %}
 # allow AMQP broker port from DMZ
--A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ amqp.broker.port }} -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ amqp_broker.port }} -j ACCEPT
 {% endif %}
 
 {% if inventory_hostname in groups['anon-files'] %}
