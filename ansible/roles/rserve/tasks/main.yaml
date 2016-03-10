@@ -1,7 +1,7 @@
 ---
 
 - name: create rserve user/group
-  user: name={{ rserve_user }}
+  user: name={{ rserve.user }}
 
 - name: install epel-release for R
   yum: name=epel-release state=present
@@ -22,15 +22,25 @@
   shell:
     R CMD INSTALL {{ rserve_targz }}
 
-- name: copy Rserve.conf file
+- name: install Rserve.conf template
   sudo: yes
   sudo_user: root
-  copy: src={{ rserve_conf }} dest=/etc/ owner=root group=root mode=0644
+  template: src={{ rserve_conf }} dest=/etc/ owner=root group=root mode=0644
 
-- name: copy Rserve systemd file
+- name: install Rserve.pwd template
   sudo: yes
   sudo_user: root
-  copy: src={{ rserve_systemd }} dest=/usr/lib/systemd/system/ owner=root group=root mode=0644
+  template: src={{ rserve_pwdfile }} dest=/etc/ owner=root group=root mode=0644
+
+- name: install Rserve systemd template
+  sudo: yes
+  sudo_user: root
+  template: src={{ rserve_systemd }} dest=/usr/lib/systemd/system/ owner=root group=root mode=0644
+
+- name: reload systemd
+  sudo: yes
+  sudo_user: root
+  shell: systemctl daemon-reload
 
 - name: enable Rserve
   sudo: yes
@@ -40,4 +50,4 @@
 - name: start Rserve
   sudo: yes
   sudo_user: root
-  service: name=r.service state=started
+  service: name=r.service state=restarted
