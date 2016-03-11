@@ -152,6 +152,11 @@
   sudo_user: root
   shell: /var/lib/irods/packaging/setup_irods.sh < /opt/irods/setup_responses
 
+- name: install server_config.json template
+  sudo: yes
+  sudo_user: root
+  template: src=server_config.json.j2 dest=/etc/irods/server_config.json owner=irods group=irods mode=0644
+
 - name: copy in DE core.re
   sudo: yes
   sudo_user: irods
@@ -187,34 +192,3 @@
 - name: restart irods service
   shell: "/etc/init.d/irods restart"
 
-- name: create DE/services irods user
-  sudo: yes
-  sudo_user: irods
-  shell: "iadmin mkuser {{ irods_user }}#{{ irods_zone }} rodsadmin"
-  ignore_errors: true
-
-- name: if DE/services user already exists, make sure it's an admin
-  sudo: yes
-  sudo_user: irods
-  shell: "iadmin moduser {{ irods_user }}#{{ irods_zone }} type rodsadmin"
-
-- name: set DE/services user password
-  sudo: yes
-  sudo_user: irods
-  shell: "iadmin moduser {{ irods_user }}#{{ irods_zone }} password {{ irods_password }}"
-
-- name: ensure /zone/home/shared exists
-  sudo: yes
-  sudo_user: irods
-  shell: "imkdir {{ irods_zone }}/home/shared"
-  ignore_errors: true
-
-- name: set /zone/home/shared ownershipC
-  sudo: yes
-  sudo_user: irods
-  shell: "ichmod {{ irods_user }}#{{ irods_zone }} own {{ irods_zone }}/home/shared"
-
-- name: with inheritance
-  sudo: yes
-  sudo_user: irods
-  shell: "ichmod inherit {{ irods_zone }}/home/shared"
