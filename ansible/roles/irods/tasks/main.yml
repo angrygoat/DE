@@ -209,7 +209,7 @@
   shell: "imkdir {{ irods_zone }}/home/shared"
   ignore_errors: true
 
-- name: set /zone/home/shared ownership
+- name: set /zone/home/shared ownershipC
   sudo: yes
   sudo_user: irods
   shell: "ichmod {{ irods_user }}#{{ irods_zone }} own {{ irods_zone }}/home/shared"
