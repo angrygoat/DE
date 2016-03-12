@@ -157,37 +157,10 @@
   sudo_user: root
   template: src=server_config.json.j2 dest=/etc/irods/server_config.json owner=irods group=irods mode=0644
 
-### move rule installation to irods-config role ###
-#- name: copy in DE core.re
-#  sudo: yes
-#  sudo_user: irods
-#  copy: src=core.re dest=/etc/irods/ owner=irods group=irods mode=0644
-#
-#- name: copy in DE ipc-amqp.re
-#  sudo: yes
-#  sudo_user: irods
-#  copy: src=ipc-amqp.re dest=/etc/irods/ owner=irods group=irods mode=0644
-#
-#- name: copy in DE ipc-custom.re
-#  sudo: yes
-#  sudo_user: irods
-#  copy: src=ipc-custom.re dest=/etc/irods/ owner=irods group=irods mode=0644
-#
-#- name: copy in DE ipc-env.re
-#  sudo: yes
-#  sudo_user: irods
-#  copy: src=ipc-env.re dest=/etc/irods/ owner=irods group=irods mode=0644
-#
-#- name: copy in DE ipc-json.re
-#  sudo: yes
-#  sudo_user: irods
-#  copy: src=ipc-json.re dest=/etc/irods/ owner=irods group=irods mode=0644
-#
-#- name: copy in DE ipc-logic.re
-#  copy: src=ipc-logic.re dest=/etc/irods/ owner=irods group=irods mode=0644
-#
-#- name: copy in DE ipc-uuid.re
-#  copy: src=ipc-uuid.re dest=/etc/irods/ owner=irods group=irods mode=0644
+- name: create default resource
+  sudo: yes
+  sudo_user: irods
+  shell: "iadmin mkresc {{ irods_default_resource}} unixfilesystem {{ irods_host }}:{{ irods_default_resource_path }}"
 
 # systemctl call errors out, use init.d instead
 - name: restart irods service

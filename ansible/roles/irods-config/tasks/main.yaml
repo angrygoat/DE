@@ -2,36 +2,27 @@
 
 # drop in DE rulesets
 
-- name: copy in DE core.re
+- name: copy DE rulesets into place
   sudo: yes
   sudo_user: irods
-  copy: src=core.re dest=/etc/irods/ owner=irods group=irods mode=0644
+  copy: src={{item}} dest=/etc/irods/ owner=irods group=irods mode=0644
+  with_items:
+    - core.re
+    - ipc-amqp.re
+    - ipc-custom.re
+    - ipc-env.re
+    - ipc-json.re
+    - ipc-logic.re
+    - ipc-uuid.re
 
-- name: copy in DE ipc-amqp.re
+- name: copy DE scripts into iRODS bin/ directory
   sudo: yes
   sudo_user: irods
-  copy: src=ipc-amqp.re dest=/etc/irods/ owner=irods group=irods mode=0644
-
-- name: copy in DE ipc-custom.re
-  sudo: yes
-  sudo_user: irods
-  copy: src=ipc-custom.re dest=/etc/irods/ owner=irods group=irods mode=0644
-
-- name: copy in DE ipc-env.re
-  sudo: yes
-  sudo_user: irods
-  copy: src=ipc-env.re dest=/etc/irods/ owner=irods group=irods mode=0644
-
-- name: copy in DE ipc-json.re
-  sudo: yes
-  sudo_user: irods
-  copy: src=ipc-json.re dest=/etc/irods/ owner=irods group=irods mode=0644
-
-- name: copy in DE ipc-logic.re
-  copy: src=ipc-logic.re dest=/etc/irods/ owner=irods group=irods mode=0644
-
-- name: copy in DE ipc-uuid.re
-  copy: src=ipc-uuid.re dest=/etc/irods/ owner=irods group=irods mode=0644
+  copy: src={{item}} dest=/var/lib/irods/iRODS/server/bin/ owner=irods group=irods mode=0755
+  with_items:
+    - amqpsend.py
+    - amqptopicsend.py
+    - generateuuid.sh
 
 # ignore_errors in case user is like don and picks 'rodsadmin' as an admin name
 - name: create DE/services irods user
@@ -50,42 +41,5 @@
   sudo_user: irods
   shell: "iadmin moduser {{ irods_user }}#{{ irods_zone }} password {{ irods_password }}"
 
-- name: /zone/home must be globally readable
-  sudo: yes
-  sudo_user: irods
-  shell: "ichmod read public /{{ irods_zone }}/home"
-
-- name: ensure /zone/home/shared exists
-  sudo: yes
-  sudo_user: irods
-  shell: "imkdir /{{ irods_zone }}/home/shared"
-  ignore_errors: true
-
-- name: make /zone/home/shared public writable
-  sudo: yes
-  sudo_user: irods
-  shell: "ichmod -r write public /{{ irods_zone }}/home/shared"
-
-- name: with inheritance
-  sudo: yes
-  sudo_user: irods
-  shell: "ichmod inherit /{{ irods_zone }}/home/shared"
-
-- name: DE wants /OdumDEZone/trash/home/rodsadmin to exist
-  sudo: yes
-  sudo_user: irods
-  shell: "imkdir -p /{{ irods_zone }}/trash/home/{{ irods_user }}"
-  ignore_errors: true
-
-- name: DE wants world-writable trash
-  sudo: yes
-  sudo_user: irods
-  shell: "ichmod -r own public /{{ irods_zone }}/trash"
-
-- name: with inheritance
-  sudo: yes
-  sudo_user: irods
-  shell: "ichmod inherit /{{ irods_zone }}/trash"
-
 - name: echo ruleset warning
-  debug: msg="Custom DE iRODS rulebases installed, including core.re. Please activate rules as needed by adding them to /etc/irods/server_config.json beneath re_rulebase_set."
+  debug: msg="Custom DE iRODS rulebases installed, including core.re. Please activate rules as needed by adding them to /etc/irods/server_config.json beneath re_rulebase_set and restarting iRODS."
