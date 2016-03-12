@@ -18,7 +18,7 @@
 - name: copy DE scripts into iRODS bin/ directory
   sudo: yes
   sudo_user: irods
-  copy: src={{item}} dest=/var/lib/irods/iRODS/server/bin/ owner=irods group=irods mode=0755
+  copy: src={{item}} dest=/var/lib/irods/iRODS/server/bin/cmd/ owner=irods group=irods mode=0755
   with_items:
     - amqpsend.py
     - amqptopicsend.py
