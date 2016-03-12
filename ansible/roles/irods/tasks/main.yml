@@ -162,6 +162,11 @@
   sudo_user: irods
   shell: "iadmin mkresc {{ irods_default_resource}} unixfilesystem {{ irods_host }}:{{ irods_default_resource_path }}"
 
+- name: add irods_user to rodsadmin group
+  sudo: yes
+  sudo_user: irods
+  shell: "iadmin atg rodsadmin {{ irods_user }}"
+
 # systemctl call errors out, use init.d instead
 - name: restart irods service
   shell: "/etc/init.d/irods restart"
