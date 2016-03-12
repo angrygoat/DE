@@ -24,6 +24,11 @@
     - amqptopicsend.py
     - generateuuid.sh
 
+- name: place libmsiSetAVU.so plugin 
+  sudo: yes
+  sudo_user: irods
+  copy: src=libmsiSetAVU.so dest=/var/lib/irods/iRODS/plugins/microservices/ owner=irods group=irods mode=0644
+
 # ignore_errors in case user is like don and picks 'rodsadmin' as an admin name
 - name: create DE/services irods user
   sudo: yes
