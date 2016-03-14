@@ -30,6 +30,14 @@
   sudo: yes
   file: path="{{condor.cred_dir}}" state=directory owner=condor group=condor mode=0755
 
+- name: ensure condor user can write to condor.cred_dir
+  sudo: yes
+  file: path="{{condor.cred_dir}}" state=directory owner=condor group=condor recurse=yes
+
+- name: ensure condor user can write its logs
+  sudo: yes
+  file: path=/var/log/condor state=directory owner=condor group=condor recurse=yes
+
 - name: place condor systemd.file so condor doesn't run as root
   sudo: yes
   copy: src=condor.service dest=/usr/lib/systemd/system/ owner=root group=root mode=0644
