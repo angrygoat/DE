@@ -10,7 +10,7 @@ CONDOR_HOST = {{ condor.host }}
 
 ## Pool's short description
 
-COLLECTOR_NAME = {{environment_name}} Condor Pool at $(FULL_HOSTNAME)
+COLLECTOR_NAME = {{environment_name}} Condor Pool at $(CONDOR_HOST)
 
 ##  When is this machine willing to start a job?
 
@@ -60,7 +60,7 @@ ALLOW_READ      = {{ condor.allow_read }}
 ALLOW_WRITE     = {{ condor.allow_write }}
 HIGHPORT        = 65535
 LOWPORT         = 61440
-JAVA            = /usr/java/latest/bin/java
+JAVA            = /usr/bin/java
 ## used for debugging purposes
 #NUM_SLOTS = 5
 
