@@ -178,6 +178,7 @@
 {% if inventory_hostname in groups['terrain'] %}
 # terrain port from DMZ
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ terrain.port }} -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.docker }} --dport {{ terrain.port }} -j ACCEPT
 
 {% endif %}
 {% if inventory_hostname in groups['tree-urls'] %}
