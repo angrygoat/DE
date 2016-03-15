@@ -23,6 +23,14 @@
   with_items: "{{ nfs_exports }}"
   notify: restart nfs
 
+- name: Ensure correct access perms
+  file:
+    path: "{{ item.strip().split()[0] }}"
+    mode:  u=rwX,g=rX,o=rX
+    recurse: yes
+  with_items: "{{ nfs_exports }}"
+  notify: restart nfs
+
 - name: Copy exports file.
   template:
     src: exports.j2

@@ -1,6 +1,11 @@
 
 # lab environment variables
 
+
+# --- NFS mounts for Condor --- #
+
+nfs_exports: [/export/condor     152.2.32.238(rw,async,no_subtree_check,no_root_squash)]
+
 # --- LDAP properties --- #
 
 ldap:
