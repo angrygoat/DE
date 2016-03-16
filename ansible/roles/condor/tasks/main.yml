@@ -1,5 +1,20 @@
 ---
 
+- debug: msg="Docker prereqs to use private repo for custom app images."
+
+- name: ensure docker-python installed for ansible module
+  yum: name=docker-python state=latest
+  tags: docker
+
+- name: login to private Docker remote registry
+  docker_login:
+    registry: "{{ docker.registry.base }}"
+    username: "{{ docker.registry.user }}"
+    password: "{{ docker.registry.pass }}"
+  tags: docker
+
+- debug: msg="and now on to Condor installation."
+
 - name: Condor likes Java
   yum: name=java-1.8.0-openjdk-headless state=latest
   when: ansible_distribution == "CentOS" and
