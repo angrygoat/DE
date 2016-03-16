@@ -34,3 +34,7 @@ node_modules/
 .DS_Store
 services/*/*-build
 *.rpm
+.DS_Store
+ services/*/*-build
+ *.rpm
++*.retry
