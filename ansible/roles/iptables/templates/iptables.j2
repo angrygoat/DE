@@ -73,6 +73,14 @@
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ db_port }} -j ACCEPT
 
 {% endif %}
+{% if inventory_hostname in groups['de-elk'] %}
+# elasticsearch from DMZ
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ elk.elasticsearch.port }} -j ACCEPT
+
+# logstash from DMZ
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ elk.logstash.port }} -j ACCEPT
+
+{% endif %}
 {% if inventory_hostname in groups['docker-registry'] %}
 # docker-registry ports from DMZ
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ docker.registry.port }} -j ACCEPT
