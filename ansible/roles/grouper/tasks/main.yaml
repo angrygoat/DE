@@ -193,6 +193,10 @@
     - restart_grouper
     - restart_grouper-nginx
 
+- name: check grouper.init
+  fail: msg="Grouper image and configs are in place. To initialize the DB, manually launch the container with 'sudo docker run --rm -it -v /etc/grouper:/etc/grouper discoenv/grouper:2.2.2 sh' then run 'gsh -registry -init', follow the prompts, then re-run the grouper playbook or manually start grouper services."
+  when: grouper.init == "true"
+
 - name: restart data container services
   shell: "systemctl restart {{data_container.service_name}} &"
   tags:
