@@ -6,6 +6,12 @@
         name: rabbitmq-server
         state: latest
 
+    - name: enable RabbitMQ service
+      when: result|changed
+      service: 
+        name: rabbitmq-server
+        state: enabled
+ 
     - name: enable RabbitMQ Management plugin
       rabbitmq_plugin:
         names: rabbitmq_management
