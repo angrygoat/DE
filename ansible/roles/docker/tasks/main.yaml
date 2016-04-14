@@ -19,6 +19,14 @@
   copy: src=docker.repo dest=/etc/yum.repos.d owner=root group=root mode=0644 
   tags: docker
 
+- name: place docker0 bridge file
+  copy: src=ifcfg-docker0 dest=/etc/sysconfig/network-scripts owner=root group=root mode=0644
+  tags: docker
+
+- name: ifup docker0
+  shell: "/usr/sbin/ifup ifcfg-docker0"
+  tags: docker
+
 - name: install docker-engine
   yum: name=docker-engine state=latest
   tags: docker
