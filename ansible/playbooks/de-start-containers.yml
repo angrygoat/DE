@@ -45,7 +45,7 @@
 
 - name: Start anon-files
   hosts: anon-files:&systems
-  sudo: true
+  become: true
   gather_facts: false
   tags:
     - services
@@ -57,7 +57,7 @@
 
 - name: Start apps
   hosts: apps:&systems
-  sudo: true
+  become: true
   gather_facts: false
   tags:
     - services
@@ -69,7 +69,7 @@
 
 - name: Start clockwork
   hosts: clockwork:&systems
-  sudo: true
+  become: true
   gather_facts: false
   tags:
     - services
@@ -81,7 +81,7 @@
 
 - name: Start clm
   hosts: condor-log-monitor:&systems
-  sudo: true
+  become: true
   gather_facts: false
   tags:
     - services
@@ -93,7 +93,7 @@
 
 - name: Start data-info
   hosts: data-info:&systems
-  sudo: true
+  become: true
   gather_facts: false
   tags:
     - services
@@ -105,7 +105,7 @@
 
 - name: Start dewey
   hosts: dewey:&systems
-  sudo: true
+  become: true
   gather_facts: false
   tags:
     - services
@@ -118,7 +118,7 @@
 
 - name: Start de-ui
   hosts: ui:&systems
-  sudo: true
+  become: true
   gather_facts: false
   tags:
     - ui
@@ -129,7 +129,7 @@
 
 - name: Start de-ui-nginx
   hosts: ui:&systems
-  sudo: true
+  become: true
   gather_facts: false
   tags:
     - ui
@@ -141,7 +141,7 @@
 
 - name: Start exim-sender
   hosts: exim-sender:&systems
-  sudo: true
+  become: true
   gather_facts: false
   tags:
     - services
@@ -153,7 +153,7 @@
 
 - name: Start info-typer
   hosts: info-typer:&systems
-  sudo: true
+  become: true
   gather_facts: false
   tags:
     - services
@@ -166,7 +166,7 @@
 
 - name: Start infosquito
   hosts: infosquito:&systems
-  sudo: true
+  become: true
   gather_facts: false
   tags:
     - services
@@ -179,7 +179,7 @@
 
 - name: Start iplant-email
   hosts: iplant-email:&systems
-  sudo: true
+  become: true
   gather_facts: false
   tags:
     - services
@@ -191,7 +191,7 @@
 
 - name: Start iplant-groups
   hosts: iplant-groups:&systems
-  sudo: true
+  become: true
   gather_facts: false
   tags:
     - services
@@ -203,7 +203,7 @@
 
 - name: Start jex-events
   hosts: jexevents:&systems
-  sudo: true
+  become: true
   gather_facts: false
   tags:
     - services
@@ -215,7 +215,7 @@
 
 - name: Start kifshare
   hosts: kifshare:&systems
-  sudo: true
+  become: true
   gather_facts: false
   tags:
     - services
@@ -227,7 +227,7 @@
 
 - name: Start metadata
   hosts: metadata:&systems
-  sudo: true
+  become: true
   gather_facts: false
   tags:
     - services
@@ -239,7 +239,7 @@
 
 - name: Start monkey
   hosts: monkey:&systems
-  sudo: true
+  become: true
   gather_facts: false
   tags:
     - services
@@ -252,7 +252,7 @@
 
 - name: Start notification-agent
   hosts: notificationagent:&systems
-  sudo: true
+  become: true
   gather_facts: false
   tags:
     - services
@@ -264,7 +264,7 @@
 
 - name: Start saved-searches
   hosts: saved-searches:&systems
-  sudo: true
+  become: true
   gather_facts: false
   tags:
     - services
@@ -274,9 +274,23 @@
       service_name: "{{saved_searches.compose_service}}"
       service_name_short: "{{saved_searches.service_name_short}}"
 
+- name: Start templeton-periodic
+  hosts: templeton-periodic:&systems
+  become: true
+  gather_facts: false
+  tags:
+    - services
+    - templeton
+    - templeton-periodic
+  roles:
+    - role: util-cfg-docker-up
+      when: not parasitic
+      service_name: "{{templeton_periodic.compose_service}}"
+      service_name_short: "{{templeton_periodic.service_name_short}}"
+
 - name: Start terrain
   hosts: terrain:&systems
-  sudo: true
+  become: true
   gather_facts: false
   tags:
     - services
@@ -288,7 +302,7 @@
 
 - name: Start tree-urls
   hosts: tree-urls:&systems
-  sudo: true
+  become: true
   gather_facts: false
   tags:
     - services
@@ -300,7 +314,7 @@
 
 - name: Start user-preferences
   hosts: user-preferences:&systems
-  sudo: true
+  become: true
   gather_facts: false
   tags:
     - services
@@ -312,7 +326,7 @@
 
 - name: Start user-sessions
   hosts: user-sessions:&systems
-  sudo: true
+  become: true
   gather_facts: false
   tags:
     - services

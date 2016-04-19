@@ -128,7 +128,7 @@ docker:
   log_driver: syslog
   tag: latest
   user: discoenv
-  version: 1.9.1
+  version: 1.10.2
   compose_path: /etc/docker-compose.yml
   registry:
     host: "{{ groups['docker-registry'][0] }}"
@@ -249,8 +249,8 @@ de:
 #          ssl_certificate: "/etc/ssl/example.com.crt"
 #          ssl_certificate_key: "/etc/ssl/example.com.key"
 
-app_version_name: Phthalo
-app_version: 2.4.0
+de_version_name: Phthalo
+de_version: 2.5.0
 
 de_feedback_to_addr: ""
 de_mail_from_addr: "{{ de_feedback_to_addr }}"
@@ -376,6 +376,7 @@ elasticsearch:
   base: "http://{{ groups['elasticsearch'][0] }}"
   scroll_size: 1000
   cluster_name: elasticsearch
+  data_index: data
   heap_size:
   network_http_port:
   network_transport_tcp_port:
@@ -509,6 +510,10 @@ irods:
   admins: rodsadmin
   data_curators_group: data-curators
   bad_chars: \u0060\u0027\u000A\u0009
+  amqp_broker:
+    host: "{{ groups['amqp-brokers'][0] }}"
+    port:
+
 
 # Jex does not actually have a container. The container name is how most syslog entries
 # are identified. See rsyslog-config role.
@@ -707,6 +712,16 @@ saved_searches:
   max_heap: "{{ max_heap.low }}"
 
 search_default_limit: 200
+
+templeton_periodic:
+  host: "{{ groups['templeton-periodic'][0] }}"
+  port:
+  service_name_short: templeton-periodic
+  compose_service: templeton_periodic
+  service_description: templeton periodic service
+  image_name: templeton
+  container_name: templeton-periodic
+  log_file: templeton-docker.log
 
 tree_parser_base: http://portnoy.iplantcollaborative.org/parseTree
 
