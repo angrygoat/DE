@@ -13,9 +13,10 @@ kifshare
 apps
 metadata
 monkey
-notificationagent
+notification-agent
 porklock
 saved-searches
+templeton
 tree-urls
 user-preferences
 user-sessions
