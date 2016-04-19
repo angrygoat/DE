@@ -130,7 +130,7 @@
 #      service_name_short: jobservices
 #      service_cfg_file_name: jobservices.yml
 
-    - role: util-cfg-service
-      service_name_short: "{{permissions.service_name_short}}"
-      src: "permissions.yaml.j2"
-      dest: "{{local_cfg_dest}}/permissions.yaml"
+#    - role: util-cfg-service
+#      service_name_short: "{{permissions.service_name_short}}"
+#      src: "permissions.yaml.j2"
+#      dest: "{{local_cfg_dest}}/permissions.yaml"
