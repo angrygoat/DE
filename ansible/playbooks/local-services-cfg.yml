@@ -8,7 +8,7 @@
     - ../group_vars/{{de_env}}
   pre_tasks:
     - name: create the output directory
-      file: path={{local_cfg_dest}} state=directory
+      file: path={{local_cfg_dest}}/iplant/de state=directory
       tags:
         - service_config
 
