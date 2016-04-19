@@ -8,7 +8,7 @@
     - ../group_vars/{{de_env}}
   pre_tasks:
     - name: create the output directory
-      file: path={{de_config_dir}} state=directory
+      file: path={{local_cfg_dest}} state=directory
       tags:
         - service_config
 
@@ -21,7 +21,7 @@
       file: path={{de_config_dir}}/logstash-forwarder state=directory
       tags:
         - logging_config
-
+0
     - name: create the nginx config
       file: path={{de_config_dir}}/nginx state=directory
       tags:
