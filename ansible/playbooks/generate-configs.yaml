@@ -4,7 +4,7 @@
   sudo: yes
   pre_tasks:
       - name: create the output directory
-        file: path={{local_cfg_dest}}/docker-gc
+        file: path={{local_cfg_dest}}/docker-gc  state=directory
 
   roles:
     - generate-configs
