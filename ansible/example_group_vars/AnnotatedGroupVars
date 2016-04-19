@@ -1,11 +1,17 @@
+# Annotated group_var reference for Discovery Environment.
+# Required but redacted variables are marked CHANGEME.
+# Note that in general variable names are converting
+# from long_strings to service.stanzas.
+
 # Included for backwards compatibility with Ansible-1.9. Should no longer be needed.
 #ansible_ssh_port: 22
-#ansible_ssh_user: hamilton
+#ansible_ssh_user: CHANGEME
 
+# Master iPlant config locations
 global_config_dir: /etc/iplant
 de_config_dir: "{{ global_config_dir }}/de"
 # this is now handled by the updated generate-local-configs.yml playbook.
-#local_cfg_dest: /home/hamilton/DE/ansible/config_files
+#local_cfg_dest: CHANGEME
 
 java:
   version: 1.7.0
@@ -39,28 +45,7 @@ agave:
   client_key: CHANGEME
   client_secret: CHANGEME
 
-# old-style vars. should convert these to dotted notation.
-amqp_broker_host: CHANGEME
-amqp_broker_port: 5672
-amqp_password: CHANGEME
-amqp_user: CHANGEME
-amqp_de_exchange: CHANGEME
-amqp_de_exchange_durable: true
-amqp_de_exchange_auto_delete: false
-amqp_condor_events_exchange: condor_events
-amqp_condor_events_exchange_type: fanout
-amqp_condor_events_exchange_durable: true
-amqp_condor_events_exchange_routing_key: CHANGEME
-amqp_condor_events_queue_name: happygoat
-amqp_condor_events_exchange_auto_delete: false
-amqp_irods_exchange: irods
-amqp_irods_exchange_type: topic
-amqp_irods_exchange_durable: true
-amqp_irods_exchange_auto_delete: false
-amqp_irods_queue_routing_key: "data-object.#"
-amqp_irods_message_auto_ack: true
-amqp_irods_connection_health_check_interval: 5000
-
+# AMQP for event notifications
 amqp_broker:
   host: "{{ groups['amqp-brokers'][0] }}"
   port: 5672
@@ -71,22 +56,28 @@ amqp_broker:
     exchange: condor_events
     exchange_type: fanout
     exchange_durable: true
-    exchange_routing_key: 
+    exchange_routing_key: CHANGEME
     queue_name: CHANGEME
     exchange_auto_delete: false
-
-# should be able to delete these in favor of dotted notation.
-#anon_files_base_url: "http://{{ services_host }}:{{ anon_files_port }}/anon-files/"
-#anon_files_port: 60000
-#anon_files_proxy_url:
-#anon_files_anon_user: anonymous
-#anon_files_log_file: /home/iplant/logs/anon-files.log
+  de:
+    exchange: de
+    exchange_durable: true
+    exchange_auto_delete: false
+  irods:
+    connection_health_check_interval: 5000
+    exchange: irods
+    exchange_type: topic
+    exchange_durable: true
+    exchange_auto_delete: false
+    message_auto_ack: true
+    queue_routing_key: "data-object.#"
 
 anon_files:
   host: "{{ groups['anon-files'][0] }}"
   # iplant docs recommend against changing this
   port: 60000
   base: "http://{{ groups['anon-files'][0] }}:60000"
+  base_url: "http://{{ services_host }}:{{ anon_files_port }}/anon-files/"
   proxy_url: "https://{{ groups['ui'][0] }}/anon-files/"
   anon_user: anonymous
   service_name: anon-files.service
@@ -95,6 +86,7 @@ anon_files:
   compose_service: anon_files
   image_name: anon-files
   log_driver: "{{ docker.log_driver }}"
+  log_file: anon-files.log
   container_name: anon-files
   properties_file: anon-files.properties
   log_file: anon-files-docker.log
@@ -211,7 +203,7 @@ drop_number: 0
 # --- CAS properties --- #
 cas:
   app_list: all iPlant applications
-  base: https://"{{ groups['cas'][0] }}"/cas
+  base: https://"{{ groups['cas'][0] }}:{{ cas.port }}"/cas
   context_path: cas
   do_ssl_config: true
   # including DICE-UNC's CAS overlay for reference. YMMV.
@@ -228,22 +220,22 @@ cas:
 ###############################################################################
 # CAS Authentication Settings
 ###############################################################################
-org.iplantc.discoveryenvironment.cas.base-url: "https://de-id.irss.unc.edu:8443/cas"
-org.iplantc.discoveryenvironment.cas.server-name: "https://de-id.irss.unc.edu:8443"
+org.iplantc.discoveryenvironment.cas.base-url: "{{ cas.base }}"
+org.iplantc.discoveryenvironment.cas.server-name: "https://{{ cas.host}}:{{ cas.port }}"
 org.iplantc.discoveryenvironment.cas.validation: /iplant-cas-ticket-validator
 org.iplantc.discoveryenvironment.cas.logout-url: /iplant-cas-logout
 org.iplantc.discoveryenvironment.cas.app-name: DFC Test Lab Discovery Environment
 org.iplantc.discoveryenvironment.cas.login-url: /login
 org.iplantc.admin.cas.authorized-groups: "{{ admin_groups }}"
 org.iplantc.admin.cas.group-attribute-name: entitlement
-org.iplantc.discoveryenvironment.cas.no-logout-url: "https://de-id.irss.unc.edu:8443/cas"
+org.iplantc.discoveryenvironment.cas.no-logout-url: "https://{{ cas.base }}"
 org.iplantc.discoveryenvironment.cas.app-list: all iPlant applications
 
 ###############################################################################
 # CAS Session Keepalive Settings
 ###############################################################################
-org.iplantc.discoveryenvironment.keepalive.service: https://de-id.irss.unc.edu/de/discoveryenvironment/empty
-org.iplantc.discoveryenvironment.keepalive.target: https://de-id.irss.unc.edu:8443/cas/login?service=https://de-ui.irss.unc.edu/de/discoveryenvironment/empty
+org.iplantc.discoveryenvironment.keepalive.service: "https://{{ cas.host }}:{{ cas.port }}/de/discoveryenvironment/empty"
+org.iplantc.discoveryenvironment.keepalive.target: "https://{{ cas.host }}:{{ cas.port }}/cas/login?service=https://{{ nginx_ssl.server_name }}/de/discoveryenvironment/empty"
 org.iplantc.discoveryenvironment.keepalive.interval: 90
 
 chat_room_url: CHANGEME
@@ -714,12 +706,16 @@ ldap:
   u_suffix: Users
   m_suffix: Machines
 
-logstash_elasticsearch_host: de-elk.irss.unc.edu
+logging:
+  dir: /var/log/de
+  conf_dir: "{{de_config_dir}}/logging"
+
+logstash_elasticsearch_host: "{{ groups['de-elk'][0] }}"
 logstash:
   port: 5000
   ssl:
-    key: /etc/ssl/certs/de-elk_irss_unc_edu.key
-    cert: /etc/ssl/certs/de-elk_irss_unc_edu_cert.cer
+    key: CHANGEME
+    cert: CHANGEME
 
 logstash_forwarder:
   service_description: logstash forwarder service
@@ -753,8 +749,6 @@ metadata:
   properties_file: metadata.properties
   log_file: metadata-docker.log
   max_heap: "{{ max_heap.high }}"
-
-#metadata_host: localhost
 
 monkey:
   host: "{{ groups['monkey'][0] }}"
@@ -923,12 +917,6 @@ ssl_key_file: server.key
 
 tree_parser_base: http://portnoy.iplantcollaborative.org/parseTree
 
-tree_urls_host: "{{ services_host }}"
-tree_urls_log_file: /home/iplant/logs/tree-urls.log
-tree_urls_cleanup_age: 30
-tree_urls_cleanup_start: "1:30:00"
-tree_urls_cleanup_enable: "true"
-tree_urls_avu: tree-urls
 tree_urls:
   host: "{{ groups['tree-urls'][0] }}"
   port: 5010
@@ -946,7 +934,7 @@ tree_urls:
   avu: tree-urls
   max_heap: "{{ max_heap.low }}"
 
-# wants America/New_York, etc. format
+# wants America/New_York, for example.
 timezone: CHANGEME
 
 #user_preferences_host: "{{ services_host }}"
@@ -998,6 +986,3 @@ data_container:
 
 time: "{{ansible_date_time.date}}:{{ansible_date_time.time}}"
 
-logging:
-  dir: /var/log/de
-  conf_dir: "{{de_config_dir}}/logging"
