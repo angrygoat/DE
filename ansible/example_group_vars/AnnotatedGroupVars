@@ -205,31 +205,19 @@ drop_number: 0
 # --- CAS properties --- #
 cas:
   app_list: all iPlant applications
-  base: CHANGEME
+  base: https://"{{ groups['cas'][0] }}"/cas
   context_path: cas
   do_ssl_config: true
-  git_url: CHANGEME
+  # including DICE-UNC's CAS overlay for reference. YMMV.
+  git_url: https://github.com/DICE-UNC/cas-overlay.git
   git_project_name: cas-overlay
   group_attribute: entitlement
   no_logout_url: http://"{{ groups['ui'][0] }}"
   port: CHANGEME
+  ssl_cert_file: CHANGEME
+  ssl_key_file: CHANGEME
+  tomcat_user: tomcat
   uid_domain: CHANGEME
-
-# old-style notation. switch these to dotted notation
-cas_app_list: all iPlant applications
-cas_base: https://de-id.irss.unc.edu:8443/cas
-cas_context_path: cas
-cas_do_ssl_config: true
-# including DICE-UNC's CAS overlay for reference. YMMV.
-cas_git_url: https://github.com/DICE-UNC/cas-overlay.git
-cas_git_project_name: cas-overlay
-cas_group_attribute: entitlement
-cas_no_logout_url: http://"{{ groups['ui'][0] }}"
-cas_port: 443
-cas_ssl_cert_file: CHANGEME
-cas_ssl_key_file: CHANGEME
-cas_tomcat_user: tomcat
-cas_uid_domain: CHANGEME
 
 ###############################################################################
 # CAS Authentication Settings
