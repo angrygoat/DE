@@ -21,7 +21,7 @@
       file: path={{de_config_dir}}/logstash-forwarder state=directory
       tags:
         - logging_config
-0
+
     - name: create the nginx config
       file: path={{de_config_dir}}/nginx state=directory
       tags:
