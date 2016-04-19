@@ -28,6 +28,9 @@ admin_groups: admin_group1,admin_group2
 # internal listening port for dockerized services
 default_service_port: 60000
 
+# Non-iPlant organizations will need to obtain client keys to use Agave.
+# Even if you're not connected, you can still use the public bits.
+# Agave may be disabled entirely by switching flags in the apps.properties template.
 agave:
   base_url: https://agave.iplantc.org
   read_timeout: 10000
@@ -72,6 +75,7 @@ amqp_broker:
     queue_name: CHANGEME
     exchange_auto_delete: false
 
+# should be able to delete these in favor of dotted notation.
 #anon_files_base_url: "http://{{ services_host }}:{{ anon_files_port }}/anon-files/"
 #anon_files_port: 60000
 #anon_files_proxy_url:
@@ -97,12 +101,11 @@ anon_files:
   max_heap: "{{ max_heap.low }}"
 
 compose:
-  # don't change this - hard-coded in admin interface
+  # don't change this - hard-coded in admin(?) interface
   de_env: de
   de_tag: latest
 
 ## App Settings
-de_base: "https://{{ groups['ui'][0] }}/de"
 de:
   host: "{{ groups['ui'][0] }}"
   base: "https://{{ groups['ui'][0] }}/de"
@@ -151,6 +154,7 @@ de:
 app_version_name: Phthalo
 app_version: 2.4.0
 
+# The Apps service populates the GUI Apps window.
 apps:
   host: "{{ groups['apps'][0] }}"
   port: 5014
@@ -173,9 +177,8 @@ apps:
   trash_category: Trash
   max_heap: "{{ max_heap.high }}"
 
-#app_server_base_url: "http://{{ ansible_default_ipv4.address }}:8080"
 app_server_base_url: https://{{ app_server_hostname }}
-app_server_hostname: "{{ groups['ui][0] }}"
+app_server_hostname: "{{ groups['ui'][0] }}"
 
 de_feedback_to_addr: "CHANGEME"
 de_mail_from_addr: "{{ de_feedback_to_addr }}"
@@ -185,6 +188,8 @@ de_mail_to_addr: "{{ de_feedback_to_addr }}"
 
 de_notification_poll: 15
 
+# Docker registry settings. You'll want your own docker registry
+# to host private data containers.
 docker:
   log_driver: syslog
   tag: latest
@@ -200,6 +205,7 @@ docker:
     login: yes
   internal_registry: "CHANGEME"
 
+# drop_number is used by iPlant for QA. others may safely ignore it.
 drop_number: 0
 
 # --- CAS properties --- #
@@ -242,6 +248,7 @@ org.iplantc.discoveryenvironment.keepalive.interval: 90
 
 chat_room_url: CHANGEME
 
+# Condor handles all DE job execution; Jex performs its care and feeding.
 condor_submission_ip_range: CHANGEME
 condor_allow_write: "{{ condor_submission_ip_range }}"
 condor:
@@ -256,6 +263,7 @@ condor:
   allow_write: "{{ condor_allow_write }}"
   allow_read: "{{ condor_allow_write }}"
 
+# Condor Log Monitor does exactly that, and reports to jexevents.
 condor_log_monitor_event_log: /var/log/condor/event_log
 condor_log_monitor:
   service_name: condor-log-monitor.service
@@ -267,6 +275,7 @@ condor_log_monitor:
   properties_file: condor_log_monitor.properties
   log_file: condor-log-monitor-docker.log
 
+# Coge is unavailable to external entities.
 coge_genome_load_url: https://genomevolution.org/CoGe/services/service.pl/genome/load
 coge_base_url: https://genomevolution.org/coge/api/v1
 coge_data_folder_name: coge_data
@@ -277,6 +286,7 @@ coge:
   base_url: https://genomevolution.org/coge/api/v1
   data_folder_name: coge_data
 
+# The clockwork service is no longer used.
 clockwork:
   service_name: clockwork.service
   service_name_short: clockwork
@@ -302,35 +312,35 @@ data_info:
   log_file: data-info-docker.log
   max_heap: "{{ max_heap.high }}"
 
-dataverse_adminpass: CHANGEME
-dataverse_db: dvndb
-dataverse_dbhost: localhost
-dataverse_dbuser: dvnuser
-dataverse_dbpass: CHANGEME
-dataverse_dbport: 5432
-dataverse_filesdir: /usr/local/dvn/data
-dataverse_gf_user: glassfish
-dataverse_gf_group: glassfish
-dataverse_gf_root: /usr/local/glassfish4
-dataverse_gf_domain: domain1
-dataverse_gf_adminuser: admin
-dataverse_gf_adminpass: CHANGEME
-dataverse_host_address: "{{ groups['dataverse'][0] }}"
-dataverse_memheap: 16389
-dataverse_shib: true
-dataverse_smtp: localhost
-dataverse_version: 4.2.4
+dataverse:
+  adminpass: CHANGEME
+  db: dvndb
+  dbhost: localhost
+  dbuser: dvnuser
+  dbpass: CHANGEME
+  dbport: 5432
+  filesdir: /usr/local/dvn/data
+  glassfish:
+    user: glassfish
+    group: glassfish
+    root: /usr/local/glassfish4
+    domain: domain1
+    adminuser: admin
+    adminpass: CHANGEME
+  host_address: "{{ groups['dataverse'][0] }}"
+  memheap: 16389
+  shib: true
+  smtp: localhost
+  version: 4.2.4
 
-#de_version: "{{ app_version }}"
-
-dewey_listen_port: 5002
+de_version: "{{ app_version }}"
+de_version_name: "{{ app_version_name }}"
 
 db_driver: org.postgresql.Driver
-db_user: irssde
+db_user: CHANGEME
 db_password: CHANGEME
 db_host: "{{ groups['db'][0] }}"
-#db_address: 152.2.32.240
-db_name: de
+db_name: CHANGEME
 db_port: 5432
 db_admin: postgres
 db_admin_password: CHANGEME
@@ -339,9 +349,11 @@ db_targz: https://everdene.iplantcollaborative.org/jenkins/job/databases-dev/las
 db_vendor: postgresql
 db_allowed_IPv4_remote: CHANGEME
 
+# Incremental iRODS indexer.
 dewey:
   service_name: dewey.service
   service_name_short: dewey
+  listen_port: 5002
   compose_service: dewey
   service_description: dewey service
   image_name: dewey
@@ -349,58 +361,6 @@ dewey:
   properties_file: dewey.properties
   log_file: dewey-docker.log
   max_heap: "{{ max_heap.low }}"
-
-terrain:
-  host: "{{ groups['terrain'][0] }}"
-  port: 5007
-  base: "http://{{ groups['terrain'][0] }}:5007"
-  service_name: terrain.service
-  service_name_short: terrain
-  compose_service: terrain
-  service_description: terrain service
-  image_name: terrain
-  container_name: terrain
-  properties_file: terrain.properties
-  log_file: terrain-docker.log
-  max_heap: "{{ max_heap.high }}"
-
-#systemd:
-#  syslogFacility: local6
-#  services:
-#          - "{{dewey}}"
-#          - "{{data_info}}"
-#          - "{{anon_files}}"
-#          - "{{de}}"
-#          - "{{condor_log_monitor}}"
-#          - "{{clockwork}}"
-#          - "{{donkey}}"
-#          - "{{iplant_email}}"
-#          - "{{exim}}"
-#          - "{{infosquito}}"
-#          - "{{info_typer}}"
-#          - "{{jexevents}}"
-#          - "{{kifshare}}"
-#          - "{{metadactyl}}"
-#          - "{{metadata}}"
-#          - "{{monkey}}"
-#          - "{{notificationagent}}"
-#          - "{{saved_searches}}"
-#          - "{{tree_urls}}"
-#          - "{{user_preferences}}"
-#          - "{{user_sessions}}"
-#          - "{{jex}}"
-
-donkey_host: "{{ services_host }}"
-donkey_base: "http://{{ donkey_host }}:{{ donkey.port }}"
-donkey:
-  service_name: donkey.service
-  service_name_short: donkey
-  service_description: donkey service
-  port: 5003
-  image_name: donkey
-  container_name: donkey
-  properties_file: donkey.properties
-  log_file: donkey-docker.log
 
 email_smtp_host: CHANGEME
 email_smtp_from_address: CHANGEME
@@ -441,7 +401,7 @@ elasticsearch:
   network_http_port:
   network_transport_tcp_port:
 
-elk_host: de-elk.irss.unc.edu
+elk_host: "{{ groups['elk'][0] }}"
 elk:
   conf_dir: "{{de_config_dir}}/elk"
   logstash:
@@ -476,7 +436,7 @@ elk:
     image_name: "kibana:4.2"
 
 es_base: "http://{{ es_host }}:{{ es_port }}:9200"
-es_host: de-elk.irss.unc.edu
+es_host: "{{ groups['elk'][0] }}"
 es_port: 9200
 es_scroll_size: 1000
 
@@ -488,10 +448,6 @@ exim:
   image_name: exim-sender
   container_name: exim
   log_file: exim-docker.log
-
-#facepalm_jar: https://github.com/DICE-UNC/de-ansible/blob/vmlab/downloads/facepalm/facepalm-standalone.jar?raw=true
-#facepalm_proxy_host:
-#facepalm_proxy_port:
 
 fs_max_paths_in_request: 1000
 
@@ -517,14 +473,14 @@ grouper:
   #ssl_certificate_key: de-grouper_irss_unc_edu.key
   admin:
     user: GrouperSystem
-    pass: n0tpr0dgr0up3r
+    pass: CHANGEME
   api:
     env_name: de
     container_name: grouper
   db:
     url: "jdbc:postgresql://{{db_host}}/subjectdata"
     user: degrouper
-    pass: n0tpr0dgr0up3r
+    pass: CHANGEME
   http_server:
     service_name: grouper-nginx.service
     service_name_short: grouper-nginx
@@ -545,7 +501,7 @@ grouper:
   subject_source:
     id: irss
     name: DE
-    url: ldap://de-id.irss.unc.edu:389
+    url: ldap://"{{ groups['ldap'][0] }}:{{ ldap.port }}"
     auth_type: simple
     principal: "{{ ldap.manager_dn }}"
     credentials: "{{ ldap.admin_password }}"
@@ -554,10 +510,7 @@ grouper:
   ws:
     base_url: "http://{{ groups['grouper'][0] }}:8080/grouper-ws/"
 
-infosquito_notify_enabled: true
-infosquito_notify_count: 10000
-infosquito_retry_interval: 900
-
+# Periodic indexer for iRODS.
 infosquito:
   host: "{{ groups['infosquito'][0] }}"
   service_name: infosquito.service
@@ -573,6 +526,7 @@ infosquito:
   retry_interval: 900
   max_heap: "{{ max_heap.low }}"
 
+# Facilitates file extension parsing in the GUI.
 info_typer:
   host: "{{ groups['info-typer'][0] }}"
   service_name: info-typer.service
@@ -585,18 +539,15 @@ info_typer:
   log_file: info-typer-docker.log
   max_heap: "{{ max_heap.low }}"
 
-iplant_groups_docker_repo: diceunc
-iplant_groups_host: de-grouper.irss.unc.edu
-iplant_groups_port: 5012
 iplant_groups:
-  host: de-grouper.irss.unc.edu
+  host: "{{ groups['iplant-groups'][0] }}"
   port: 5012
   base_url: "http://{{ groups['iplant-groups'][0] }}:5012"
   #base_url: "http://{{ iplant_groups_host }}:{{ iplant_groups_port }}"
   service_name: iplant-groups.service
   service_name_short: iplant-groups
   service_description: iplant-groups service
-  image_name: iplant-groups-odum
+  image_name: iplant-groups
   container_name: iplant-groups
   compose_service: iplant_groups
   properties_file: iplant-groups.properties
@@ -608,70 +559,38 @@ iplant_groups:
     base_url: "{{ grouper.ws.base_url }}"
   max_heap: "{{ max_heap.low }}"
 
-icat:
-  host: "{{ irods_icat_host }}"
-  port: "{{ irods_icat_dbport }}"
-  user: "{{ irods_icat_user }}"
-  password: "{{ irods_icat_password }}"
-  db: "{{ irods_icat_db }}"
-
-irods_icat_host: de-irods1.irss.unc.edu
-irods_icat_dbport: 5432
-irods_icat_user: odumicatuser
-irods_icat_password: n0tpr0d1c4t
-irods_icat_db: odumicatdb
-
-irods_admin: irods
-irods_admin_password: n0tpr0d1r0dz
-irods_host: de-irods1.irss.unc.edu
-irods_federation_host: 
-irods_db: odumde
-irods_port: 1247
-irods_user: de-rodsadmin
-irods_password: 0dum-p4ssw0rd
-irods_zone: OdumDEZone
-irods_home: /{{ irods_zone }}/home
-irods_default_resource: "odumDEResc"
-irods_default_resource_path: "/var/lib/irods/iRODS/OdumDEResc"
-irods_admins: "de-rodsadmin"
-irods_admin_users: "{{ irods_user }},{{ irods_admins }}"
-irods_bad_chars: \u0060\u0027\u000A\u0009
-
 irods:
-  admins: "{{ irods_user }}"
+  admin_users: CHANGEME
+  admin_password: CHANGEME
   bad_chars: \u0060\u0027\u000A\u0009
   # used by staff to create permanent id requests
   data_curators_group: data_curators
-  default_resource: "{{ irods_default_resource }}"
-  home: "{{ irods_home }}"
-  host: "{{ irods_host }}"
-  password: "{{ irods_password }}"
+  default_resource: "demoResc"
+  default_resource_path: "/var/lib/irods/iRODS/demoResc"
+  federation_host: 
+  home: CHANGEME
+  host: CHANGEME
+  icat:
+    host: CHANGEME
+    db: CHANGEME
+    dbport: 5432
+    password: CHANGEME
+    user: CHANGEME
+  password: CHANGEME
   port: 1247
   portrange:
     start: 20000
     end: 20199
-  resc: "{{ irods_default_resource }}"
+  resc: demoResc
   # irods.user is used to authenticate DE to irods
-  user: "{{ irods_user }}"
-  vault: "{{ irods_default_resource_path }}"
-  zone: "{{ irods_zone }}"
-  icat:
-    db_port: 5432
+  user: CHANGEME
+  vault: CHANGEME
+  zone: CHANGEME
   
-jex_host: "de-condor-submission.irss.unc.edu"
-jex_port: 5004
-jex_base: http://{{ jex_host }}:{{ jex_port }}
-jex_batch_group: batch_processing
-# used for backwards compatibility container and reference genomes. new stand-ups probs won't need this.
-jex_nfs_base: /export/condor
-# iPlant uses this; a new stand-up can probably use the default path.
-jex_icommands_path: /usr/local/icommands/:/usr/local2/icommands/:/usr/local/bin/:/usr/local2/bin/:/usr/bin/
-jex_request_disk: 0
-
-# Jex does not actually have a container. The container name is how most syslog entries
-# are identified. See rsyslog-config role.
+# Jex service schedules calls condor_submit, and does not actually have a container.
+# The container name is how most syslog entries are identified. See rsyslog-config role.
 jex:
-  host: "{{ groups['jex'][0] }}"
+  host: "{{ groups['de-condor-submission'][0] }}"
   port: 5004
   # ansible didn't like nested vars, so we specified the base port here.
   base: "http://{{ groups['jex'][0] }}:5004"
@@ -680,23 +599,24 @@ jex:
   compose_service: jex
   log_file: jex/jex.log
   batch_group: batch_processing
-  # used for backwards compatibility container and reference genomes. new stand-ups probs won't need this.
+  # used for backwards compatibility container and reference genomes. new stand-ups probably won't need this.
   nfs_base: /export/condor
   #container_name: jex
   # iPlant uses this; a new stand-up can probably use the default path.
   icommands_path: /usr/local/icommands:/usr/local2/icommands:/usr/local/bin:/usr/local2/bin:/usr/bin
   request_disk: 0
 
-# old-style notation. switch to the below stanza.
-jexdb_driver: "{{db_driver}}"
-jexdb_host: "{{db_host}}"
-jexdb_db: jex
-jexdb_password: CHANGEME
-jexdb_port: "{{db_port}}"
-jexdb_targz: https://everdene.iplantcollaborative.org/jenkins/job/databases-dev/lastSuccessfulBuild/artifact/databases/jex-db/jex-db.tar.gz
-jexdb_user: irssjex
-jexdb_vendor: "{{db_vendor}}"
+jexdb:
+  driver: "{{db_driver}}"
+  host: "{{db_host}}"
+  db: jex
+  password: CHANGEME
+  port: "{{db_port}}"
+  targz: https://everdene.iplantcollaborative.org/jenkins/job/databases-dev/lastSuccessfulBuild/artifact/databases/jex-db/jex-db.tar.gz
+  user: CHANGEME
+  vendor: "{{db_vendor}}"
 
+# jexevents is an intermediary service between Jex and Condor Log Monitor.
 jex_events_event_url: http://{{ services_host }}:{{ jexevents.port }}/
 jexevents:
   base: "http://{{ groups['jexevents'][0] }}:5005/"
@@ -726,13 +646,12 @@ jwt:
   wso2:
     header: x-jwt-assertion-iplant-org
 
-#kifshare_de_url: \{\{url\}\}/d/\{\{ticket-id\}\}/\{\{filename\}\}
-kifshare_external_url: "http://{{ de.host }}/{{ kifshare.external_url_suffix }}"
-kifshare_download_buffer_size: 100
-
+# Kifshare allows external anonymous access to iRODS via URL.
 kifshare:
   host: "{{ groups['kifshare'][0] }}"
   port: 1025
+  download_buffer_size: 100
+  external_url: "http://{{ de.host }}/{{ kifshare.external_url_suffix }}"
   external_url_suffix: dl
   service_name: kifshare.service
   service_name_short: kifshare
@@ -744,88 +663,58 @@ kifshare:
   log_file: kifshare-docker.log
   de_url: \{\{url\}\}/d/\{\{ticket-id\}\}/\{\{filename\}\}
   mode: prod
-  download_buffer_size: 100
   max_heap: "{{ max_heap.low }}"
 
+# Call the CAS/LDAP playbook if not using your organization's existing services.
+# Test users may be specified using the LDIF template in the LDAP role.
 ldap:
+  host: "{{ groups['ldap'][0] }}"
   dc: dc=your,dc=org,dc=edu
   domain_name: your.org.edu
   country: CHANGEME
   state: CHANGEME
   location: CHANGEME
   organization: CHANGEME
-  tld: CHANGEME
-  host: "{{ groups['cas'][0] }}"
-  use_starttls: false
-  enable_ssl: false
-  base_dn:
-  search_base_dn: ou=Users,dc=your,dc=org,dc=edu
-  group_base_dn: ou=Groups,dc=your,dc=org,dc=edu
-  manager_dn: cn=Manager,dc=your,dc=org,dc=edu
   admin_password: CHANGEME
+  ansible_done_dir: /etc/ansible/.done
   authn_format:
-  trusted_cert:
+  enable_ssl: false
+  base_dn: CHANGEME
+  create_user_and_groups_done: "{{ldap_done_dir}}/create-users-and-groups"
+  create_indexes_done: "{{ldap_done_dir}}/create-indexes"
+  create_autofs_done: "{{ldap_done_dir}}/create-autofs"
+  create_automount_done: "{{ldap_done_dir}}/create-automount"
+  create_sudo_done: "{{ldap_done_dir}}/create-sudo"
+  create_sudo_master_done: "{{ldap_done_dir}}/create-sudo-master"
+  create_testde_done: "{{ldap_done_dir}}/create-testde"
+  done_dir: "{{ldap_ansible_done_dir}}/ldap"
+  dpkg_reconfigure: false
+  genadminpw: CHANGE
+  global_user: root
+  global_use_sudo: false
+  group_base_dn: ou=Groups,dc=your,dc=org,dc=edu
+  include_create_user_and_groups: true
+  include_create_indexes: true
+  include_create_autofs: false
+  include_create_automount: false
+  include_create_sudo: false
+  include_create_sudo_master: false
+  include_testde: true
+  manager_dn: cn=Manager,dc=your,dc=org,dc=edu
   port: 389
   password: CHANGEME
   password_size: 8
+  search_base_dn: ou=Users,dc=your,dc=org,dc=edu
+  slapd_dpkg_reconfigure_done: "{{ldap_done_dir}}/slapd-dpkg-reconfigure-done"
+  tld: CHANGEME
+  trusted_cert:
+  use_starttls: false
+  user: ldap
   g_suffix: Groups
   u_suffix: Users
   m_suffix: Machines
 
-# killing these, will update playbooks
-#ldap_port: 389
-#ldap_user: ldap
-#ldap_use_starttls: false
-#ldap_search_base_dn: ou=Users,DC=irss,DC=unc,DC=edu
-#ldap_tld: irss
-#ldap_dc: dc=irss,dc=unc,dc=edu
-#ldap_manager_dn: cn=admin,dc=irss,dc=unc,dc=edu
-#ldap_admin_password: p4sswurd
-#
-#ldap_genadminpw: p4sswurd
-#ldap_password: p4sswurd
-#ldap_password_size: 8
-##ldap_host: "{{ groups['cas']}}"
-#ldap_host: localhost
-#ldap_dpkg_reconfigure: false
-#ldap_global_user: root
-#ldap_global_use_sudo: false
-#ldap_include_create_user_and_groups: true
-#ldap_include_create_indexes: true
-#ldap_include_create_autofs: false
-#ldap_include_create_automount: false
-#ldap_include_create_sudo: false
-#ldap_include_create_sudo_master: false
-#ldap_include_testde: true
-#
-#ldap_g_suffix: Groups
-#ldap_u_suffix: Users
-#ldap_m_suffix: Machines
-#
-#ldap_ansible_done_dir: /etc/ansible/.done
-#ldap_done_dir: "{{ldap_ansible_done_dir}}/ldap"
-#
-#ldap_create_user_and_groups_done: "{{ldap_done_dir}}/create-users-and-groups"
-#ldap_create_indexes_done: "{{ldap_done_dir}}/create-indexes"
-#ldap_create_autofs_done: "{{ldap_done_dir}}/create-autofs"
-#ldap_create_automount_done: "{{ldap_done_dir}}/create-automount"
-#ldap_create_sudo_done: "{{ldap_done_dir}}/create-sudo"
-#ldap_create_sudo_master_done: "{{ldap_done_dir}}/create-sudo-master"
-#ldap_create_testde_done: "{{ldap_done_dir}}/create-testde"
-#
-#ldap_slapd_dpkg_reconfigure_done: "{{ldap_done_dir}}/slapd-dpkg-reconfigure-done"
-#
-#ldap_domain_name: irss.unc.edu
-#ldap_enable_ssl: false
-#ldap_country: US
-#ldap_state: North Carolina
-#ldap_location: Chapel Hill
-#ldap_organization: Odum Institute
-#
-# --- /LDAP properties --- #
-
 logstash_elasticsearch_host: de-elk.irss.unc.edu
-
 logstash:
   port: 5000
   ssl:
@@ -845,8 +734,8 @@ metadata_db_driver: "{{ db_driver }}"
 metadata_db_vendor: "{{ db_vendor }}"
 metadata_db_host: "{{ db_host }}"
 metadata_db_port: "{{ db_port }}"
-metadata_db_user: irssmetadata
-metadata_db_password: n0tpr0dm3t4d4t4
+metadata_db_user: CHANGEME
+metadata_db_password: CHANGEME
 metadata_db_name: metadata
 metadata_db_admin: "{{ db_admin }}"
 metadata_db_admin_password: "{{ db_admin_password }}"
@@ -879,7 +768,7 @@ monkey:
   log_file: monkey-docker.log
   max_heap: "{{ max_heap.low }}"
 
-# UNC-specific network needs. modify templates as you see fit.
+# iptables ranges for specific network needs. modify templates as you see fit.
 net:
   campus: CHANGEME
   dmz: CHANGEME
@@ -888,6 +777,7 @@ net:
   wifi: CHANGEME
   docker: CHANGEME
 
+# Nginx handles SSL and proxy/auth for the UI container.
 nginx_ssl:
   server_name: "{{ groups['ui'][0] }}"
   cert: /etc/iplant/ssl/iplant.crt
@@ -919,17 +809,13 @@ notificationagent:
   clean_enable: "true"
   max_heap: "{{ max_heap.low }}"
 
-#notification_clean_start: "1:45:00"
-#notification_clean_age: 90
-#notification_clean_enable: "true"
-
 notification_db_driver: "{{ db_driver }}"
 notification_db_vendor: "{{ db_vendor }}"
 notification_db_port: "{{ db_port }}"
 notification_db_host: "{{ db_host }}"
 notification_db_name: notifications
 notification_db_password: CHANGEME
-notification_db_user: irssnotifications
+notification_db_user: CHANGEME
 notification_db_admin: "{{ db_admin }}"
 notification_db_admin_password: "{{ db_admin_password }}"
 notification_db_targz: https://everdene.iplantcollaborative.org/jenkins/job/databases-dev/lastSuccessfulBuild/artifact/databases/notification-db/notification-db.tar.gz
@@ -952,6 +838,8 @@ pgp_key_password: CHANGEME
 
 prod_deployment: false
 
+# proxy_env added for RENCI whose gateway requires it.
+# This setting is silently ignored if left unset.
 proxy_env:
   http_maven_proxy_host:
   http_maven_proxy_port:
@@ -959,7 +847,8 @@ proxy_env:
   http_proxy:
   use_proxy: false
 
-registry_host: dockerhub.com
+# Is this used? Docker should default here if not specified.
+#registry_host: dockerhub.com
 
 rserve:
   host: "{{ groups['rserve'][0] }}"
@@ -967,7 +856,6 @@ rserve:
   pass: CHANGEME
   port: 6311
 
-#saved_searches_host: "{{ services_host }}"
 saved_searches_log_file: /home/iplant/logs/saved-searches.log
 saved_searches:
   host: "{{ groups['saved-searches'][0] }}"
@@ -986,7 +874,43 @@ search_default_limit: 200
 
 services_host: "{{ groups['services'][0] }}"
 
-# dls: this stuff is CAS-specific. move to cas.* section.
+# new to dev branch, probably don't need yet
+templeton_incremental:
+ host: "{{ groups['templeton-incremental'][0] }}"
+ port:
+ service_name_short: templeton-incremental
+ compose_service: templeton_incremental
+ service_description: templeton incremental service
+ image_name: templeton
+ container_name: templeton-incremental
+ log_file: templeton-docker.log
+
+# Templeton indexes the metadata Postgres database.
+templeton_periodic:
+ host: "{{ groups['templeton-periodic'][0] }}"
+ port:
+ service_name_short: templeton-periodic
+ compose_service: templeton_periodic
+ service_description: templeton periodic service
+ image_name: templeton
+ container_name: templeton-periodic
+ log_file: templeton-docker.log
+
+terrain:
+  host: "{{ groups['terrain'][0] }}"
+  port: 5007
+  base: "http://{{ groups['terrain'][0] }}:5007"
+  service_name: terrain.service
+  service_name_short: terrain
+  compose_service: terrain
+  service_description: terrain service
+  image_name: terrain
+  container_name: terrain
+  properties_file: terrain.properties
+  log_file: terrain-docker.log
+  max_heap: "{{ max_heap.high }}"
+
+# dls: this stuff is CAS-specific. move to cas.* section and rename.
 tomcat_admin_username: admin
 tomcat_admin_password: CHANGEME
 tomcat_http_port: 8080
