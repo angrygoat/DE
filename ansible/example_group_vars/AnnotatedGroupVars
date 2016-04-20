@@ -1,5 +1,5 @@
 # Annotated group_var reference for Discovery Environment.
-# Required but redacted variables are marked CHANGEME.
+# Required but sanitized variables are valued CHANGEME.
 # Note that in general variable names are converting
 # from long_strings to service.stanzas.
 
@@ -72,6 +72,7 @@ amqp_broker:
     message_auto_ack: true
     queue_routing_key: "data-object.#"
 
+# anon_files serves up files that have been shared with the anonymous user in iRODS.
 anon_files:
   host: "{{ groups['anon-files'][0] }}"
   # iplant docs recommend against changing this
@@ -213,8 +214,15 @@ cas:
   no_logout_url: http://"{{ groups['ui'][0] }}"
   port: CHANGEME
   ssl_cert_file: CHANGEME
+  ssl_certificate_local_dir: /etc/pki/tls/certs
+  ssl_certificate_server_dir: /usr/share/tomcat/cert
   ssl_key_file: CHANGEME
-  tomcat_user: tomcat
+  tomcat:
+    admin_username: admin
+    admin_password: CHANGEME
+    http_port: 8080
+    https_port: 8443
+    user: tomcat
   uid_domain: CHANGEME
 
 ###############################################################################
@@ -290,6 +298,8 @@ clockwork:
   log_file: clockwork-docker.log
   max_heap: "{{ max_heap.low }}"
 
+# data-info is a RESTful frontend for getting information about
+# and manipulating information in an iRODS data store.
 data_info_host: "{{ services_host }}"
 data_info:
   host: "{{ groups['data-info'][0] }}"
@@ -304,6 +314,7 @@ data_info:
   log_file: data-info-docker.log
   max_heap: "{{ max_heap.high }}"
 
+# Optional role to stand up the IQSS data publishing platform.
 dataverse:
   adminpass: CHANGEME
   db: dvndb
@@ -358,20 +369,6 @@ email_smtp_host: CHANGEME
 email_smtp_from_address: CHANGEME
 email_host: CHANGEME
 email_base: http://{{ email_host }}:{{ iplant_email.port }}
-
-iplant_email:
-  host: "{{ groups['iplant-email'][0] }}"
-  port: 587
-  base: "http://{{ groups['iplant-email'][0] }}:587"
-  service_name: iplant-email.service
-  service_name_short: iplant-email
-  service_description: iPlant Email service
-  image_name: iplant-email
-  container_name: iplant-email
-  compose_service: iplant_email
-  properties_file: iplant-email.properties
-  log_file: iplant-email-docker.log
-  max_heap: "{{ max_heap.low }}"
 
 # don't change this - some things are still hard-coded.
 environment_name: de
@@ -531,6 +528,21 @@ info_typer:
   log_file: info-typer-docker.log
   max_heap: "{{ max_heap.low }}"
 
+iplant_email:
+  host: "{{ groups['iplant-email'][0] }}"
+  port: 587
+  base: "http://{{ groups['iplant-email'][0] }}:587"
+  service_name: iplant-email.service
+  service_name_short: iplant-email
+  service_description: iPlant Email service
+  image_name: iplant-email
+  container_name: iplant-email
+  compose_service: iplant_email
+  properties_file: iplant-email.properties
+  log_file: iplant-email-docker.log
+  max_heap: "{{ max_heap.low }}"
+
+# A RESTful façade in front of Grouper.
 iplant_groups:
   host: "{{ groups['iplant-groups'][0] }}"
   port: 5012
@@ -551,6 +563,7 @@ iplant_groups:
     base_url: "{{ grouper.ws.base_url }}"
   max_heap: "{{ max_heap.low }}"
 
+# Optional role to stand up a basic iRODS iCat.
 irods:
   admin_users: CHANGEME
   admin_password: CHANGEME
@@ -598,6 +611,7 @@ jex:
   icommands_path: /usr/local/icommands:/usr/local2/icommands:/usr/local/bin:/usr/local2/bin:/usr/bin
   request_disk: 0
 
+# Jex database settings
 jexdb:
   driver: "{{db_driver}}"
   host: "{{db_host}}"
@@ -625,6 +639,7 @@ jexevents:
 
 job_status_poll_interval: 15
 
+# DE uses JSON Web Tokens for persistent internal authentication.
 jwt:
   signing_key:
     private: "{{ global_config_dir }}/crypto/private-key.pem"
@@ -726,6 +741,7 @@ logstash_forwarder:
 
 max_edit_file_size: 2147483647
 
+# The REST API for the Discovery Environment Metadata services.
 metadata_db_driver: "{{ db_driver }}"
 metadata_db_vendor: "{{ db_vendor }}"
 metadata_db_host: "{{ db_host }}"
@@ -737,6 +753,7 @@ metadata_db_admin: "{{ db_admin }}"
 metadata_db_admin_password: "{{ db_admin_password }}"
 metadata_db_targz: https://everdene.iplantcollaborative.org/jenkins/job/databases-dev/lastSuccessfulBuild/artifact/databases/metadata/metadata-db.tar.gz
 
+# REST API for the Discovery Environment Metadata services.
 metadata:
   host: "{{ groups['metadata'][0] }}"
   port: 5013
@@ -750,6 +767,7 @@ metadata:
   log_file: metadata-docker.log
   max_heap: "{{ max_heap.high }}"
 
+# Monkey synchronizes the tag documents in the data search index with the metadata database.
 monkey:
   host: "{{ groups['monkey'][0] }}"
   service_name: monkey.service
@@ -844,6 +862,7 @@ proxy_env:
 # Is this used? Docker should default here if not specified.
 #registry_host: dockerhub.com
 
+# optional R Server role for use with Dataverse
 rserve:
   host: "{{ groups['rserve'][0] }}"
   user: rserve
@@ -890,6 +909,8 @@ templeton_periodic:
  container_name: templeton-periodic
  log_file: templeton-docker.log
 
+# Terrain provides the primary REST API used by the Discovery Environment. 
+# Its role is to validate user authentication and to coordinate calls to other web services.
 terrain:
   host: "{{ groups['terrain'][0] }}"
   port: 5007
@@ -904,19 +925,9 @@ terrain:
   log_file: terrain-docker.log
   max_heap: "{{ max_heap.high }}"
 
-# dls: this stuff is CAS-specific. move to cas.* section and rename.
-tomcat_admin_username: admin
-tomcat_admin_password: CHANGEME
-tomcat_http_port: 8080
-tomcat_https_port: 8443
-tomcat_user: tomcat
-ssl_certificate_local_dir: /etc/pki/tls/certs
-ssl_certificate_server_dir: /usr/share/tomcat/cert
-ssl_cert_file: server.crt
-ssl_key_file: server.key
-
 tree_parser_base: http://portnoy.iplantcollaborative.org/parseTree
 
+# tree_urls manages saved searches in DE.
 tree_urls:
   host: "{{ groups['tree-urls'][0] }}"
   port: 5010
@@ -985,4 +996,3 @@ data_container:
     type: pkcs12
 
 time: "{{ansible_date_time.date}}:{{ansible_date_time.time}}"
-
