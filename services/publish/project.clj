@@ -7,7 +7,7 @@
       (string/trim (:out (sh "git" "rev-parse" "HEAD")))
       ""))
 
-(defproject org.iplantc/publish "5.2.6.0"
+(defproject org.iplantc/publish "5.2.5.0"
   :description "A pluggable REST API for submitting data publishing requests."
   :url "https://github.com/iPlantCollaborativeOpenSource/DE"
   :license {:name "BSD"
@@ -19,11 +19,11 @@
                  [clj-http "2.0.0"]
                  [me.raynes/fs "1.4.6"]
                  [metosin/compojure-api "0.24.2"]
-                 [org.iplantc/clojure-commons "5.2.6.0"]
-                 [org.iplantc/common-cfg "5.2.6.0"]
-                 [org.iplantc/common-cli "5.2.6.0"]
-                 [org.iplantc/common-swagger-api "5.2.6.0"]
-                 [org.iplantc/service-logging "5.2.6.0"]
+                 [org.iplantc/clojure-commons "5.2.5.0"]
+                 [org.iplantc/common-cfg "5.2.5.0"]
+                 [org.iplantc/common-cli "5.2.5.0"]
+                 [org.iplantc/common-swagger-api "5.2.5.0"]
+                 [org.iplantc/service-logging "5.2.5.0"]
                  [ring/ring-core "1.4.0"]
                  [ring/ring-jetty-adapter "1.4.0"]]
   :plugins [[lein-ring "0.9.6"]]
