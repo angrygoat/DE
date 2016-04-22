@@ -32,7 +32,7 @@
     - properties
 
 - name: copy log4j.xml
-  template: src=log4j.xml.j2 dest=/etc/cas/log4j2.xml
+  copy: src=log4j.xml dest=/etc/cas/ owner={{ cas.tomcat.user }} group={{ cas.tomcat.group }}
   tags:
     - cas
     - properties
