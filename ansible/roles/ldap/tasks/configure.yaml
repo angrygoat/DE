@@ -1,11 +1,11 @@
 - name: ldap Make an ansible directory for remembering what we previously run
-  file: path={{ ldap_done_dir }} state=directory owner=root group=root
+  file: path={{ ldap.done_dir }} state=directory owner=root group=root
   tags:
     - ldap
     - auth
 
 - name: Delete the configuration directory
-  file: path={{ app_path }}/slapd.d state=absent
+  file: path={{ ldap.app_path }}/slapd.d state=absent
   tags:
     - ldap
     - auth
@@ -18,7 +18,7 @@
     - auth
 
 - name: Copy the slapd.conf configuration file for Redhat
-  template: src=slapd.conf.j2 dest={{ app_path }}/slapd.conf
+  template: src=slapd.conf.j2 dest={{ ldap.app_path }}/slapd.conf
   when: ansible_os_family == "RedHat"
   notify:
    - restart slapd
@@ -27,40 +27,40 @@
     - auth
 
 - name: Copy the ldap.conf configuration file
-  template: src=ldap.conf.j2 dest={{ app_path }}/ldap.conf
+  template: src=ldap.conf.j2 dest={{ ldap.app_path }}/ldap.conf
   tags:
     - ldap
     - auth
 
 - name: Create the directory for ldap database
-  file: path=/var/lib/ldap/{{ ldap.domain_name }}/ state=directory owner={{ ldap_user }} group={{ ldap_user }}
+  file: path=/var/lib/ldap/{{ ldap.domain_name }}/ state=directory owner={{ ldap.user }} group={{ ldap.user }}
   tags:
     - ldap
     - auth
 
 - name: Create the directory for ldap certificates
-  file: path={{ app_path }}/certs/ state=directory owner={{ ldap_user }} group={{ ldap_user }}
+  file: path={{ ldap.app_path }}/certs/ state=directory owner={{ ldap.user }} group={{ ldap.user }}
   tags:
     - ldap
     - auth
 
 - name: Generate the private key for certificate request
-  shell: openssl genrsa -des3 -passout pass:password -out my1.key 1024 chdir={{ app_path }}/certs/ 
-         creates={{ app_path}}/certs/my1.key
+  shell: openssl genrsa -des3 -passout pass:password -out my1.key 1024 chdir={{ ldap.app_path }}/certs/ 
+         creates={{ ldap.app_path}}/certs/my1.key
   tags:
     - ldap
     - auth
 
 - name: Strip the passphrase from the key 
-  shell: openssl rsa -in my1.key -passin pass:password -out my.key chdir={{ app_path }}/certs/ 
-         creates={{ app_path }}/certs/my.key
+  shell: openssl rsa -in my1.key -passin pass:password -out my.key chdir={{ ldap.app_path }}/certs/ 
+         creates={{ ldap.app_path }}/certs/my.key
   tags:
     - ldap
     - auth
 
 - name: Create and sign the the new certificate 
-  shell: openssl req -new -x509 -subj '/C={{ ldap.country }}/ST={{ ldap.state }}/L={{ ldap.location }}/O={{ ldap.organization }}/CN={{ ansible_hostname }}/' -days 3650 -key my.key -out cert.crt -extensions v3_ca chdir={{ app_path }}/certs/
-         creates={{ app_path }}/certs/cert.crt
+  shell: openssl req -new -x509 -subj '/C={{ ldap.country }}/ST={{ ldap.state }}/L={{ ldap.location }}/O={{ ldap.organization }}/CN={{ ansible_hostname }}/' -days 3650 -key my.key -out cert.crt -extensions v3_ca chdir={{ ldap.app_path }}/certs/
+         creates={{ ldap.app_path }}/certs/cert.crt
   tags:
     - ldap
     - auth
@@ -88,8 +88,8 @@
     - auth
 
 - name: add the base domain
-  #shell: ldapadd -x -D "cn=Manager,dc={{ ldap.domain_name.split('.')[0] }},dc={{ ldap.domain_name.split('.')[1] }}" -w {{ ldap.password }} -f /tmp/domain.ldif && touch {{ app_path }}/rootdn_created creates={{ app_path }}/rootdn_created
-  shell: ldapadd -x -D "{{ ldap.manager_dn }}" -w {{ ldap.password }} -f /tmp/domain.ldif && touch {{ ldap_done_dir }}/rootdn_created creates={{ app_path }}/rootdn_created
+  #shell: ldapadd -x -D "cn=Manager,dc={{ ldap.domain_name.split('.')[0] }},dc={{ ldap.domain_name.split('.')[1] }}" -w {{ ldap.password }} -f /tmp/domain.ldif && touch {{ ldap.app_path }}/rootdn_created creates={{ ldap.app_path }}/rootdn_created
+  shell: ldapadd -x -D "{{ ldap.manager_dn }}" -w {{ ldap.password }} -f /tmp/domain.ldif && touch {{ ldap.done_dir }}/rootdn_created creates={{ ldap.app_path }}/rootdn_created
   ignore_errors: yes
   tags:
     - ldap
