@@ -12,12 +12,12 @@
     "default_file_mode": "0600", 
     "default_hash_scheme": "SHA256", 
     "default_resource_directory": "{{ irods.vault }}",
-    "default_resource_name": "{{ irods_default_resource }}",
+    "default_resource_name": "{{ irods.default_resource }}",
     "environment_variables": {}, 
     "federation": [], 
-    "icat_host": "{{ irods_host }}", 
+    "icat_host": "{{ irods.host }}", 
     "match_hash_policy": "compatible", 
-    "negotiation_key": "{{ negotiation_key }}",
+    "negotiation_key": "{{ irods_negotiation_key }}",
     "re_data_variable_mapping_set": [
         {
             "filename": "core"
@@ -33,18 +33,18 @@
             "filename": "core"
         }
     ], 
-    "schema_validation_base_uri": "{{ schema_uri }}",
+    "schema_validation_base_uri": "{{ irods_schema_uri }}",
     "server_control_plane_encryption_algorithm": "AES-256-CBC", 
     "server_control_plane_encryption_num_hash_rounds": 16, 
-    "server_control_plane_key": "{{ control_plane_key }}",
-    "server_control_plane_port": {{ control_plane_port }},
+    "server_control_plane_key": "{{ irods_control_plane_key }}",
+    "server_control_plane_port": {{ irods_control_plane_port }},
     "server_control_plane_timeout_milliseconds": 10000, 
     "server_port_range_end": {{ irods.portrange.end }},
     "server_port_range_start": {{ irods.portrange.start }},
     "xmsg_port": 1279, 
     "zone_auth_scheme": "native", 
-    "zone_key": "{{ zone_key }}",
-    "zone_name": "{{ irods_zone }}",
-    "zone_port": {{ irods_port }},
-    "zone_user": "{{ irods_user }}"
+    "zone_key": "{{ irods_zone_key }}",
+    "zone_name": "{{ irods.zone }}",
+    "zone_port": {{ irods.port }},
+    "zone_user": "{{ irods.user }}"
 }

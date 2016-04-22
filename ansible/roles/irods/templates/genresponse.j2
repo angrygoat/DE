@@ -3,26 +3,28 @@
 
 RESPFILE=$1
 
-# setup_irods.sh seems to want zone first
+# some of these are set via defaults. should they all be group vars?
+
+# setup_irods.sh sometimes wants zone first, for whatever reason.
 echo "{{ irods_service_acct_user }}" > $RESPFILE  	# service account user ID
 echo "{{ irods_service_acct_user }}" >> $RESPFILE 	# service account group ID
-echo "{{ irods_zone }}" >> $RESPFILE            	# initial zone name
-echo "{{ irods_port }}" >> $RESPFILE            	# service port
-echo "{{ port_range_begin }}" >> $RESPFILE      	# transport starting port
-echo "{{ port_range_end }}" >> $RESPFILE        	# transport ending port
-echo "{{ vault_path }}" >> $RESPFILE 			# vault path
-echo "{{ zone_key }}" >> $RESPFILE 			# zone SID
-echo "{{ negotiation_key }}"  >> $RESPFILE 		# neg key
-echo "{{ control_plane_port }}" >> $RESPFILE		# control plane port
-echo "{{ control_plane_key }}" >> $RESPFILE     	# control plane key
-echo "{{ schema_uri }}" >> $RESPFILE            	# schema validation URI
-echo "{{ irods_admin }}" >> $RESPFILE       		# iRODS admin account
-echo "{{ irods_admin_password }}" >> $RESPFILE      	# iRODS admin password
+echo "{{ irods.zone }}" >> $RESPFILE            	# initial zone name
+echo "{{ irods.port }}" >> $RESPFILE            	# service port
+echo "{{ irods.portrange.start }}" >> $RESPFILE      	# transport starting port
+echo "{{ irods.portrange.end }}" >> $RESPFILE        	# transport ending port
+echo "{{ irods_vault_path }}" >> $RESPFILE 		# vault path
+echo "{{ irods_zone_key }}" >> $RESPFILE 		# zone SID
+echo "{{ irods_negotiation_key }}"  >> $RESPFILE 	# neg key
+echo "{{ irods_control_plane_port }}" >> $RESPFILE	# control plane port
+echo "{{ irods_control_plane_key }}" >> $RESPFILE     	# control plane key
+echo "{{ irods_schema_uri }}" >> $RESPFILE            	# schema validation URI
+echo "{{ irods.admin }}" >> $RESPFILE       		# iRODS admin account
+echo "{{ irods.admin_password }}" >> $RESPFILE      	# iRODS admin password
 echo "yes" >> $RESPFILE                   		# confirm iRODS settings
 #echo "{{ inventory_hostname }}" >> $RESPFILE   	# database hostname
-echo "{{ irods_icat_host }}" >> $RESPFILE    		# database hostname
-echo "{{ irods_icat_dbport }}" >> $RESPFILE             # database port
-echo "{{ irods_icat_db }}" >> $RESPFILE               	# database DB name
-echo "{{ irods_icat_user }}" >> $RESPFILE       	# database admin username
-echo "{{ irods_icat_password }}" >> $RESPFILE   	# database admin password
+echo "{{ irods.icat.host }}" >> $RESPFILE    		# database hostname
+echo "{{ irods.icat.dbport }}" >> $RESPFILE             # database port
+echo "{{ irods.icat.db }}" >> $RESPFILE               	# database DB name
+echo "{{ irods.icat.user }}" >> $RESPFILE       	# database admin username
+echo "{{ irods.icat.password }}" >> $RESPFILE   	# database admin password
 echo "yes" >> $RESPFILE                   		# confirm database settings

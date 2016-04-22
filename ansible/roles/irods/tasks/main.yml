@@ -66,17 +66,17 @@
 - name: Create PostgreSQL Database
   sudo: yes
   sudo_user: postgres
-  postgresql_db: name={{ irods_icat_db }}
+  postgresql_db: name={{ irods.icat.db }}
 
 - name: grant access to user
   sudo: yes
   sudo_user: postgres
-  postgresql_user: db={{ irods_icat_db }} name={{ irods_icat_user }} password={{ irods_icat_password }} priv=ALL
+  postgresql_user: db={{ irods.icat.db }} name={{ irods.icat.user }} password={{ irods.icat.password }} priv=ALL
 
-- name: ensure icat_irods_user does not have unnecessary privilege
+- name: ensure icat.irods.user does not have unnecessary privilege
   sudo: yes
   sudo_user: postgres
-  postgresql_user: name={{ irods_icat_user }} role_attr_flags=NOSUPERUSER,NOCREATEDB
+  postgresql_user: name={{ irods.icat.user }} role_attr_flags=NOSUPERUSER,NOCREATEDB
 
 - name: download iCAT for Debian
   get_url: url={{ irods_icat_pkg }} dest=/home/{{ ansible_ssh_user }}/
@@ -117,12 +117,12 @@
         ansible_distribution_major_version == '7'
 
 - name: ensure irods group exists
-  group: name={{ irods_admin }} state=present
+  group: name={{ irods.service_group }} state=present
   when: ansible_os_family == 'RedHat' and
         ansible_distribution_major_version == '7'
 
 - name: ensure irods user exists
-  user: name={{ irods_admin }} state=present group={{ irods_admin }}
+  user: name={{ irods.service_acct }} state=present group={{ irods.service_group }}
   when: ansible_os_family == 'RedHat' and
         ansible_distribution_major_version == '7'
 
@@ -160,12 +160,12 @@
 - name: create default resource
   sudo: yes
   sudo_user: irods
-  shell: "iadmin mkresc {{ irods_default_resource}} unixfilesystem {{ irods_host }}:{{ irods_default_resource_path }}"
+  shell: "iadmin mkresc {{ irods.default_resource}} unixfilesystem {{ irods.host }}:{{ irods.default_resource_path }}"
 
 - name: add irods_user to rodsadmin group
   sudo: yes
   sudo_user: irods
-  shell: "iadmin atg rodsadmin {{ irods_user }}"
+  shell: "iadmin atg rodsadmin {{ irods.user }}"
 
 # systemctl call errors out, use init.d instead
 - name: restart irods service
