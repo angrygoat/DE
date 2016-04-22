@@ -4,8 +4,8 @@ After=syslog.target
 After=network.target
 
 [Service]
-User={{ rserve_user }}
-Group={{ rserve_group }}
+User={{ rserve.user }}
+Group={{ rserve.group }}
 ExecStart=/usr/bin/R CMD Rserve --no-gui --no-save
 Type=forking
 
