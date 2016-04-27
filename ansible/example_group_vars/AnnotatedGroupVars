@@ -223,6 +223,7 @@ cas:
     http_port: 8080
     https_port: 8443
     user: tomcat
+    group: tomcat
   uid_domain: CHANGEME
 
 ###############################################################################
@@ -377,7 +378,7 @@ environment_name: de
 elasticsearch_user: elasticsearch
 elasticsearch_group: elasticsearch
 elasticsearch_heap_size: 2g
-elasticsearch_cluster_name: happygoat
+elasticsearch_cluster_name: CHANGEME
 
 elasticsearch_network_http_port: 9200
 elasticsearch:
@@ -424,7 +425,7 @@ elk:
     version: 4.2
     image_name: "kibana:4.2"
 
-es_base: "http://{{ es_host }}:{{ es_port }}:9200"
+es_base: "http://{{ es_host }}:{{ es_port }}"
 es_host: "{{ groups['elk'][0] }}"
 es_port: 9200
 es_scroll_size: 1000
@@ -458,8 +459,8 @@ grouper:
   log_driver: "{{ docker.log_driver }}"
   max_heap_size: 2048M
   max_perm_size: 256M
-  #ssl_certificate: de-grouper_irss_unc_edu_cert.cer
-  #ssl_certificate_key: de-grouper_irss_unc_edu.key
+  ssl_certificate: CHANGEME
+  ssl_certificate_key: CHANGEME
   admin:
     user: GrouperSystem
     pass: CHANGEME
@@ -565,6 +566,7 @@ iplant_groups:
 
 # Optional role to stand up a basic iRODS iCat.
 irods:
+  admin: rodsadmin
   admin_users: CHANGEME
   admin_password: CHANGEME
   bad_chars: \u0060\u0027\u000A\u0009
@@ -587,6 +589,8 @@ irods:
     start: 20000
     end: 20199
   resc: demoResc
+  service_acct: irods
+  service_grp: irods
   # irods.user is used to authenticate DE to irods
   user: CHANGEME
   vault: CHANGEME
@@ -687,14 +691,14 @@ ldap:
   authn_format:
   enable_ssl: false
   base_dn: CHANGEME
-  create_user_and_groups_done: "{{ldap_done_dir}}/create-users-and-groups"
-  create_indexes_done: "{{ldap_done_dir}}/create-indexes"
-  create_autofs_done: "{{ldap_done_dir}}/create-autofs"
-  create_automount_done: "{{ldap_done_dir}}/create-automount"
-  create_sudo_done: "{{ldap_done_dir}}/create-sudo"
-  create_sudo_master_done: "{{ldap_done_dir}}/create-sudo-master"
-  create_testde_done: "{{ldap_done_dir}}/create-testde"
-  done_dir: "{{ldap_ansible_done_dir}}/ldap"
+  create_user_and_groups_done: "{{ldap.done_dir}}/create-users-and-groups"
+  create_indexes_done: "{{ldap.done_dir}}/create-indexes"
+  create_autofs_done: "{{ldap.done_dir}}/create-autofs"
+  create_automount_done: "{{ldap.done_dir}}/create-automount"
+  create_sudo_done: "{{ldap.done_dir}}/create-sudo"
+  create_sudo_master_done: "{{ldap.done_dir}}/create-sudo-master"
+  create_testde_done: "{{ldap.done_dir}}/create-testde"
+  done_dir: "{{ldap.ansible_done_dir}}/ldap"
   dpkg_reconfigure: false
   genadminpw: CHANGE
   global_user: root
@@ -712,7 +716,7 @@ ldap:
   password: CHANGEME
   password_size: 8
   search_base_dn: ou=Users,dc=your,dc=org,dc=edu
-  slapd_dpkg_reconfigure_done: "{{ldap_done_dir}}/slapd-dpkg-reconfigure-done"
+  slapd_dpkg_reconfigure_done: "{{ldap.done_dir}}/slapd-dpkg-reconfigure-done"
   tld: CHANGEME
   trusted_cert:
   use_starttls: false
