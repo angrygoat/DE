@@ -1,9 +1,4 @@
----
-- include: timezone.yaml
-- include: iptables.yaml
-- include: java7.yaml
-- include: irods-config.yaml
-- include: condor.yaml
-- include: docker.yaml
-- include: postgres.yaml
-- include: db-creator.yaml
+- hosts: systems
+  sudo: yes
+  roles:
+    - prereqs
