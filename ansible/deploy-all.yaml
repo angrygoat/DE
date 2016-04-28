@@ -12,7 +12,11 @@
 ############################################
 # Databases
 ############################################
-- include: db-migrations.yaml
+# Use the postgres and db-creator roles to
+# install Postgres and create users / dbs.
+# Then Sharkbait can populate tables from
+# Cyverse's tarballs (see wiki).
+#- include: db-migrations.yaml
 
 ############################################
 # Services
