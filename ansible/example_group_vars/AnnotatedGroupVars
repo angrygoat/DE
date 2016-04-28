@@ -3,9 +3,8 @@
 # Note that in general variable names are converting
 # from long_strings to service.stanzas.
 
-# Included for backwards compatibility with Ansible-1.9. Should no longer be needed.
-#ansible_ssh_port: 22
-#ansible_ssh_user: CHANGEME
+# We run our playbooks with sudo (-s -K) and so need to specify a user here.
+ansible_ssh_user: CHANGEME
 
 # Master iPlant config locations
 global_config_dir: /etc/iplant
@@ -253,7 +252,7 @@ chat_room_url: CHANGEME
 condor_submission_ip_range: CHANGEME
 condor_allow_write: "{{ condor_submission_ip_range }}"
 condor:
-  host: "{{ groups['de-condor-submission'][0] }}"
+  host: "{{ groups['condor-submission'][0] }}"
   admin: CHANGEME
   collector_name: "{{ environment_name }} pool"
   cred_dir: /var/cred_dir
@@ -662,7 +661,8 @@ kifshare:
   host: "{{ groups['kifshare'][0] }}"
   port: 1025
   download_buffer_size: 100
-  external_url: "http://{{ de.host }}/{{ kifshare.external_url_suffix }}"
+  # hard-coding url suffix here so Ansible doesn't crab.
+  external_url: "http://{{ de.host }}/dl"
   external_url_suffix: dl
   service_name: kifshare.service
   service_name_short: kifshare
