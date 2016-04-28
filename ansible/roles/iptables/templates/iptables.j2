@@ -35,8 +35,10 @@
 {% endif %}
 {% if inventory_hostname in groups['cas'] %}
 # allow CAS/LDAP ports from DMZ
--A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport 389 -j ACCEPT
+#-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport 389 -j ACCEPT
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport 8443 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.trust }} --dport 8443 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.vpn }} --dport 8443 -j ACCEPT
 
 {% endif %}
 {% if inventory_hostname in groups['condor'] %}
@@ -73,7 +75,7 @@
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ db_port }} -j ACCEPT
 
 {% endif %}
-{% if inventory_hostname in groups['de-elk'] %}
+{% if inventory_hostname in groups['elk'] %}
 # elasticsearch from DMZ
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ elk.elasticsearch.port }} -j ACCEPT
 
