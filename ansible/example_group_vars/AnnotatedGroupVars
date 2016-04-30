@@ -9,8 +9,8 @@ ansible_ssh_user: CHANGEME
 # Master iPlant config locations
 global_config_dir: /etc/iplant
 de_config_dir: "{{ global_config_dir }}/de"
-# this is now handled by the updated generate-local-configs.yml playbook.
-#local_cfg_dest: CHANGEME
+# This is required by generate-local-configs.yaml.
+local_cfg_dest: CHANGEME
 
 java:
   version: 1.7.0
@@ -438,6 +438,10 @@ exim:
   container_name: exim
   log_file: exim-docker.log
 
+# http proxy settings for facepalm. you may leave these blank.
+facepalm_proxy_host:
+facepalm_proxy_port:
+
 fs_max_paths_in_request: 1000
 
 gpg_home_dir:
@@ -598,7 +602,7 @@ irods:
 # Jex service schedules calls condor_submit, and does not actually have a container.
 # The container name is how most syslog entries are identified. See rsyslog-config role.
 jex:
-  host: "{{ groups['de-condor-submission'][0] }}"
+  host: "{{ groups['condor-submission'][0] }}"
   port: 5004
   # ansible didn't like nested vars, so we specified the base port here.
   base: "http://{{ groups['jex'][0] }}:5004"
