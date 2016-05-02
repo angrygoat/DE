@@ -94,6 +94,10 @@ config_saved_searches:
   image: {{ docker.registry.base }}/config_{{compose.de_env}}:{{compose.de_tag}}
   container_name: config-saved-searches
 
+config_templeton_periodic:
+  image: {{ docker.registry.base }}/config_{{compose.de_env}}:{{compose.de_tag}}
+  container_name: config-templeton-periodic
+
 config_terrain:
   image: {{ docker.registry.base }}/config_{{compose.de_env}}:{{compose.de_tag}}
   container_name: config-terrain
@@ -319,7 +323,7 @@ iplant_email:
 
 iplant_groups:
   image: {{iplant_groups_docker_repo}}/{{iplant_groups.image_name}}:{{compose.de_tag}}
-  container_name: iplant-groups
+  container_name: {{iplant_groups.image_name}}
   command: --config /etc/iplant/de/iplant-groups.properties
   restart: on-failure:3
   environment:
@@ -435,6 +439,22 @@ saved_searches:
     syslog-tag: saved-searches
   volumes_from:
     - config_saved_searches
+  volumes:
+    - /etc/localtime:/etc/localtime
+    - /etc/timezone:/etc/timezone
+
+templeton_periodic:
+  image: discoenv/templeton:{{compose.de_tag}}
+  container_name: templeton-periodic
+  command: --mode periodic --config /etc/iplant/de/templeton-periodic.properties
+  restart: on-failure:3
+  #ports:
+  #  - "{{templeton_periodic.port}}:60000"
+  log_driver: "syslog"
+  log_opt:
+    syslog-tag: templeton
+  volumes_from:
+    - config_templeton_periodic
   volumes:
     - /etc/localtime:/etc/localtime
     - /etc/timezone:/etc/timezone
