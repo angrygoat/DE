@@ -96,7 +96,7 @@ config_saved_searches:
 
 config_templeton_periodic:
   image: {{ docker.registry.base }}/config_{{compose.de_env}}:{{compose.de_tag}}
-  container_name: config-templeton-periodic
+  container_name: config-templeton
 
 config_terrain:
   image: {{ docker.registry.base }}/config_{{compose.de_env}}:{{compose.de_tag}}
