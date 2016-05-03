@@ -51,6 +51,7 @@
 - name: place the docker-compose yaml file
   sudo: yes
   template: src=compose.yaml.j2 dest=/etc/compose.yaml owner=root group=root mode=0644 force=yes
+  tags: docker-compose
 
 - name: reload systemd
   sudo: yes
