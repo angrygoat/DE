@@ -41,11 +41,12 @@
   tags:
       - install_docker-compose
 
-- name: tell docker not to mess with iptables
-  sudo: yes
-  lineinfile: dest=/usr/lib/systemd/system/docker.service
-    regexp='^ExecStart' insertafter='//' line='--iptables=false' state=present
-  tags: docker
+# needs more sugar.
+#- name: tell docker not to mess with iptables
+#  sudo: yes
+#  lineinfile: dest=/usr/lib/systemd/system/docker.service
+#    regexp='^ExecStart' insertafter='//' line='--iptables=false' state=present
+#  tags: docker
 
 - name: place the docker-compose yaml file
   sudo: yes
