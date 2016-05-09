@@ -7,6 +7,7 @@
 ansible_ssh_user: CHANGEME
 
 # Master iPlant config locations
+# Note: The webapp currently requires that the de.properties file be located in /etc/iplantc/de/.
 global_config_dir: /etc/iplant
 de_config_dir: "{{ global_config_dir }}/de"
 # This is required by generate-local-configs.yaml.
@@ -183,6 +184,8 @@ de_notification_poll: 15
 # Docker registry settings. You'll want your own docker registry
 # to host private data containers.
 docker:
+  # eth0 setting used by iptables role for docker port forwarding.
+  eth0: eno16777984
   log_driver: syslog
   tag: latest
   user: discoenv
