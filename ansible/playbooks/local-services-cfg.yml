@@ -102,6 +102,11 @@
     #  dest: "{{local_cfg_dest}}/templeton-incremental.yaml"
 
     - role: util-cfg-service
+      service_name_short: "{{templeton_incremental.service_name_short}}"
+      src: "templeton-incremental.yaml.j2"
+      dest: "{{service_conf_dir}}/templeton-incremental.yaml"
+
+    - role: util-cfg-service
       src: "ui/de-application.yaml.j2"
       dest: "{{local_cfg_dest}}/de-application.yaml"
       service_name_short: "{{de.service_name_short}}"
@@ -126,11 +131,11 @@
       dest: "{{local_cfg_dest}}/docker-gc-exclude"
       service_name_short: "docker-gc"
 
-#    - role: util-cfg-service
-#      service_name_short: jobservices
-#      service_cfg_file_name: jobservices.yml
+    - role: util-cfg-service
+      service_name_short: jobservices
+      service_cfg_file_name: jobservices.yml
 
-#    - role: util-cfg-service
-#      service_name_short: "{{permissions.service_name_short}}"
-#      src: "permissions.yaml.j2"
-#      dest: "{{local_cfg_dest}}/permissions.yaml"
+    - role: util-cfg-service
+      service_name_short: "{{permissions.service_name_short}}"
+      src: "permissions.yaml.j2"
+      dest: "{{service_conf_dir}}/permissions.yaml"
