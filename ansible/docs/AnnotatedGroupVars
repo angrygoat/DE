@@ -3,12 +3,17 @@
 # Note that in general variable names are converting
 # from long_strings to service.stanzas.
 
-# We run our playbooks with sudo (-s -K) and so need to specify a user here.
+# We run our playbooks with sudo (-s -K) and so need to specify a user here.  This is the user name under which
+# the ansible playbooks are run on the de boxes
 ansible_ssh_user: CHANGEME
 
 # Master iPlant config locations
 # Note: The webapp currently requires that the de.properties file be located in /etc/iplantc/de/.
+
+# this is the etc location where de related configs will be placed.  Don't change this.
 global_config_dir: /etc/iplant
++
+# subfolder under /etc/iplant for configs for de, don't change this either
 de_config_dir: "{{ global_config_dir }}/de"
 # This is required by generate-local-configs.yaml.
 local_cfg_dest: CHANGEME
@@ -28,16 +33,21 @@ max_heap:
 #                         Configuration Settings
 ################################################################################
 
-# LDAP groups allowed to sign in to the admin interface
-admin_groups: admin_group1,admin_group2
+# this is the cas entitlement value that indicates a user can be an admin, and log into belphegor, the admin web interface
+# TODO: check on status of patch compared to odum, which is using an LDAP DN
+admin_groups: de_admin
 
-# internal listening port for dockerized services
+# internal listening port for dockerized services, suggested that this does not change
 default_service_port: 60000
 
 # Non-iPlant organizations will need to obtain client keys to use Agave.
 # Even if you're not connected, you can still use the public bits.
 # Agave may be disabled entirely by switching flags in the apps.properties template.
 agave:
+  # this turns off agave services in the DE and other agave settings below won't do things
+  apps_features: false
+  # this should be turned off if apps_features is turned off, don't use agave if this is set to false
+  apps_features_jobs: false
   base_url: https://agave.iplantc.org
   read_timeout: 10000
   page_length: 5000
@@ -45,13 +55,14 @@ agave:
   client_key: CHANGEME
   client_secret: CHANGEME
 
-# AMQP for event notifications
+# AMQP for event notifications, note that the 'flat' variables still seem to be used in some playbooks, but
+# they are referenced from the structured variables to minimize confusion, leave them there for now
 amqp_broker:
   host: "{{ groups['amqp-brokers'][0] }}"
   port: 5672
   mgmt_port: 15672
-  password: CHANGEME
-  user: CHANGEME
+  password: "{{amqp_password}}"
+  user: "{{amqp_user}}"
   condor_events:
     exchange: condor_events
     exchange_type: fanout
@@ -60,17 +71,28 @@ amqp_broker:
     queue_name: CHANGEME
     exchange_auto_delete: false
   de:
-    exchange: de
-    exchange_durable: true
-    exchange_auto_delete: false
+    exchange: "{{ amqp_de_exchange }}"
+    exchange_durable: "{{ amqp_de_exchange_durable}}"
+    exchange_auto_delete: "{{ amqp_exchange_auto_delete}}"
   irods:
-    connection_health_check_interval: 5000
-    exchange: irods
-    exchange_type: topic
-    exchange_durable: true
-    exchange_auto_delete: false
+    connection_health_check_interval: "{{amqp_irods_connection_health_check_interval}}"
+    exchange: "{{amqp_irods_exchange}}"
+    exchange_type: "{{amqp_irods_exchange_type}}"
+    exchange_durable: "{{amqp_irods_exchange_durable}}"
+    exchange_auto_delete: "{{amqp_irods_exchange_auto_delete}}"
     message_auto_ack: true
     queue_routing_key: "data-object.#"
+
+amqp_password: CHANGEME
+amqp_user: CHANGEME
+amqp_de_exchange: de
+amqp_de_exchange_durable: true
+amqp_de_exchange_auto_delete: false
+amqp_irods_exchange: irods
+amqp_irods_exchange_type: topic
+amqp_irods_exchange_durable: true
+amqp_irods_exchange_auto_delete: false
+amqp_irods_connection_health_check_interval: 5000
 
 # anon_files serves up files that have been shared with the anonymous user in iRODS.
 anon_files:
@@ -339,6 +361,7 @@ dataverse:
   smtp: localhost
   version: 4.2.4
 
+# version info for de
 de_version: "{{ app_version }}"
 de_version_name: "{{ app_version_name }}"
 
