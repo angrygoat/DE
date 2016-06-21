@@ -22,26 +22,27 @@
   when: ansible_os_family == "Debian"
 
 - name: install CentOS 7 Postgres repository
-  yum: name={{de_db_pgsql_repo}} state=present
+  yum: name=http://yum.postgresql.org/9.4/redhat/rhel-7-x86_64/pgdg-centos94-9.4-2.noarch.rpm state=present
   when: ansible_distribution == "CentOS" and
         ansible_distribution_major_version == "7"
 
 - name: ensure packages are installed for CentOS7
   yum: name={{item}} state=latest
   with_items:
-        - "{{de_db_pgsql_rpm}}"
+        - postgresql94-server
+        #- libpqxx-devel #screws up dependencies
         - python-psycopg2
   when: ansible_distribution == "CentOS" and
         ansible_distribution_major_version == "7"
 
 - name: init postgres if necessary
-  shell: "/usr/pgsql-{{de_db_pgsql_major}}/bin/postgresql{{de_db_pgsql_cli}}-setup initdb"
+  shell: "/usr/pgsql-9.4/bin/postgresql94-setup initdb"
   when: ansible_distribution == "CentOS" and
         ansible_distribution_major_version == "7"
   ignore_errors: true
 
 - name: enable postgres for CentOS7
-  service: name=postgresql-{{de_db_pgsql_major}} enabled=yes
+  service: name=postgresql-9.4 enabled=yes
   when: ansible_distribution == "CentOS" and
         ansible_distribution_major_version == "7"
  
