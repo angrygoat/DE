@@ -1,18 +1,32 @@
 ---
+<<<<<<< HEAD
 
 - name: add the docker group
   sudo: yes
   group: name=docker state=present
   tags: docker
+=======
+- name: add the docker group
+  sudo: yes
+  group: name=docker state=present
+  tags:
+      - config
+>>>>>>> master
 
 - name: add the docker user
   sudo: yes
   user: name=docker shell=/bin/bash groups=docker append=yes
+<<<<<<< HEAD
   tags: docker
+=======
+  tags:
+      - config
+>>>>>>> master
 
 - name: add the current user to the docker group
   sudo: yes
   user: name={{ ansible_ssh_user }} groups=docker append=yes
+<<<<<<< HEAD
   tags: docker
 
 - name: copy docker.repo
@@ -65,3 +79,42 @@
 - include: login.yaml
   when: ("{{docker.registry.login}}" is defined)
   tags: docker
+=======
+  tags:
+      - config
+
+- name: Add the condor user to the docker group
+  user: name=condor groups=docker append=yes
+  when: "'condor' in group_names"  
+  tags:
+      - config
+
+- include: CentOS-7.yaml
+  when: ansible_distribution == "CentOS" and
+        ansible_distribution_major_version == "7" 
+
+- name: install/update docker-compose
+  sudo: yes
+  get_url: url=https://github.com/docker/compose/releases/download/1.2.0/docker-compose-Linux-x86_64 dest=/usr/bin/docker-compose mode=0755 owner=docker group=docker validate_certs=no
+  tags:
+      - install_docker-compose
+
+- name: enable docker
+  sudo: yes
+  service: name=docker enabled=yes
+  tags: 
+      - enable_docker
+
+- name: restart docker
+  sudo: yes
+  service: name=docker state=started enabled=yes
+  tags: 
+      - restart_docker
+
+- name: install docker-py
+  sudo: yes
+  pip: name=docker-py version=1.1.0 state=present
+  tags:
+      - install_docker-py
+
+>>>>>>> master
