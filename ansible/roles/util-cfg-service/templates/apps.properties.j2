@@ -3,8 +3,8 @@ apps.app.listen-port      = {{ default_service_port }}
 apps.app.environment-name = {{ environment_name }}
 
 # Route-independent feature flags.
-apps.features.agave      = true
-apps.features.agave.jobs = true
+apps.features.agave      = {{ agave.apps_features }}
+apps.features.agave.jobs = {{ agave.apps_features_jobs }}
 
 # Database settings.
 apps.db.driver      = {{ db_driver }}
