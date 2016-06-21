@@ -94,26 +94,27 @@ amqp_irods_exchange_durable: true
 amqp_irods_exchange_auto_delete: false
 amqp_irods_connection_health_check_interval: 5000
 
-# anon_files serves up files that have been shared with the anonymous user in iRODS.
+# TODO: This flattened ref to inventory extracted vars was done for ansible bugs. It didn't like these inventory
+# refs embedded in the nested variables
+anon_port: 60000
+anon_host:  "{{ groups['anon-files'][0] }}"
+
 anon_files:
-  host: "{{ groups['anon-files'][0] }}"
-  # iplant docs recommend against changing this
-  port: 60000
-  base: "http://{{ groups['anon-files'][0] }}:60000"
-  base_url: "http://{{ services_host }}:{{ anon_files_port }}/anon-files/"
-  proxy_url: "https://{{ groups['ui'][0] }}/anon-files/"
-  anon_user: anonymous
-  service_name: anon-files.service
-  service_name_short: anon-files
-  service_description: anon-files service
-  compose_service: anon_files
-  image_name: anon-files
-  log_driver: "{{ docker.log_driver }}"
-  log_file: anon-files.log
-  container_name: anon-files
-  properties_file: anon-files.properties
-  log_file: anon-files-docker.log
-  max_heap: "{{ max_heap.low }}"
+ host: "{{ anon_host }}"
+ port: "{{ anon_port }}"
+ base: "http://{{anon_host}}:{{anon_port}}"
+ proxy_url: "https://{{ groups['ui'][0] }}/anon-files/"
+ anon_user: anonymous
+ service_name: anon-files.service
+ service_name_short: anon-files
+ compose_service: anon_files
+ service_description: anon-files service
+ image_name: anon-files
+ log_driver: "{{ docker.log_driver }}"
+ container_name: anon-files
+ properties_file: anon-files.properties
+ log_file: anon-files-docker.log
+ max_heap: "{{ max_heap.low }}"
 
 compose:
   # don't change this - hard-coded in admin(?) interface
@@ -169,28 +170,29 @@ de:
 app_version_name: Phthalo
 app_version: 2.4.0
 
-# The Apps service populates the GUI Apps window.
+apps_host: "{{ groups['apps'][0] }}"
+apps_port: 5007
+
 apps:
-  host: "{{ groups['apps'][0] }}"
-  port: 5014
-  # ansible got mad about nested variables, so hard-coding port below.
-  base: "http://{{ groups['apps'][0] }}:5014"
-  service_name: apps.service
-  service_name_short: apps
-  compose_service: apps
-  service_description: apps service
-  image_name: apps
-  container_name: apps
-  properties_file: apps.properties
-  log_file: apps-docker.log
-  out_dir: analyses
-  path_list_max_paths: 16
-  path_list_max_size: 1048576
-  beta_category: 5401bd14-6c14-4470-aedd-57b47ea1b979
-  user_root: Workspace
-  user_subs: "[\"Apps under development\",\"Favorite Apps\"]"
-  trash_category: Trash
-  max_heap: "{{ max_heap.high }}"
+ host: "{{apps_host }}"
+ port: "{{apps_port}}"
+ base: "http://{{apps_host }}:{{apps_port}}"
+ service_name: apps.service
+ service_name_short: apps
+ compose_service: apps
+ service_description: apps service
+ image_name: apps
+ container_name: apps
+ properties_file: apps.properties
+ log_file: apps-docker.log
+ out_dir: analyses
+ path_list_max_paths: 16
+ path_list_max_size: 1048576
+ beta_category: 5401bd14-6c14-4470-aedd-57b47ea1b979
+ user_root: Workspace
+ user_subs: "[\"Apps under development\",\"Favorite Apps\"]"
+ trash_category: Trash
+ max_heap: "{{ max_heap.high }}"
 
 app_server_base_url: https://{{ app_server_hostname }}
 app_server_hostname: "{{ groups['ui'][0] }}"
@@ -199,9 +201,37 @@ de_feedback_to_addr: "CHANGEME"
 de_mail_from_addr: "{{ de_feedback_to_addr }}"
 de_mail_to_addr: "{{ de_feedback_to_addr }}"
 
-#de_maintenance_file: de-maintenance
 
-de_notification_poll: 15
+# CAS Authentication Settings are used by de-properties
+org.iplantc.discoveryenvironment.cas.base-url: "{{ cas.base }}"
+org.iplantc.discoveryenvironment.cas.server-name: "https://{{ cas.host}}:{{ cas.port }}"
+org.iplantc.discoveryenvironment.cas.validation: /iplant-cas-ticket-validator
+org.iplantc.discoveryenvironment.cas.logout-url: /iplant-cas-logout
+org.iplantc.discoveryenvironment.cas.app-name: DFC Discovery Environment
+org.iplantc.discoveryenvironment.cas.login-url: /login
+org.iplantc.admin.cas.authorized-groups: "{{ admin_groups }}"
+org.iplantc.admin.cas.group-attribute-name: entitlement
+org.iplantc.discoveryenvironment.cas.no-logout-url: "https://{{ cas.base }}"
+org.iplantc.discoveryenvironment.cas.app-list: all iPlant applications
+org.iplantc.discoveryenvironment.keepalive.service: "https://{{ cas.host }}:{{ cas.port }}/de/discoveryenvironment/empty"
+org.iplantc.discoveryenvironment.keepalive.target: "https://{{ cas.host }}:{{ cas.port }}/cas/login?service=https://{{ nginx_ssl.server_name }}/de/discoveryenvironment/empty"
+org.iplantc.discoveryenvironment.keepalive.interval: 90
+
+# location of cas server, usually the ui box, change here if different
+cas_base: "https://{{ groups['ui'][0] }}"
+
+cas:
+  app_list: all DFC applications
+  base: "{{cas_base}}"
+  context_path: cas
+  do_ssl_config: true
+  git_url: https://changeme
+  git_project_name: cas-overlay
+  # this is the attribute from cas that will contain the groups that a user is assigned to
+  group_attribute: entitlement
+  no_logout_url: http://some.server1.at.a.place
+  port: 8443
+  uid_domain: example.org
 
 # Docker registry settings. You'll want your own docker registry
 # to host private data containers.
@@ -222,56 +252,25 @@ docker:
     login: yes
   internal_registry: "CHANGEME"
 
+# we don't use this,
+chat_room_url: CHANGEME
+
 # drop_number is used by iPlant for QA. others may safely ignore it.
 drop_number: 0
 
-# --- CAS properties --- #
-cas:
-  app_list: all iPlant applications
-  base: https://"{{ groups['cas'][0] }}:{{ cas.port }}"/cas
-  context_path: cas
-  do_ssl_config: true
-  # including DICE-UNC's CAS overlay for reference. YMMV.
-  git_url: https://github.com/DICE-UNC/cas-overlay.git
-  git_project_name: cas-overlay
-  group_attribute: entitlement
-  no_logout_url: http://"{{ groups['ui'][0] }}"
-  port: CHANGEME
-  ssl_cert_file: CHANGEME
-  ssl_certificate_local_dir: /etc/pki/tls/certs
-  ssl_certificate_server_dir: /usr/share/tomcat/cert
-  ssl_key_file: CHANGEME
-  tomcat:
-    admin_username: admin
-    admin_password: CHANGEME
-    http_port: 8080
-    https_port: 8443
-    user: tomcat
-    group: tomcat
-  uid_domain: CHANGEME
+# The clockwork service is no longer used.
+# TODO: is this even used?  Don checking with Dennis
 
-###############################################################################
-# CAS Authentication Settings
-###############################################################################
-org.iplantc.discoveryenvironment.cas.base-url: "{{ cas.base }}"
-org.iplantc.discoveryenvironment.cas.server-name: "https://{{ cas.host}}:{{ cas.port }}"
-org.iplantc.discoveryenvironment.cas.validation: /iplant-cas-ticket-validator
-org.iplantc.discoveryenvironment.cas.logout-url: /iplant-cas-logout
-org.iplantc.discoveryenvironment.cas.app-name: DFC Test Lab Discovery Environment
-org.iplantc.discoveryenvironment.cas.login-url: /login
-org.iplantc.admin.cas.authorized-groups: "{{ admin_groups }}"
-org.iplantc.admin.cas.group-attribute-name: entitlement
-org.iplantc.discoveryenvironment.cas.no-logout-url: "https://{{ cas.base }}"
-org.iplantc.discoveryenvironment.cas.app-list: all iPlant applications
-
-###############################################################################
-# CAS Session Keepalive Settings
-###############################################################################
-org.iplantc.discoveryenvironment.keepalive.service: "https://{{ cas.host }}:{{ cas.port }}/de/discoveryenvironment/empty"
-org.iplantc.discoveryenvironment.keepalive.target: "https://{{ cas.host }}:{{ cas.port }}/cas/login?service=https://{{ nginx_ssl.server_name }}/de/discoveryenvironment/empty"
-org.iplantc.discoveryenvironment.keepalive.interval: 90
-
-chat_room_url: CHANGEME
+clockwork:
+  service_name: clockwork.service
+  service_name_short: clockwork
+  service_description: clockwork service
+  image_name: clockwork
+  container_name: clockwork
+  compose_service: clockwork
+  properties_file: clockwork.properties
+  log_file: clockwork-docker.log
+  max_heap: "{{ max_heap.low }}"
 
 # Condor handles all DE job execution; Jex performs its care and feeding.
 condor_submission_ip_range: CHANGEME
@@ -311,17 +310,6 @@ coge:
   base_url: https://genomevolution.org/coge/api/v1
   data_folder_name: coge_data
 
-# The clockwork service is no longer used.
-clockwork:
-  service_name: clockwork.service
-  service_name_short: clockwork
-  service_description: clockwork service
-  image_name: clockwork
-  container_name: clockwork
-  compose_service: clockwork
-  properties_file: clockwork.properties
-  log_file: clockwork-docker.log
-  max_heap: "{{ max_heap.low }}"
 
 # data-info is a RESTful frontend for getting information about
 # and manipulating information in an iRODS data store.
@@ -338,28 +326,6 @@ data_info:
   properties_file: data-info.properties
   log_file: data-info-docker.log
   max_heap: "{{ max_heap.high }}"
-
-# Optional role to stand up the IQSS data publishing platform.
-dataverse:
-  adminpass: CHANGEME
-  db: dvndb
-  dbhost: localhost
-  dbuser: dvnuser
-  dbpass: CHANGEME
-  dbport: 5432
-  filesdir: /usr/local/dvn/data
-  glassfish:
-    user: glassfish
-    group: glassfish
-    root: /usr/local/glassfish4
-    domain: domain1
-    adminuser: admin
-    adminpass: CHANGEME
-  host_address: "{{ groups['dataverse'][0] }}"
-  memheap: 16389
-  shib: true
-  smtp: localhost
-  version: 4.2.4
 
 # version info for de
 de_version: "{{ app_version }}"
