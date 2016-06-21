@@ -233,24 +233,6 @@ cas:
   port: 8443
   uid_domain: example.org
 
-# Docker registry settings. You'll want your own docker registry
-# to host private data containers.
-docker:
-  # eth0 setting used by iptables role for docker port forwarding.
-  eth0: eno16777984
-  log_driver: syslog
-  tag: latest
-  user: discoenv
-  version: 1.11.0
-  compose_path: /etc/compose.yaml
-  registry:
-    host: "{{ groups['docker-registry'][0] }}"
-    port: 443
-    base: "CHANGEME"
-    user: CHANGEME
-    pass: CHANGEME
-    login: yes
-  internal_registry: "CHANGEME"
 
 # we don't use this,
 chat_room_url: CHANGEME
@@ -273,6 +255,9 @@ clockwork:
   max_heap: "{{ max_heap.low }}"
 
 # Condor handles all DE job execution; Jex performs its care and feeding.
+
+# this is a condor group quota setting and should be numeric
+group_config: 0
 condor_submission_ip_range: CHANGEME
 condor_allow_write: "{{ condor_submission_ip_range }}"
 condor:
@@ -309,6 +294,24 @@ coge:
   user: coge
   base_url: https://genomevolution.org/coge/api/v1
   data_folder_name: coge_data
+
+
+# iPlant data container settings
+data_container:
+  image_name: CHANGEME
+  container_name: de-data
+  service_name: iplant-data.service
+  service_name_short: iplant-data
+  compose_service: iplant_data
+  service_description: The Discovery Environment data container
+  ssl:
+    cert: "{{ nginx_ssl.cert }}"
+    key: "{{ nginx_ssl.cert_key }}"
+    gd_bundle_crt: /etc/ssl/gd_bundle.crt
+  keystore:
+    path: /etc/ssl/example.pkcs12
+    password:
+    type: pkcs12
 
 
 # data-info is a RESTful frontend for getting information about
@@ -356,6 +359,26 @@ dewey:
   properties_file: dewey.properties
   log_file: dewey-docker.log
   max_heap: "{{ max_heap.low }}"
+
+
+# Docker registry settings. You'll want your own docker registry
+# to host private data containers.
+docker:
+  # eth0 setting used by iptables role for docker port forwarding.
+  eth0: eno16777984
+  log_driver: syslog
+  tag: latest
+  user: discoenv
+  version: 1.11.0
+  compose_path: /etc/compose.yaml
+  registry:
+    host: "{{ groups['docker-registry'][0] }}"
+    port: 443
+    base: "CHANGEME"
+    user: CHANGEME
+    pass: CHANGEME
+    login: yes
+  internal_registry: "CHANGEME"
 
 email_smtp_host: CHANGEME
 email_smtp_from_address: CHANGEME
@@ -416,11 +439,6 @@ elk:
     version: 4.2
     image_name: "kibana:4.2"
 
-es_base: "http://{{ es_host }}:{{ es_port }}"
-es_host: "{{ groups['elk'][0] }}"
-es_port: 9200
-es_scroll_size: 1000
-
 exim:
   service_name: exim-sender.service
   service_name_short: exim-sender
@@ -437,9 +455,6 @@ facepalm_proxy_port:
 fs_max_paths_in_request: 1000
 
 gpg_home_dir:
-
-# this is a condor group quota setting and should be numeric
-group_config: 0
 
 grouper:
   service_name: iplant-grouper.service
@@ -524,19 +539,26 @@ info_typer:
   log_file: info-typer-docker.log
   max_heap: "{{ max_heap.low }}"
 
+
+iplant_email_host:  "{{ groups['iplant-email'][0] }}"
+iplant_email_port: 587
+
+email_smtp_host: 127.0.0.1
+email_smtp_from_address: changeme@example.org
 iplant_email:
-  host: "{{ groups['iplant-email'][0] }}"
-  port: 587
-  base: "http://{{ groups['iplant-email'][0] }}:587"
-  service_name: iplant-email.service
-  service_name_short: iplant-email
-  service_description: iPlant Email service
-  image_name: iplant-email
-  container_name: iplant-email
-  compose_service: iplant_email
-  properties_file: iplant-email.properties
-  log_file: iplant-email-docker.log
-  max_heap: "{{ max_heap.low }}"
+ host: "{{iplant_email_host}}"
+ port: "{{iplant_email_port}}"
+ base: "http://{{ iplant_email_host }}:{{iplant_email_port}}"
+ service_name: iplant-email.service
+ service_name_short: iplant-email
+ compose_service: iplant_email
+ service_description: iPlant Email service
+ image_name: iplant-email
+ container_name: iplant-email
+ properties_file: iplant-email.properties
+ log_file: iplant-email-docker.log
+ max_heap: "{{ max_heap.low }}"
+
 
 # A RESTful façade in front of Grouper.
 iplant_groups:
@@ -590,25 +612,25 @@ irods:
   user: CHANGEME
   vault: CHANGEME
   zone: CHANGEME
-  
-# Jex service schedules calls condor_submit, and does not actually have a container.
-# The container name is how most syslog entries are identified. See rsyslog-config role.
+
+# Jex does not actually have a container. The container name is how most syslog entries
+# are identified. See rsyslog-config role.
+
+jex_host:  "{{ groups['jex'][0] }}"
+jex_port: 5004
 jex:
-  host: "{{ groups['condor-submission'][0] }}"
-  port: 5004
-  # ansible didn't like nested vars, so we specified the base port here.
-  base: "http://{{ groups['jex'][0] }}:5004"
-  service_name: jex.service
-  service_name_short: jex
-  compose_service: jex
-  log_file: jex/jex.log
-  batch_group: batch_processing
-  # used for backwards compatibility container and reference genomes. new stand-ups probably won't need this.
-  nfs_base: /export/condor
-  #container_name: jex
-  # iPlant uses this; a new stand-up can probably use the default path.
-  icommands_path: /usr/local/icommands:/usr/local2/icommands:/usr/local/bin:/usr/local2/bin:/usr/bin
-  request_disk: 0
+ host: "{{ groups['jex'][0] }}"
+ port: "{{jex_port}}"
+ base: "http://{{ jex_host }}:{{jex_port}}"
+ service_name: jex.service
+ service_name_short: jex
+ compose_service: jex
+ log_file: jex/jex.log
+ container_name: jex
+ batch_group: batch_processing
+ nfs_base: /export/condor
+ icommands_path: /usr/local/icommands/:/usr/local/bin/:/usr/bin/
+ request_disk: 0
 
 # Jex database settings
 jexdb:
@@ -622,19 +644,21 @@ jexdb:
   vendor: "{{db_vendor}}"
 
 # jexevents is an intermediary service between Jex and Condor Log Monitor.
-jex_events_event_url: http://{{ services_host }}:{{ jexevents.port }}/
+jexevents_host: "{{ groups['jexevents'][0] }}"
+jexevents_port: 5005
 jexevents:
-  base: "http://{{ groups['jexevents'][0] }}:5005/"
-  port: 5005
-  event_url: "{{ apps.base }}/callbacks/de-job"
-  service_name: jex-events.service
-  service_name_short: jex-events
-  compose_service: jex_events
-  service_description: jex events service
-  image_name: jex-events
-  container_name: jex-events
-  properties_file: jex-events.properties
-  log_file: jex-events-docker.log
+ host: "{{jexevents_host}}"
+ port: "{{jexevents_port}}"
+ base: "http://{{ jexevents_host }}:{{jexevents_port}}/"
+ event_url: "{{ apps.base }}/callbacks/de-job"
+ service_name: jexevents.service
+ service_name_short: jexevents
+ compose_service: jex_events
+ service_description: jex events service
+ image_name: jex-events
+ container_name: jex-events
+ properties_file: jexevents.properties
+ log_file: jex-events-docker.log
 
 job_status_poll_interval: 15
 
@@ -652,6 +676,7 @@ jwt:
   wso2:
     header: x-jwt-assertion-iplant-org
 
+kifshare_external_url: "http://{{ de.host }}/{{ kifshare.external_url_suffix }}"
 # Kifshare allows external anonymous access to iRODS via URL.
 kifshare:
   host: "{{ groups['kifshare'][0] }}"
@@ -725,6 +750,7 @@ logging:
   dir: /var/log/de
   conf_dir: "{{de_config_dir}}/logging"
 
+# called in logstash.yaml and support_logstash_config
 logstash_elasticsearch_host: "{{ groups['de-elk'][0] }}"
 logstash:
   port: 5000
@@ -945,8 +971,6 @@ tree_urls:
   avu: tree-urls
   max_heap: "{{ max_heap.low }}"
 
-# wants America/New_York, for example.
-timezone: CHANGEME
 
 #user_preferences_host: "{{ services_host }}"
 user_preferences_log_file: /home/iplant/logs/user-preferences.log
@@ -978,21 +1002,8 @@ user_sessions:
   log_file: user-sessions-docker.log
   max_heap: "{{ max_heap.low }}"
 
-# iPlant data container settings
-data_container:
-  image_name: de-data
-  container_name: de-data
-  service_name: iplant-data.service
-  service_name_short: iplant-data
-  compose_service: iplant_data
-  service_description: The Discovery Environment data container
-  ssl:
-    cert: "{{ nginx_ssl.cert }}"
-    key: "{{ nginx_ssl.cert_key }}"
-    gd_bundle_crt: /etc/ssl/gd_bundle.crt
-  keystore:
-    path: /etc/ssl/example.pkcs12
-    password:
-    type: pkcs12
 
 time: "{{ansible_date_time.date}}:{{ansible_date_time.time}}"
+
+# wants America/New_York, for example.
+timezone: CHANGEME
