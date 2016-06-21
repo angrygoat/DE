@@ -1,0 +1,7 @@
+---
+
+- hosts: systems
+  sudo: yes
+  roles:
+      - iptables
+
