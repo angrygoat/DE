@@ -25,7 +25,7 @@ For the purposes of this fork of DE, we standardized on CentOS 7 VMs, though the
 * install postgres: **$ ansible-playbook -i inventory -e @group_vars -s -K playbooks/postgres.yaml**
 * create DBs: **$ ansible-playbook -i inventory -e @group_vars -s -K playbooks/db-creator.yaml**
 
-Try your luck with facepalm, but connectivity errors forced us to build it and run it at the command line. Locations for current database tarballs:
+Note that Discovery Environment currently uses PostgresQL-9.4, which the above role should install. Try your luck with facepalm, but connectivity errors forced us to build it and run it at the command line. Locations for current database tarballs:
 
 ```
 db_targz: https://everdene.iplantcollaborative.org/jenkins/job/databases-dev/lastSuccessfulBuild/artifact/databases/de-database-schema/database.tar.gz
