@@ -820,12 +820,6 @@ nginx_ssl:
   server_name: "{{ groups['ui'][0] }}"
   cert: /etc/iplant/ssl/iplant.crt
   cert_key: /etc/iplant/ssl/iplant.key
-  # don't think we need these.
-  # server_name: "~^[^.]+[.]example[.]org$"
-  # cert: "/etc/ssl/example.crt"
-  # cert_key: "/etc/ssl/example.key"
-
-#nibblonian_perms_filter: "{{ irods_admins }}"
 
 notificationagent_base: "http://{{ notificationagent_host }}:{{ notificationagent.port }}:5008"
 notificationagent_host: "{{ services_host }}"
@@ -885,9 +879,6 @@ proxy_env:
   http_proxy:
   use_proxy: false
 
-# Is this used? Docker should default here if not specified.
-#registry_host: dockerhub.com
-
 # optional R Server role for use with Dataverse
 rserve:
   host: "{{ groups['rserve'][0] }}"
@@ -910,8 +901,6 @@ saved_searches:
   max_heap: "{{ max_heap.low }}"
 
 search_default_limit: 200
-
-services_host: "{{ groups['services'][0] }}"
 
 # new to dev branch, probably don't need yet
 templeton_incremental:
