@@ -85,15 +85,15 @@
          connector should be using the OpenSSL style configuration
          described in the APR documentation -->
     <!--
-    <Connector port="{{ tomcat_https_port }}" protocol="HTTP/1.1" SSLEnabled="true"
+    <Connector port="{{ cas.tomcat.https_port }}" protocol="HTTP/1.1" SSLEnabled="true"
                maxThreads="150" scheme="https" secure="true"
                clientAuth="false" sslProtocol="TLS" />
     -->
 
-     <Connector port="{{ tomcat_https_port }}"  protocol="HTTP/1.1" SSLEnabled="true"
+     <Connector port="{{ cas.tomcat.https_port }}"  protocol="HTTP/1.1" SSLEnabled="true"
                    maxThreads="150" scheme="https" secure="true"
-                   clientAuth="false" sslProtocol="TLS" SSLCertificateFile="{{ssl_certificate_server_dir}}/{{cas_ssl_cert_file}}"
-                   SSLCertificateKeyFile="{{ssl_certificate_server_dir}}/{{cas_ssl_key_file}}"
+                   clientAuth="false" sslProtocol="TLS" SSLCertificateFile="{{ cas.ssl_certificate_server_dir }}/{{ cas.ssl_cert_file }}"
+                   SSLCertificateKeyFile="{{ cas.ssl_certificate_server_dir }}/{{ cas.ssl_key_file }}"
                    SSLVerifyClient="false" SSLProtocol="TLSv1+TLSv1.1+TLSv1.2" />
 
 

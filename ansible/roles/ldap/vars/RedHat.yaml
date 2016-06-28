@@ -4,5 +4,6 @@ ldap_pkgs:
   - libselinux-python
   - openssl
 
-ldap_app_path: "/etc/openldap"
-ldap_user: ldap
+ldap:
+  conf_dir: "/etc/openldap"
+  user: ldap

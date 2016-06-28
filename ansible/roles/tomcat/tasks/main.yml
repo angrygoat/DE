@@ -41,8 +41,11 @@
   template: src=tomcat-users.xml.j2 dest=/usr/share/tomcat/conf/tomcat-users.xml
   notify: restart tomcat
 
-- name: Install Tomcat init script
-  copy: src=tomcat-initscript.sh dest=/etc/init.d/tomcat mode=0755
+#- name: Install Tomcat init script
+#  copy: src=tomcat-initscript.sh dest=/etc/init.d/tomcat mode=0755
 
-- name: Start Tomcat
+- name: place tomcat systemd file
+  template: src=tomcat.service.j2 dest=/usr/lib/systemd/system/tomcat.service owner=root group=root mode=0644
+
+- name: start and enable tomcat
   service: name=tomcat state=started enabled=yes
