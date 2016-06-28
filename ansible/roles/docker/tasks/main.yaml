@@ -1,32 +1,18 @@
 ---
-<<<<<<< HEAD
 
 - name: add the docker group
   sudo: yes
   group: name=docker state=present
   tags: docker
-=======
-- name: add the docker group
-  sudo: yes
-  group: name=docker state=present
-  tags:
-      - config
->>>>>>> master
 
 - name: add the docker user
   sudo: yes
   user: name=docker shell=/bin/bash groups=docker append=yes
-<<<<<<< HEAD
   tags: docker
-=======
-  tags:
-      - config
->>>>>>> master
 
 - name: add the current user to the docker group
   sudo: yes
   user: name={{ ansible_ssh_user }} groups=docker append=yes
-<<<<<<< HEAD
   tags: docker
 
 - name: copy docker.repo
@@ -55,13 +41,6 @@
   tags:
       - install_docker-compose
 
-# needs more sugar.
-#- name: tell docker not to mess with iptables
-#  sudo: yes
-#  lineinfile: dest=/usr/lib/systemd/system/docker.service
-#    regexp='^ExecStart' insertafter='//' line='--iptables=false' state=present
-#  tags: docker
-
 - name: place the docker-compose yaml file
   sudo: yes
   template: src=compose.yaml.j2 dest=/etc/compose.yaml owner=root group=root mode=0644 force=yes
@@ -78,10 +57,9 @@
 
 - include: login.yaml
   when: ("{{docker.registry.login}}" is defined)
-  tags: docker
-=======
   tags:
       - config
+      - docker
 
 - name: Add the condor user to the docker group
   user: name=condor groups=docker append=yes
@@ -95,7 +73,7 @@
 
 - name: install/update docker-compose
   sudo: yes
-  get_url: url=https://github.com/docker/compose/releases/download/1.2.0/docker-compose-Linux-x86_64 dest=/usr/bin/docker-compose mode=0755 owner=docker group=docker validate_certs=no
+  get_url: url=https://github.com/docker/compose/releases/download/1.7.1/docker-compose-Linux-x86_64 dest=/usr/bin/docker-compose mode=0755 owner=docker group=docker validate_certs=no
   tags:
       - install_docker-compose
 
@@ -111,10 +89,3 @@
   tags: 
       - restart_docker
 
-- name: install docker-py
-  sudo: yes
-  pip: name=docker-py version=1.1.0 state=present
-  tags:
-      - install_docker-py
-
->>>>>>> master

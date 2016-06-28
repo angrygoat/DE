@@ -1,0 +1,17 @@
+---
+
+- name: install epel repository
+  yum: name=epel-release state=latest
+  when: ansible_os_family == "RedHat"
+
+- name: install server prereqs
+  yum: name={{ item }} state=latest
+  with_items:
+    - curl
+    - libselinux-python
+    - python-simplejson
+    - python-httplib2
+    #- python-pip
+
+- name: install latest version of pip
+  shell: "easy_install pip"

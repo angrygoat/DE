@@ -1,6 +1,18 @@
-- name: ensure docker-python installed for ansible module
-  yum: name=docker-python state=latest
+## this isn't new enough. use docker-py below.
+#- name: ensure docker-python installed for ansible module
+#  yum: name=docker-python state=latest
+#  tags: docker
+
+- name: install docker-py
+  sudo: yes
+  pip:
+    name: "{{ item }}"
+    state: present
+  with_items: 
+    - docker-py>=1.2.3
+    - six>=1.4.0
   tags: docker
+  #pip: name=docker-py version=1.1.0 state=present
 
 - name: login to private Docker remote registry
   docker_login:

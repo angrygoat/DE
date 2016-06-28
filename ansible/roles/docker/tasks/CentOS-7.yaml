@@ -1,16 +1,17 @@
 ---
 
-- name: Uninstall previous docker
-  sudo: yes
-  yum: name=docker-engine state=absent
-  tags: 
-      - install
-
-- name: Get docker repo and install docker
-  sudo: yes
-  shell: curl -sSL https://get.docker.com | sh
-  tags: 
-      - install
+## parent role already does these
+#- name: Uninstall previous docker
+#  sudo: yes
+#  yum: name=docker-engine state=absent
+#  tags: 
+#      - install
+#
+#- name: Get docker repo and install docker
+#  sudo: yes
+#  shell: curl -sSL https://get.docker.com | sh
+#  tags: 
+#      - install
 
 - name: Place updated docker.service file        
   sudo: yes
