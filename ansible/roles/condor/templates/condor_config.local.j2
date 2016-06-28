@@ -7,18 +7,15 @@
 
 #CONDOR_HOST = $(FULL_HOSTNAME)
 CONDOR_HOST = {{ condor.host }}
-<<<<<<< HEAD
 COLLECTOR_HOST = $(CONDOR_HOST):9618
 
 ## Pool's short description
 
 COLLECTOR_NAME = {{ environment_name }} Condor Pool at $(CONDOR_HOST)
-=======
 
 ## Pool's short description
 
 COLLECTOR_NAME = {{environment_name}} Condor Pool at $(FULL_HOSTNAME)
->>>>>>> master
 
 ##  When is this machine willing to start a job?
 
@@ -45,12 +42,8 @@ KILL = FALSE
 ##  The list is a comma or space separated list of subsystem names
 
 #DAEMON_LIST = COLLECTOR, MASTER, NEGOTIATOR, SCHEDD, STARTD
-<<<<<<< HEAD
 #DAEMON_LIST = MASTER, SCHEDD, CREDD
 DAEMON_LIST = COLLECTOR, MASTER, NEGOTIATOR, SCHEDD, CREDD, STARTD
-=======
-DAEMON_LIST = MASTER, SCHEDD, CREDD
->>>>>>> master
 
 ##  Sets how often the condor_negotiator starts a negotiation cycle.
 ##  It is defined in seconds and defaults to 60 (1 minute).
@@ -73,19 +66,12 @@ ALLOW_READ      = {{ condor.allow_read }}
 ALLOW_WRITE     = {{ condor.allow_write }}
 HIGHPORT        = 65535
 LOWPORT         = 61440
-<<<<<<< HEAD
 JAVA            = /usr/bin/java
-=======
-JAVA            = /usr/java/latest/bin/java
->>>>>>> master
 ## used for debugging purposes
 #NUM_SLOTS = 5
 
 EVENT_LOG_MAX_SIZE = 1000000000
 EVENT_LOG_MAX_ROTATIONS = 3
-<<<<<<< HEAD
 
 # odum: adding this per error
 GROUP_QUOTA     = 0
-=======
->>>>>>> master

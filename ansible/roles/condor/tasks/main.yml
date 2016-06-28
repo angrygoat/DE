@@ -1,6 +1,5 @@
 ---
 
-<<<<<<< HEAD
 - debug: msg="Docker prereqs to use private repo for custom app images."
 
 - name: ensure docker-python installed for ansible module
@@ -23,8 +22,6 @@
   tags:
     - deploy_condor
 
-=======
->>>>>>> master
 - name: install condor RHEL/CentOS7 repo
   copy: src="htcondor-stable-rhel7.repo" dest=/etc/yum.repos.d owner=root group=root mode=0644
   when: ansible_distribution == "CentOS" and
@@ -46,7 +43,6 @@
 
 - name: create cred_dir
   sudo: yes
-<<<<<<< HEAD
   file: path="{{condor.cred_dir}}" state=directory owner=condor group=condor mode=0755
 
 - name: ensure condor user can write to condor.cred_dir
@@ -64,9 +60,6 @@
 - name: reload systemd
   sudo: yes
   shell: "systemctl daemon-reload"
-=======
-  file: path="{{ condor.cred_dir }}" state=directory owner=condor group=condor mode=0755
->>>>>>> master
 
 - name: restart condor
   sudo: yes
