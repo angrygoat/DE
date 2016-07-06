@@ -33,18 +33,18 @@
 - name: create DE/services irods user
   sudo: yes
   sudo_user: irods
-  shell: "iadmin mkuser {{ irods_user }}#{{ irods_zone }} rodsadmin"
+  shell: "iadmin mkuser {{ irods.user }}#{{ irods.zone }} rodsadmin"
   ignore_errors: true
 
 - name: if DE/services user already exists, ensure it's an admin
   sudo: yes
   sudo_user: irods
-  shell: "iadmin moduser {{ irods_user }}#{{ irods_zone }} type rodsadmin"
+  shell: "iadmin moduser {{ irods.user }}#{{ irods.zone }} type rodsadmin"
 
 - name: set DE/services user password
   sudo: yes
   sudo_user: irods
-  shell: "iadmin moduser {{ irods_user }}#{{ irods_zone }} password {{ irods_password }}"
+  shell: "iadmin moduser {{ irods.user }}#{{ irods.zone }} password {{ irods.password }}"
 
 - name: echo ruleset warning
   debug: msg="Custom DE iRODS rulebases installed, including core.re. Please activate rules as needed by adding them to /etc/irods/server_config.json beneath re_rulebase_set and restarting iRODS."
