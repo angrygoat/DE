@@ -6,8 +6,8 @@ RESPFILE=$1
 # some of these are set via defaults. should they all be group vars?
 
 # setup_irods.sh sometimes wants zone first, for whatever reason.
-#echo "{{ irods.service_account }}" > $RESPFILE  	# service account user ID
-#echo "{{ irods.service_group }}" >> $RESPFILE 	# service account group ID
+echo "{{ irods.service_account }}" > $RESPFILE  	# service account user ID
+echo "{{ irods.service_group }}" >> $RESPFILE 	# service account group ID
 echo "{{ irods.zone }}" >> $RESPFILE            	# initial zone name
 echo "{{ irods.port }}" >> $RESPFILE            	# service port
 echo "{{ irods.portrange.start }}" >> $RESPFILE      	# transport starting port

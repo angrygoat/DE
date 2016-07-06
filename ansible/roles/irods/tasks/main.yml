@@ -1,17 +1,12 @@
 ---
 
-### do we want the irods database hosted locally, or on de-db?
-
-- name: ensure epel-release is installed for irods dependencies below
-  yum: name=epel-release state=latest
+- name: install iRODS dependencies
+  yum: name={{ item }} state=latest
   when: ansible_os_family == "RedHat" and
         ansible_distribution_major_version == "7"
-  tags: irods
-
-- name: ensure pyscopg2 is installed for ansible postgres module
-  yum: name=python-psycopg2 state=latest
-  when: ansible_os_family == "RedHat" and
-        ansible_distribution_major_version == "7"
+  with_items:
+        - epel-release
+        - python-psycopg2
   tags: irods
 
 - name: install postgres-9.3 repo on Redhat / CentOS 7. irods requires 9.3.
@@ -33,11 +28,12 @@
   ignore_errors: true
   tags: irods
 
-- name: remove localhost listeners
-  lineinfile: dest=/var/lib/pgsql/9.3/data/pg_hba.conf regexp="^host" state=absent
-  when: ansible_os_family == "RedHat" and
-        ansible_distribution_major_version == "7"
-  tags: irods
+# why did we add this?
+#- name: remove localhost listeners
+#  lineinfile: dest=/var/lib/pgsql/9.3/data/pg_hba.conf regexp="^host" state=absent
+#  when: ansible_os_family == "RedHat" and
+#        ansible_distribution_major_version == "7"
+#  tags: irods
 
 - name: add global ipv4 listener
   lineinfile: dest=/var/lib/pgsql/9.3/data/pg_hba.conf line='host    all             all             0.0.0.0/0            password' state=present
@@ -123,6 +119,11 @@
 
 - name: ensure irods user exists
   user: name={{ irods.service_account }} state=present group={{ irods.service_group }}
+  when: ansible_os_family == 'RedHat' and
+        ansible_distribution_major_version == '7'
+
+- name: ensure irods.service_account owns /var/lib/irods
+  file: path=/var/lib/irods state=directory owner={{ irods.service_account }} recurse=yes
   when: ansible_os_family == 'RedHat' and
         ansible_distribution_major_version == '7'
 
