@@ -17,7 +17,7 @@
     "federation": [], 
     "icat_host": "{{ irods.host }}", 
     "match_hash_policy": "compatible", 
-    "negotiation_key": "{{ irods_negotiation_key }}",
+    "negotiation_key": "{{ irods.negotiation_key }}",
     "re_data_variable_mapping_set": [
         {
             "filename": "core"
@@ -36,14 +36,14 @@
     "schema_validation_base_uri": "{{ irods_schema_uri }}",
     "server_control_plane_encryption_algorithm": "AES-256-CBC", 
     "server_control_plane_encryption_num_hash_rounds": 16, 
-    "server_control_plane_key": "{{ irods_control_plane_key }}",
+    "server_control_plane_key": "{{ irods.control_plane_key }}",
     "server_control_plane_port": {{ irods_control_plane_port }},
     "server_control_plane_timeout_milliseconds": 10000, 
     "server_port_range_end": {{ irods.portrange.end }},
     "server_port_range_start": {{ irods.portrange.start }},
     "xmsg_port": 1279, 
     "zone_auth_scheme": "native", 
-    "zone_key": "{{ irods_zone_key }}",
+    "zone_key": "{{ irods.zone_key }}",
     "zone_name": "{{ irods.zone }}",
     "zone_port": {{ irods.port }},
     "zone_user": "{{ irods.user }}"

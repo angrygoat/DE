@@ -122,7 +122,7 @@
         ansible_distribution_major_version == '7'
 
 - name: ensure irods user exists
-  user: name={{ irods.service_acct }} state=present group={{ irods.service_group }}
+  user: name={{ irods.service_account }} state=present group={{ irods.service_group }}
   when: ansible_os_family == 'RedHat' and
         ansible_distribution_major_version == '7'
 
