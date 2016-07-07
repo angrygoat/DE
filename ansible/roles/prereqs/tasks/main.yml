@@ -12,6 +12,9 @@
     - python-simplejson
     - python-httplib2
     #- python-pip
+  environment:
+     http_proxy: "{{ proxy_env.http_proxy }}"
+     https_proxy: "{{ proxy_env.https_proxy }}"
 
 - name: install latest version of pip
   shell: "easy_install pip"
