@@ -1,5 +1,8 @@
 ---
 
+- name: install docker
+  yum: name=docker state=latest
+
 - name: add the docker group
   sudo: yes
   group: name=docker state=present
