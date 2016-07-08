@@ -32,9 +32,9 @@
   shell: "/usr/sbin/ifup ifcfg-docker0"
   tags: docker
 
-- name: install docker-engine
-  yum: name=docker-engine state=latest
-  tags: docker
+#- name: install docker-engine
+#  yum: name=docker-engine state=latest
+#  tags: docker
 
 - name: install/update docker-compose
   sudo: yes
