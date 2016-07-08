@@ -345,7 +345,6 @@ db_admin_password: CHANGEME
 db_targz: https://everdene.iplantcollaborative.org/jenkins/job/databases-dev/lastSuccessfulBuild/artifact/databases/de-database-schema/database.tar.gz
 
 db_vendor: postgresql
-db_allowed_IPv4_remote: CHANGEME
 
 # Incremental iRODS indexer.
 dewey:

@@ -6,6 +6,9 @@ For the purposes of this fork of DE, we standardized on CentOS 7 VMs, though the
 * Create a privileged Ansible user on all boxes, select a head node, generate ssh key, distribute public keys, grant sudo to Ansible user.
 * on ansible head node, git clone DE/ansible into a local dir 
 * create an ansible-vars dir to contain platform specific configs and inventories
+* install ansible on each machine
+
+``` yum install ansible ```
 
 ### Prerequisite Playbooks
 * install CentOS library prereqs: **$ ansible-playbook -i inventory -e @group_vars -s -K playbooks/prereqs.yaml**
