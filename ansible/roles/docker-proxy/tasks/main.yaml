@@ -1,4 +1,8 @@
 ---
+
+- name: install docker
+  yum: name=docker state=latest
+
 - name: Creates directory for systemd for docker
   file: path=/etc/systemd/system/docker.service.d state=directory
   sudo: yes

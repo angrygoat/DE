@@ -1,7 +1,5 @@
 ---
 
-- name: install docker
-  yum: name=docker state=latest
 
 - name: add the docker group
   sudo: yes
@@ -58,12 +56,6 @@
   service: name=docker state=restarted enabled=yes
   tags: docker
 
-- include: login.yaml
-  when: ("{{docker.registry.login}}" is defined)
-  tags:
-      - config
-      - docker
-
 - name: Add the condor user to the docker group
   user: name=condor groups=docker append=yes
   when: "'condor' in group_names"  
@@ -92,3 +84,8 @@
   tags: 
       - restart_docker
 
+- include: login.yaml
+  when: ("{{docker.registry.login}}" is defined)
+  tags:
+      - config
+      - docker
