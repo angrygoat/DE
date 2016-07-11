@@ -19,9 +19,9 @@
   tags:
       - update_service_files
 
-- name: reload systemd
-  sudo: yes
-  shell: systemctl daemon-reload
-  tags:
-      - update_service_files
+#- name: reload systemd
+#  sudo: yes
+#  shell: systemctl daemon-reload
+#  tags:
+#      - update_service_files
 
