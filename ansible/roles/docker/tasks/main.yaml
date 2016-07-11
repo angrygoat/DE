@@ -1,6 +1,5 @@
 ---
 
-
 - name: add the docker group
   sudo: yes
   group: name=docker state=present
