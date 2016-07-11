@@ -33,7 +33,7 @@
   tags: docker
 
 - name: install docker-engine
-  yum: name=docker-engine state=latest
+  yum: name=docker-selinux state=latest
   tags: docker
 
 - name: install/update docker-compose
