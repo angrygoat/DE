@@ -1,7 +1,7 @@
 ---
 
 
-- name: Creates directory for systemd for docker
+- name: Creates directory for systemd for docker proxy
   file: path=/etc/systemd/system/docker.service.d state=directory
   sudo: yes
   when: is_behind_proxy == "true"

@@ -47,6 +47,8 @@
   template: src=compose.yaml.j2 dest=/etc/compose.yaml owner=root group=root mode=0644 force=yes
   tags: docker-compose
 
+- include: CentOS-7.yaml
+
 - name: reload systemd
   sudo: yes
   shell: "/usr/bin/systemctl daemon-reload"
@@ -62,9 +64,6 @@
   tags:
       - config
 
-- include: CentOS-7.yaml
-  when: ansible_distribution == "CentOS" and
-        ansible_distribution_major_version == "7" 
 
 - name: install/update docker-compose
   sudo: yes
