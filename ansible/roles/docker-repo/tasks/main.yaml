@@ -15,6 +15,24 @@
   hosts: docker-registry
   sudo: yes
   copy: src={{ docker.registry.cert_dir }} dest={{ docker_repo_target_config_dir }} owner=foo group=foo mode=0644
+  tags:
+        - docker-registry
+
+- name: add docker registry user/passwd
+  command: docker run --entrypoint htpasswd registry:2 -Bbn {{ docker.registry.user }} {{ docker.registry.password }} > auth/htpasswd
+  tags:
+       - docker-registry
+
+- name: make a directory on all docker boxes for cert
+# see https://docs.docker.com/registry/insecure/
+  file: path=/etc/docker/certs.d/myregistrydomain.com:5000/ state=directory state=directory mode=0755
+
+
+- name: copy docker registry public key to cert
+# see https://docs.docker.com/registry/insecure/
+  file: path=/etc/docker/certs.d/myregistrydomain.com:5000/ state=directory state=directory mode=0755
+    copy: src={{ docker.registry.cert_dir }} dest=/etc/docker/certs.d/myregistrydomain.com:5000/ owner=root group=root mode=0744
+
 
 - name: Run docker registry with inline compose
   hosts: docker-registry

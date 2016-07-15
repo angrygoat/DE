@@ -377,6 +377,9 @@ docker:
     user: CHANGEME
     pass: CHANGEME
     login: yes
+    # public/private keys for private docker registry as set up  by the docker_repo role
+    public_key: domain.crt
+    private_key: domain.key
   internal_registry: "CHANGEME"
 
 email_smtp_host: CHANGEME
