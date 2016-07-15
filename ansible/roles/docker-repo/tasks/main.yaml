@@ -12,10 +12,6 @@
 
 - name: install htpasswd for basic auth to registry
 
-- name: install docker-engine
-  yum: name=docker-engine state=latest
-  tags: docker-registry
-
 - name: Run docker registry with inline compose
   hosts: docker-registry
   sudo: yes
