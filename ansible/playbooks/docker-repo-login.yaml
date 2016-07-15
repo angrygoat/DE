@@ -1,0 +1,7 @@
+---
+# accomplish a login to a private docker repo.  Note that this requires the docker playbook and the docker-repo playbook
+# to have been run. If an external private docker repo is available, then docker-repo can be skipped
+- hosts: docker-ready
+  sudo: yes
+  roles:
+      - docker-repo-login

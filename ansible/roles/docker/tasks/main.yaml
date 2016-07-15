@@ -81,8 +81,3 @@
   tags: 
       - restart_docker
 
-- include: login.yaml
-  when: ("{{docker.registry.login}}" is defined)
-  tags:
-      - config
-      - docker

@@ -13,6 +13,8 @@ For the purposes of this fork of DE, we standardized on CentOS 7 VMs, though the
 ### Prerequisite Playbooks
 * install CentOS library prereqs: **$ ansible-playbook -i inventory -e @group_vars -s -K playbooks/prereqs.yaml**
 * install docker on "docker-ready" hosts: **$ ansible-playbook -i inventory -e @group_vars -s -K playbooks/docker.yaml**
+* install a local docker repo (skip if an external one is available and configured in group vars: ansible-playbook -i inventory -e @group_vars -s -K playbooks/docker-repo.yaml**
+* log in each box to the local repo: ansible-playbook -i inventory -e @group_vars -s -K playbooks/docker-repo-login.yaml**
 * install openJDK7 on services VM: **$ ansible-playbook -i inventory -e @group_vars -s -K playbooks/java7.yaml**
 * install timezone packages: **$ ansible-playbook -i inventory -e @group_vars -s -K playbooks/timezone.yaml**
 

@@ -1,3 +1,9 @@
+# role to install docker private registry, requires docker to be installed and configured
+
+- name: install docker-engine
+  yum: name=docker-engine state=latest
+  tags: docker-registry
+
 - name: create an etc dir for the docker registry
   hosts: docker-registry
   sudo: yes
@@ -9,8 +15,6 @@
   hosts: docker-registry
   sudo: yes
   copy: src={{ docker.registry.cert_dir }} dest={{ docker_repo_target_config_dir }} owner=foo group=foo mode=0644
-
-- name: install htpasswd for basic auth to registry
 
 - name: Run docker registry with inline compose
   hosts: docker-registry

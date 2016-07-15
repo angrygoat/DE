@@ -1,0 +1,7 @@
+---
+# log into the private docker repo (requires docker-repo to have been run, or an external private repo configured)
+- include: login.yaml
+  when: ("{{docker.registry.login}}" is defined)
+  tags:
+      - config
+      - docker
