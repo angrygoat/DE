@@ -1,6 +1,7 @@
 ---
+# full playbook to install docker, configure a local docker registry, and have each docker ready server logged in to that
+# private repo
+- include: playbooks/docker.yaml
+- include: playbooks/docker-registry.yaml
+- include: playbooks/docker-repo-login.yaml
 
-- hosts: docker-ready
-  sudo: yes
-  roles:
-      - docker
