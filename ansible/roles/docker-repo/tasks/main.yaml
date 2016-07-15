@@ -26,13 +26,14 @@
 - name: make a directory on all docker boxes for cert
 # see https://docs.docker.com/registry/insecure/
   file: path=/etc/docker/certs.d/myregistrydomain.com:5000/ state=directory state=directory mode=0755
-
+  tags:
+       - docker-registry
 
 - name: copy docker registry public key to cert
 # see https://docs.docker.com/registry/insecure/
-  file: path=/etc/docker/certs.d/myregistrydomain.com:5000/ state=directory state=directory mode=0755
-    copy: src={{ docker.registry.cert_dir }} dest=/etc/docker/certs.d/myregistrydomain.com:5000/ owner=root group=root mode=0744
-
+  copy: src={{ docker.registry.cert_dir }}/{{ docker.registry.public_key }} dest=/etc/docker/certs.d/myregistrydomain.com:5000/ owner=root group=root mode=0744
+  tags:
+         - docker-registry
 
 - name: Run docker registry with inline compose
   hosts: docker-registry
@@ -47,8 +48,8 @@
            ports:
              - 5000:5000
            environment:
-             REGISTRY_HTTP_TLS_CERTIFICATE: /certs/domain.crt
-             REGISTRY_HTTP_TLS_KEY: /certs/domain.key
+             REGISTRY_HTTP_TLS_CERTIFICATE: /certs/{{docker.repo.public_key}}
+             REGISTRY_HTTP_TLS_KEY: /certs/{{docker.repo.private_key}}
              REGISTRY_AUTH: htpasswd
              REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
              REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
@@ -56,6 +57,5 @@
              - /path/data:/var/lib/registry
              - {{ docker_repo_target_config_dir }}:/certs
              - /path/auth:/auth
-
     tags:
       - docker-registry

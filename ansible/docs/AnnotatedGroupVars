@@ -377,6 +377,9 @@ docker:
     user: CHANGEME
     pass: CHANGEME
     login: yes
+    # directory that will be the source of the public key on the ansible head node that will be copied to the
+    # docker enabled ansible nodes, generate keys using openssh and place here on the box where you run ansible
+    cert_dir: /etc/iplant/de/docker_registry/source_cert/
     # public/private keys for private docker registry as set up  by the docker_repo role
     public_key: domain.crt
     private_key: domain.key
