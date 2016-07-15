@@ -1,0 +1,4 @@
+---
+# defaults file for elk-kibana
+docker_repo_target_config_dir: /etc/iplant/de/docker-registry/certs/
+docker_repo_storage_path:

@@ -191,7 +191,11 @@ docker:
   user: discoenv
   version: 1.11.0
   compose_path: /etc/compose.yaml
+  # defines info about a private docker repo, can be installed via the docker-registry.yaml playbook
   registry:
+    # directory on ansible head node containing the pub/private key pair for the private docker registry
+    # this will be copied to a target path where the docker registry will look based on it's docker-compose settings
+    cert_dir: /etc/iplant/de/docker_registry/certs/
     host: "{{ groups['docker-registry'][0] }}"
     port: 443
     base: "CHANGEME"

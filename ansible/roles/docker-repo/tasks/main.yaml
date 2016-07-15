@@ -1,5 +1,43 @@
+- name: create an etc dir for the docker registry
+  hosts: docker-registry
+  sudo: yes
+  file: path={{ docker_repo_target_config_dir }} state=directory state=directory mode=0700
+  tags:
+      - docker-registry
 
-- name: install docker-registry
-  yum: name=docker-registry state=latest
-  tags: docker
+- name: copy cert public/private key into etc
+  hosts: docker-registry
+  sudo: yes
+  copy: src={{ docker.registry.cert_dir }} dest={{ docker_repo_target_config_dir }} owner=foo group=foo mode=0644
 
+- name: install htpasswd for basic auth to registry
+
+- name: install docker-engine
+  yum: name=docker-engine state=latest
+  tags: docker-registry
+
+- name: Run docker registry with inline compose
+  hosts: docker-registry
+  sudo: yes
+  tasks:
+    - docker_service:
+        project_name: registry
+        definition:
+         registry:
+           restart: always
+           image: registry:2
+           ports:
+             - 5000:5000
+           environment:
+             REGISTRY_HTTP_TLS_CERTIFICATE: /certs/domain.crt
+             REGISTRY_HTTP_TLS_KEY: /certs/domain.key
+             REGISTRY_AUTH: htpasswd
+             REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
+             REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
+           volumes:
+             - /path/data:/var/lib/registry
+             - {{ docker_repo_target_config_dir }}:/certs
+             - /path/auth:/auth
+
+    tags:
+      - docker-registry
