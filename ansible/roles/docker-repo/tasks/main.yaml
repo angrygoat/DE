@@ -6,14 +6,12 @@
       - docker-registry
 
 - name: create an etc dir for the docker registry
-  hosts: docker-registry
   sudo: yes
   file: path="{{ docker_repo_target_config_dir }} state=directory state=directory mode=0700"
   tags:
       - docker-registry
 
 - name: copy cert public/private key into etc
-  hosts: docker-registry
   sudo: yes
   copy: src="{{ docker.registry.cert_dir }} dest={{ docker_repo_target_config_dir }} owner=foo group=foo mode=0644"
   tags:
@@ -37,11 +35,11 @@
          - docker-registry
 
 - name: Run docker registry with inline compose
-  hosts: docker-registry
   sudo: yes
   tasks:
     - docker_service:
         project_name: registry
+        version: 2
         definition:
          registry:
            restart: always
@@ -56,7 +54,7 @@
              REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
            volumes:
              - /path/data:/var/lib/registry
-             - "{{ docker_repo_target_config_dir }}:/certs"
+             - "{{ docker_repo_target_config_dir }}":/certs
              - /path/auth:/auth
   tags:
       - docker-registry
