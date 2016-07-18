@@ -30,7 +30,7 @@
 
 - name: copy docker registry public key to cert
 # see https://docs.docker.com/registry/insecure/
-  copy: src="{{ docker.registry.cert_dir }}/{{ docker.registry.public_key }} dest=/etc/docker/certs.d/myregistrydomain.com:5000/ owner=root group=root mode=0744"
+  copy: src="{{ docker.registry.cert_dir }}"/"{{ docker.registry.public_key }}" dest=/etc/docker/certs.d/myregistrydomain.com:5000/ owner=root group=root mode=0744
   tags:
          - docker-registry
 
