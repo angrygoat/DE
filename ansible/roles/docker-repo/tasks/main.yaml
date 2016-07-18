@@ -2,40 +2,25 @@
 
 - name: install docker-engine
   yum: name=docker-engine state=latest
-  tags: docker-registry
+  tags:
+      - docker-registry
 
 - name: create an etc dir for the docker registry
   hosts: docker-registry
   sudo: yes
-  file: path={{ docker_repo_target_config_dir }} state=directory state=directory mode=0700
+  file: path="{{ docker_repo_target_config_dir }} state=directory state=directory mode=0700"
   tags:
       - docker-registry
 
-- name: create an auth for the docker registry
-  hosts: docker-registry
-  sudo: yes
-  file: path={{ docker_repo_auth_path }} state=directory state=directory mode=0700
-  tags:
-      - docker-registry
-
-- name: create a dir for docker to store repo images
-  hosts: docker-registry
-  sudo: yes
-  file: path={{ docker_repo_storage_path }} state=directory state=directory mode=0700
-  tags:
-      - docker-registry
-
-# the docker registry cert dir is configured on the ansible box, holding the public/private key for the docker
-# registry, this is a manual task for the admin
 - name: copy cert public/private key into etc
   hosts: docker-registry
   sudo: yes
-  copy: src={{ docker.registry.cert_dir }} dest={{ docker_repo_target_config_dir }} owner=foo group=foo mode=0644
+  copy: src="{{ docker.registry.cert_dir }} dest={{ docker_repo_target_config_dir }} owner=foo group=foo mode=0644"
   tags:
         - docker-registry
 
 - name: add docker registry user/passwd
-  command: docker run --entrypoint htpasswd registry:2 -Bbn {{ docker.registry.user }} {{ docker.registry.password }} > auth/htpasswd
+  command: "docker run --entrypoint htpasswd registry:2 -Bbn {{ docker.registry.user }} {{ docker.registry.password }} > auth/htpasswd"
   tags:
        - docker-registry
 
@@ -47,7 +32,7 @@
 
 - name: copy docker registry public key to cert
 # see https://docs.docker.com/registry/insecure/
-  copy: src={{ docker.registry.cert_dir }}/{{ docker.registry.public_key }} dest=/etc/docker/certs.d/myregistrydomain.com:5000/ owner=root group=root mode=0744
+  copy: src="{{ docker.registry.cert_dir }}/{{ docker.registry.public_key }} dest=/etc/docker/certs.d/myregistrydomain.com:5000/ owner=root group=root mode=0744"
   tags:
          - docker-registry
 
@@ -64,14 +49,14 @@
            ports:
              - 5000:5000
            environment:
-             REGISTRY_HTTP_TLS_CERTIFICATE: /certs/{{docker.repo.public_key}}
-             REGISTRY_HTTP_TLS_KEY: /certs/{{docker.repo.private_key}}
+             REGISTRY_HTTP_TLS_CERTIFICATE: /certs/"{{docker.repo.public_key}}"
+             REGISTRY_HTTP_TLS_KEY: /certs/"{{docker.repo.private_key}}"
              REGISTRY_AUTH: htpasswd
-             REGISTRY_AUTH_HTPASSWD_PATH: {{ docker_repo_auth_path }}/htpasswd
+             REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
              REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
            volumes:
-             - {{ docker_repo_volume_dir }}:/var/lib/registry
-             - {{ docker_repo_target_config_dir }}:/certs
-             - {{ docker_repo_auth_path }}/auth:/auth
-    tags:
+             - /path/data:/var/lib/registry
+             - "{{ docker_repo_target_config_dir }}:/certs"
+             - /path/auth:/auth
+  tags:
       - docker-registry
