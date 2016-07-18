@@ -202,6 +202,7 @@ docker:
     user: CHANGEME
     pass: CHANGEME
     login: yes
+    cert_dir: /etc/iplant/de/docker_registry/source_cert/
   internal_registry: "CHANGEME"
 
 # drop_number is used by iPlant for QA. others may safely ignore it.
