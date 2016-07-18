@@ -25,7 +25,7 @@
         - docker-registry
 
 - name: add docker registry user/passwd
-  command: docker run --entrypoint htpasswd registry:2 -Bbn {{ docker.registry.user }} {{ docker.registry.pass }} > {{docker_repo_auth_path}}htpasswd
+  shell: docker run --entrypoint htpasswd registry:2 -Bbn {{ docker.registry.user }} {{ docker.registry.pass }} > {{docker_repo_auth_path}}/htpasswd
   tags:
        - docker-registry
 
