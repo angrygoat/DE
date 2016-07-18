@@ -53,8 +53,8 @@
              REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
              REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
            volumes:
-             - /path/data:/var/lib/registry
+             - "{{ docker_repo_storage_path }}":/var/lib/registry
              - "{{ docker_repo_target_config_dir }}":/certs
-             - /path/auth:/auth
+             - "{{ docker_repo_auth_path }}":/auth
   tags:
       - docker-registry
