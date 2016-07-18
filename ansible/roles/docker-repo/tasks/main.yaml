@@ -11,6 +11,13 @@
   tags:
       - docker-registry
 
+
+- name: create a dir for the http auth
+  sudo: yes
+  file: path={{ docker_repo_auth_path }} state=directory mode=0700
+  tags:
+      - docker-registry
+
 - name: copy cert public/private key into etc
   sudo: yes
   copy: src={{ docker.registry.cert_dir }} dest={{ docker_repo_target_config_dir }} owner=root group=root mode=0644
@@ -18,7 +25,7 @@
         - docker-registry
 
 - name: add docker registry user/passwd
-  command: docker run --entrypoint htpasswd registry:2 -Bbn {{ docker.registry.user }} {{ docker.registry.pass }} > auth/htpasswd
+  command: docker run --entrypoint htpasswd registry:2 -Bbn {{ docker.registry.user }} {{ docker.registry.pass }} > {{docker_repo_auth_path}}/htpasswd
   tags:
        - docker-registry
 
@@ -26,7 +33,7 @@
 # see https://docs.docker.com/registry/insecure/
   file: path=/etc/docker/certs.d/myregistrydomain.com:5000/ state=directory state=directory mode=0755
   tags:
-       - docker-registry
+       - docker-registrygood rocking sam
 
 - name: copy docker registry public key to cert
 # see https://docs.docker.com/registry/insecure/
