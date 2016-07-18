@@ -7,18 +7,18 @@
 
 - name: create an etc dir for the docker registry
   sudo: yes
-  file: path="{{ docker_repo_target_config_dir }}" state=directory mode=0700
+  file: path={{ docker_repo_target_config_dir }} state=directory mode=0700
   tags:
       - docker-registry
 
 - name: copy cert public/private key into etc
   sudo: yes
-  copy: src="{{ docker.registry.cert_dir }}" dest="{{ docker_repo_target_config_dir }}: owner=foo group=foo mode=0644
+  copy: src={{ docker.registry.cert_dir }} dest={{ docker_repo_target_config_dir }} owner=foo group=foo mode=0644
   tags:
         - docker-registry
 
 - name: add docker registry user/passwd
-  command: docker run --entrypoint htpasswd registry:2 -Bbn "{{ docker.registry.user }}" "{{ docker.registry.password }}" > auth/htpasswd
+  command: docker run --entrypoint htpasswd registry:2 -Bbn {{ docker.registry.user }} {{ docker.registry.password }} > auth/htpasswd
   tags:
        - docker-registry
 
@@ -30,7 +30,7 @@
 
 - name: copy docker registry public key to cert
 # see https://docs.docker.com/registry/insecure/
-  copy: src="{{ docker.registry.cert_dir }}"/"{{ docker.registry.public_key }}" dest=/etc/docker/certs.d/myregistrydomain.com:5000/ owner=root group=root mode=0744
+  copy: src={{ docker.registry.cert_dir }}/{{ docker.registry.public_key }} dest=/etc/docker/certs.d/myregistrydomain.com:5000/ owner=root group=root mode=0744
   tags:
          - docker-registry
 
