@@ -6,14 +6,12 @@
       - docker-registry
 
 - name: create an etc dir for the docker registry
-  hosts: docker-registry
   sudo: yes
   file: path="{{ docker_repo_target_config_dir }} state=directory state=directory mode=0700"
   tags:
       - docker-registry
 
 - name: copy cert public/private key into etc
-  hosts: docker-registry
   sudo: yes
   copy: src="{{ docker.registry.cert_dir }} dest={{ docker_repo_target_config_dir }} owner=foo group=foo mode=0644"
   tags:
@@ -32,12 +30,11 @@
 
 - name: copy docker registry public key to cert
 # see https://docs.docker.com/registry/insecure/
-  copy: src="{{ docker.registry.cert_dir }}/{{ docker.registry.public_key }} dest=/etc/docker/certs.d/myregistrydomain.com:5000/ owner=root group=root mode=0744"
+  copy: src="{{ docker.registry.cert_dir }}"/"{{ docker.registry.public_key }}" dest=/etc/docker/certs.d/myregistrydomain.com:5000/ owner=root group=root mode=0744
   tags:
          - docker-registry
 
 - name: Run docker registry with inline compose
-  hosts: docker-registry
   sudo: yes
   tasks:
     - docker_service:
