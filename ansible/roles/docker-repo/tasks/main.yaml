@@ -1,4 +1,4 @@
-# role to install docker private registry, requires docker to be installed and configured
+# mccrole to install docker private registry, requires docker to be installed and configured
 
 - name: install docker-engine
   yum: name=docker-engine state=latest
