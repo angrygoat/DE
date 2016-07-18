@@ -7,7 +7,7 @@
 
 - name: create an etc dir for the docker registry
   sudo: yes
-  file: path="{{ docker_repo_target_config_dir }}" state=directory state=directory mode=0700
+  file: path="{{ docker_repo_target_config_dir }}" state=directory mode=0700
   tags:
       - docker-registry
 
