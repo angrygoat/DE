@@ -1,7 +1,8 @@
 ---
 # defaults file for elk-kibana
 docker_repo_target_config_dir: /etc/iplant/de/docker-registry/certs/
-docker_repo_storage_path:
+docker_repo_storage_path: /var/iplant/de/docker-registry/data/
+docker_repo_auth_path: /etc/iplant/de/docker-registry/auth/
 docker:
   registry:
     # directory that will be the source of the public key on the ansible head node that will be copied to the

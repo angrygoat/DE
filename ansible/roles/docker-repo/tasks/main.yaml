@@ -11,6 +11,22 @@
   tags:
       - docker-registry
 
+- name: create an auth for the docker registry
+  hosts: docker-registry
+  sudo: yes
+  file: path={{ docker_repo_auth_path }} state=directory state=directory mode=0700
+  tags:
+      - docker-registry
+
+- name: create a dir for docker to store repo images
+  hosts: docker-registry
+  sudo: yes
+  file: path={{ docker_repo_storage_path }} state=directory state=directory mode=0700
+  tags:
+      - docker-registry
+
+# the docker registry cert dir is configured on the ansible box, holding the public/private key for the docker
+# registry, this is a manual task for the admin
 - name: copy cert public/private key into etc
   hosts: docker-registry
   sudo: yes
@@ -51,11 +67,11 @@
              REGISTRY_HTTP_TLS_CERTIFICATE: /certs/{{docker.repo.public_key}}
              REGISTRY_HTTP_TLS_KEY: /certs/{{docker.repo.private_key}}
              REGISTRY_AUTH: htpasswd
-             REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
+             REGISTRY_AUTH_HTPASSWD_PATH: {{ docker_repo_auth_path }}/htpasswd
              REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
            volumes:
-             - /path/data:/var/lib/registry
+             - {{ docker_repo_volume_dir }}:/var/lib/registry
              - {{ docker_repo_target_config_dir }}:/certs
-             - /path/auth:/auth
+             - {{ docker_repo_auth_path }}/auth:/auth
     tags:
       - docker-registry
