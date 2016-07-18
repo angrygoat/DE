@@ -25,7 +25,7 @@
         - docker-registry
 
 - name: add docker registry user/passwd
-  command: docker run --entrypoint htpasswd registry:2 -Bbn {{ docker.registry.user }} {{ docker.registry.pass }} > {{docker_repo_auth_path}}/htpasswd
+  command: docker run --entrypoint htpasswd registry:2 -Bbn {{ docker.registry.user }} {{ docker.registry.pass }} > {{docker_repo_auth_path}}htpasswd
   tags:
        - docker-registry
 
@@ -33,7 +33,7 @@
 # see https://docs.docker.com/registry/insecure/
   file: path=/etc/docker/certs.d/myregistrydomain.com:5000/ state=directory state=directory mode=0755
   tags:
-       - docker-registrygood rocking sam
+       - docker-registry
 
 - name: copy docker registry public key to cert
 # see https://docs.docker.com/registry/insecure/
