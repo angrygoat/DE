@@ -55,8 +55,8 @@
            ports:
              - 443:5000
            environment:
-             REGISTRY_HTTP_TLS_CERTIFICATE: /certs/"{{docker.repo.public_key}}"
-             REGISTRY_HTTP_TLS_KEY: /certs/"{{docker.repo.private_key}}"
+             REGISTRY_HTTP_TLS_CERTIFICATE: /certs/{{docker.repo.public_key}}
+             REGISTRY_HTTP_TLS_KEY: /certs/{{docker.repo.private_key}}
              REGISTRY_AUTH: htpasswd
              REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
              REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
