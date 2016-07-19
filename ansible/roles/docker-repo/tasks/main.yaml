@@ -41,7 +41,7 @@
         - docker-registry
 
 - name: place Systemd service files
-  template: src=docker-repo.service dest=/usr/lib/systemd/system group=root owner=root mode=0664
+  template: src=docker-repo.service.j2 dest=/usr/lib/systemd/system/docker-repo.service group=root owner=root mode=0664
   tags:
         - docker-registry
 
