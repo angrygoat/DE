@@ -73,7 +73,7 @@ amqp_broker:
   de:
     exchange: "{{ amqp_de_exchange }}"
     exchange_durable: "{{ amqp_de_exchange_durable}}"
-    exchange_auto_delete: "{{ amqp_exchange_auto_delete}}"
+    exchange_auto_delete: "{{ amqp_de_exchange_auto_delete}}"
   irods:
     connection_health_check_interval: "{{amqp_irods_connection_health_check_interval}}"
     exchange: "{{amqp_irods_exchange}}"
