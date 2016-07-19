@@ -7,7 +7,7 @@ Requires=docker.service
 [Service]
 # Ignore errors with "-" since the container may already exist
 ExecStartPre=-/usr/bin/docker rm -v docker-registry
-ExecStart=-/usr/bin/docker run -d -p 5000:5000 --restart=always --name docker-registry \
+ExecStart=-/usr/bin/docker run -d -p 443:5000 --restart=always --name docker-registry \
                                                                    -e "REGISTRY_AUTH=htpasswd" \
                                                                    -e "REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm" \
                                                                    -e REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd \
