@@ -46,23 +46,23 @@
   sudo: yes
   tasks:
     - docker_service:
-        project_name: registry
-        version: 2
-        definition:
-         registry:
-           restart: always
-           image: registry:2
-           ports:
-             - 443:5000
-           environment:
-             REGISTRY_HTTP_TLS_CERTIFICATE: /certs/{{docker.repo.public_key}}
-             REGISTRY_HTTP_TLS_KEY: /certs/{{docker.repo.private_key}}
-             REGISTRY_AUTH: htpasswd
-             REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
-             REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
-           volumes:
-             - "{{ docker_repo_storage_path }}":/var/lib/registry
-             - "{{ docker_repo_target_config_dir }}":/certs
-             - "{{ docker_repo_auth_path }}":/auth
-  tags:
-      - docker-registry
+#        project_name: registry
+#        version: 2
+#        definition:
+#         registry:
+#           restart: always
+#           image: registry:2
+#           ports:
+#             - "443:5000"
+#           environment:
+#             REGISTRY_HTTP_TLS_CERTIFICATE: /certs/{{docker.repo.public_key}}
+#             REGISTRY_HTTP_TLS_KEY: /certs/{{docker.repo.private_key}}
+#             REGISTRY_AUTH: htpasswd
+#             REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
+#             REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
+#           volumes:
+#             - "{{ docker_repo_storage_path }}:/var/lib/registry"
+#             - "{{ docker_repo_target_config_dir }}:/certs"
+#             - "{{ docker_repo_auth_path }}:/auth"
+#  tags:
+#      - docker-registry
