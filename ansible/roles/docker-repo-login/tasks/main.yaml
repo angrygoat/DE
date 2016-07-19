@@ -1,7 +1,22 @@
----
-# log into the private docker repo (requires docker-repo to have been run, or an external private repo configured)
-- include: login.yaml
-  when: ("{{docker.registry.login}}" is defined)
-  tags:
-      - config
-      - docker
+## this isn't new enough. use docker-py below.
+#- name: ensure docker-python installed for ansible module
+#  yum: name=docker-python state=latest
+#  tags: docker
+
+- name: install docker-py
+  sudo: yes
+  pip:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - docker-py>=1.2.3
+    - six>=1.4.0
+  tags: docker
+  #pip: name=docker-py version=1.1.0 state=present
+
+- name: login to private Docker remote registry
+  docker_login:
+    registry: "{{ docker.registry.base }}"
+    username: "{{ docker.registry.user }}"
+    password: "{{ docker.registry.pass }}"
+  tags: docker

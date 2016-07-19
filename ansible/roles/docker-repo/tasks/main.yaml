@@ -1,4 +1,5 @@
 # mccrole to install docker private registry, requires docker to be installed and configured
+# https://docs.docker.com/registry/deploying/
 
 - name: install docker-engine
   yum: name=docker-engine state=latest
