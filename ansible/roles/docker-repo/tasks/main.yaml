@@ -31,39 +31,41 @@
        - docker-registry
 
 - name: make a directory on all docker boxes for cert
-# see https://docs.docker.com/registry/insecure/
   file: path=/etc/docker/certs.d/myregistrydomain.com:5000/ state=directory state=directory mode=0755
   tags:
        - docker-registry
 
 - name: copy docker registry public key to cert
-# see https://docs.docker.com/registry/insecure/
   copy: src={{ docker.registry.cert_dir }}/{{ docker.registry.public_key }} dest=/etc/docker/certs.d/myregistrydomain.com:{{docker.registry.port}}/ owner=root group=root mode=0744
   tags:
-         - docker-registry
+        - docker-registry
 
-- name: Run docker registry with inline compose
-  sudo: yes
-  tasks:
-    - name: docker compose for registry
-        docker_service:
-          project_name: registry
-          version: 2
-          definition:
-            registry:
-            restart: always
-            image: registry:2
-            ports:
-              - "443:5000"
-            environment:
-              REGISTRY_HTTP_TLS_CERTIFICATE: /certs/{{docker.repo.public_key}}
-              REGISTRY_HTTP_TLS_KEY: /certs/{{docker.repo.private_key}}
-              REGISTRY_AUTH: htpasswd
-              REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
-              REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
-            volumes:
-              - "{{ docker_repo_storage_path }}:/var/lib/registry"
-              - "{{ docker_repo_target_config_dir }}:/certs"
-              - "{{ docker_repo_auth_path }}:/auth"
+- name: place Systemd service files
+  template: src=docker-repo.service.j2 dest=/usr/lib/systemd/system group=root owner=root mode=0664
+  tags:
+        - docker-registry
+
+- name: Reload systemd
+  shell: systemctl daemon-reload
+  tags:
+        - docker-registry
+
+- name: enable docker registry service
+  service: name=docker-repo.service enabled=true
   tags:
       - docker-registry
+
+- name: Container exists
+  shell: "docker ps -aq -f 'name=docker-registry'"
+  register: container_exists
+  changed_when: container_exists.stdout == ""
+
+  # Only restart if container doesn't exist.
+- name: restart docker registry
+  service: name=docker-repo.service state=restarted
+  when: container_exists.changed
+  tags:
+      - docker-registry
+
+
+
