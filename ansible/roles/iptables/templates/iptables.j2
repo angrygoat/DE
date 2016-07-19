@@ -101,6 +101,13 @@
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.docker }} --dport {{ iplant_email.port }} -j ACCEPT
 
 {% endif %}
+
+{% if inventory_hostname in groups['docker-registry'] %}
+# iplant-email port from DMZ
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ docker.registry.port }} -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.docker }} --dport {{ docker.registry.port }} -j ACCEPT
+
+{% endif %}
 {% if inventory_hostname in groups['iplant-groups'] %}
 # iplant-groups port from DMZ
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ iplant_groups.port }} -j ACCEPT
