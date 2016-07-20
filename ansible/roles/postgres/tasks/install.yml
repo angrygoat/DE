@@ -25,6 +25,9 @@
   yum: name=http://yum.postgresql.org/9.4/redhat/rhel-7-x86_64/pgdg-centos94-9.4-2.noarch.rpm state=present
   when: ansible_distribution == "CentOS" and
         ansible_distribution_major_version == "7"
+  environment:
+       http_proxy: "{{ proxy_env.http_proxy }}"
+       https_proxy: "{{ proxy_env.https_proxy }}"
 
 - name: ensure packages are installed for CentOS7
   yum: name={{item}} state=latest
