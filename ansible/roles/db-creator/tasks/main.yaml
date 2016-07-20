@@ -30,26 +30,26 @@
     - de_database
 
 - name: create user for the jex database
-  postgresql_user: name={{jexdb_user}} password={{jexdb_password}} state=present login_host={{jexdb_host}} port={{jexdb_port}} login_user={{db_admin}} login_password={{db_admin_password}} role_attr_flags=CREATEDB,NOCREATEROLE,NOCREATEUSER
+  postgresql_user: name={{jexdb.user}} password={{jexdb.password}} state=present login_host={{jexdb.host}} port={{jexdb.port}} login_user={{db_admin}} login_password={{db_admin_password}} role_attr_flags=CREATEDB,NOCREATEROLE,NOCREATEUSER
   tags:
     - jex_database
 
 - name: create the jex database
-  postgresql_db: name={{jexdb_db}} state=present login_host={{jexdb_host}} port={{jexdb_port}} login_user={{jexdb_user}} login_password={{jexdb_password}} owner={{jexdb_user}}
+  postgresql_db: name={{jexdb.db}} state=present login_host={{jexdb.host}} port={{jexdb.port}} login_user={{jexdb.user}} login_password={{jexdb.password}} owner={{jexdb.user}}
   register: postgresql_db_result
   tags:
     - jex_database
 
 - name: set public schema ownership for the jex db
   postgresql_privs: >
-    db={{jexdb_db}}
+    db={{jexdb.db}}
     privs=ALL
     objs=public
     type=schema
-    roles={{jexdb_user}}
+    roles={{jexdb.user}}
     grant_option=yes
-    host={{jexdb_host}}
-    port={{jexdb_port}}
+    host={{jexdb.host}}
+    port={{jexdb.port}}
     login={{db_admin}}
     password={{db_admin_password}}
   tags:
