@@ -52,6 +52,10 @@
     - db
     - conf
 
+- name: restart postgresql-9.4
+  sudo: yes
+  service: name=postgresql-9.4 state=restarted
+
 - name: set postgres admin user password
   sudo: yes
   sudo_user: postgres
@@ -60,7 +64,3 @@
   tags:
     - postgresql
     - db
-
-- name: restart postgresql-9.4
-  sudo: yes
-  service: name=postgresql-9.4 state=restarted
