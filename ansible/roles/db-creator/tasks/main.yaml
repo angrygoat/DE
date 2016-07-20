@@ -35,6 +35,8 @@
   postgresql_user: name={{jexdb.user}} password={{jexdb.password}} state=present login_host={{jexdb.host}} port={{jexdb.port}} login_user={{db_admin}} login_password={{db_admin_password}} role_attr_flags=CREATEDB,NOCREATEROLE,NOCREATEUSER
   tags:
     - jex_database
+  ignore_errors: yes # done to allow rerunability
+
 
 - name: create the jex database
   postgresql_db: name={{jexdb.db}} state=present login_host={{jexdb.host}} port={{jexdb.port}} login_user={{jexdb.user}} login_password={{jexdb.password}} owner={{jexdb.user}}
@@ -61,6 +63,8 @@
   postgresql_user: name={{notification_db_user}} password={{notification_db_password}} state=present login_host={{notification_db_host}} port={{notification_db_port}} login_user={{db_admin}} login_password={{db_admin_password}} role_attr_flags=CREATEDB,NOCREATEROLE,NOCREATEUSER
   tags:
     - notification_database
+  ignore_errors: yes # done to allow rerunability
+
 
 - name: create the notification database
   postgresql_db: name={{notification_db_name}} state=present login_host={{notification_db_host}} port={{notification_db_port}} login_user={{notification_db_user}} login_password={{notification_db_password}} owner={{notification_db_user}}
@@ -87,6 +91,7 @@
   postgresql_user: name={{metadata_db_user}} password={{metadata_db_password}} state=present login_host={{metadata_db_host}} port={{metadata_db_port}} login_user={{db_admin}} login_password={{db_admin_password}} role_attr_flags=CREATEDB,NOCREATEROLE,NOCREATEUSER
   tags:
     - metadata_database
+  ignore_errors: yes # done to allow rerunability
 
 - name: create the metadata database
   postgresql_db: name={{metadata_db_name}} state=present login_host={{metadata_db_host}} port={{metadata_db_port}} login_user={{metadata_db_user}} login_password={{metadata_db_password}} owner={{metadata_db_user}}
