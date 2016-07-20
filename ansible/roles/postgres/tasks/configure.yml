@@ -56,7 +56,7 @@
   sudo: yes
   sudo_user: postgres
   postgresql_user:
-    name=postgres state=present password={{ db_admin_password}}
+    name={{ db_admin}} state=present password={{ db_admin_password}}
   tags:
     - postgresql
     - db
