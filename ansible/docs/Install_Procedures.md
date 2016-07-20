@@ -15,6 +15,7 @@ For the purposes of this fork of DE, we standardized on CentOS 7 VMs, though the
 * install docker on "docker-ready" hosts, configure a private registry: **$ ansible-playbook -i inventory -e @group_vars -s -K docker.yaml**
 * install openJDK7 on services VM: **$ ansible-playbook -i inventory -e @group_vars -s -K playbooks/java7.yaml**
 * install timezone packages: **$ ansible-playbook -i inventory -e @group_vars -s -K playbooks/timezone.yaml**
+* configure iptables: **$ ansible-playbook -i inventory -e @group_vars -s -K iptables.yaml**
 
 ### Deploy Discovery Environment
 * pull the trigger: **$ ansible-playbook -i inventory -e @group_vars -s -K deploy-all.yaml**
