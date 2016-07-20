@@ -7,6 +7,8 @@
   postgresql_user: name={{db_user}} password={{db_password}} state=present login_host={{db_host}} port={{db_port}} login_user={{db_admin}} login_password={{db_admin_password}} role_attr_flags=CREATEDB,NOCREATEROLE,NOCREATEUSER
   tags:
     - de_database
+  ignore_errors: yes # done to allow rerunability
+
 
 - name: create the de database
   postgresql_db: name={{db_name}} state=present login_host={{db_host}} port={{db_port}} login_user={{db_user}} login_password={{db_password}} owner={{db_user}}
