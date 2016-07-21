@@ -66,6 +66,16 @@ notification db
 java -jar target/facepalm-standalone.jar -m  init -h dfc-test-vmlab3.edc.renci.org -p 5432 -d notifications -U notification_user -A postgres -f notification-db.tar.gz
 ```
 
+Note that the facepalm-standalone jar can be found as a file in the de releases, and is in a zip with the schema files that go with each release point.
+
+For use on machines where proxies are involved, there is now a --proxy-host and --proxy-port flag, as facepalm will try and load some jars from clojars.  For example:
+
+```
+java -jar facepalm-standalone.jar -m  init -h localhost -p 5432 -d de -U de -A postgres -f database.tar.gz --proxy-host gateway.example.org --proxy-port 8080
+
+```
+
+
 ## Data Container
 
 Data container work is in a private repo, which we need to formalize (mc), in the meantime, we build our own data container docker image and serve it out of a private docker registry, per this [nice setup instructions](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-private-docker-registry-on-ubuntu-14-04)
