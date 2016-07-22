@@ -694,6 +694,7 @@ ldap:
   host: "{{ groups['ldap'][0] }}"
   dc: dc=your,dc=org,dc=edu
   domain_name: your.org.edu
+  principal_id_attribute: uid
   country: CHANGEME
   state: CHANGEME
   location: CHANGEME
@@ -729,7 +730,7 @@ ldap:
   password_size: 8
   search_base_dn: ou=Users,dc=your,dc=org,dc=edu
   slapd_dpkg_reconfigure_done: "{{ldap.done_dir}}/slapd-dpkg-reconfigure-done"
-  tld: CHANGEME
+  #tld: CHANGEME
   trusted_cert:
   use_starttls: false
   user: ldap
