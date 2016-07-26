@@ -3,7 +3,7 @@
 # Properties file configuration
 #
 - name: ensure data directory exists
-  file: path=/etc/cas state=directory owner={{ cas.tomcat.user }} group={{ cas.tomcat.group }}
+  file: path=/etc/cas state=directory owner={{ cas.tomcat_user }} group={{ cas.tomcat_group }}
   tags:
     - cas
     - properties
