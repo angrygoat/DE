@@ -4,18 +4,56 @@ For the purposes of this fork of DE, we standardized on CentOS 7 VMs, though the
 
 ### Ansible Setup
 * Create a privileged Ansible user on all boxes, select a head node, generate ssh key, distribute public keys, grant sudo to Ansible user.
-* on ansible head node, git clone DE/ansible into a local dir 
-* create an ansible-vars dir to contain platform specific configs and inventories
-* install ansible on each machine
+* on ansible head node, create a de directory under the ansible home dir (this is just suggested).  Under this, 
+create an ansible-vars dir.  In here you will place your inventory file, and your Ansible group vars.  You can use the Annotated
+group vars and annotated inventory (TODO) as a start
+* under the de directory, check out this git repo, which will result in a DE directory
+* under the de directory, create a directory for holding key files that will be distributed to other nodes, such as key
+pairs.  It is suggested to call this localdata.
 
+Doing this results in
+
+/home/ansibleuser/de
+    - DE (the git repo)
+    - ansible-vars
+    - localdata
+
+* install ansible on each machine
 ``` yum install ansible ```
 
 ### Prerequisite Playbooks
 * install CentOS library prereqs: **$ ansible-playbook -i inventory -e @group_vars -s -K playbooks/prereqs.yaml**
+* TODO: add generation of the ssl keypair for use in the private docker repo
 * install docker on "docker-ready" hosts, configure a private registry: **$ ansible-playbook -i inventory -e @group_vars -s -K docker.yaml**
 * install openJDK7 on services VM: **$ ansible-playbook -i inventory -e @group_vars -s -K playbooks/java7.yaml**
 * install timezone packages: **$ ansible-playbook -i inventory -e @group_vars -s -K playbooks/timezone.yaml**
 * configure iptables: **$ ansible-playbook -i inventory -e @group_vars -s -K iptables.yaml**
+
+
+### CAS/LDAP
+
+Note group vars for cas: and ldap:.  The ldap playbook is for using the canned openLDAP dedicated to DE, this may vary if you go against your own existing LDAP.  The cas role can be used to install a cas server, configured to look at LDAP.  This may be sufficiant for simple cases, or serve as a template
+for your particular install environment.  We orient cas here for our 'reference implementation'.  Consult the AnnotatedGroupVars for details of the cas and ldap settings!
+
+* Generate or provision the SSL public/private key pair in a secure location on the ansible head node.  This location is configured by the cas.ssl_cert_file and cas.ssl_key_file group vars.  This source location on the ansible head node is used to copy to a target directory on the inventoried cas box.
+
+For our purposes, this can be under the de/localdata directory described above, for this one, we can call it cascerts.  Be sure
+the directory has proper visibility so that others cannot discover the private key!
+
+example statements for self-signing.  First generate a private SSL key
+
+```
+openssl genrsa -out server.key
+
+```
+Now generate a public key
+
+```
+openssl req -new -x509 -key server.key -out server.crt -days 365
+
+```
+
+The private and public key are entered in the group vars for the cas.
 
 ### Deploy Discovery Environment
 * pull the trigger: **$ ansible-playbook -i inventory -e @group_vars -s -K deploy-all.yaml**
