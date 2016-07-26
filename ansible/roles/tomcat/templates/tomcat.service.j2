@@ -16,8 +16,8 @@ Environment='JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/./
 ExecStart=/usr/share/tomcat/bin/startup.sh
 ExecStop=/bin/kill -15 $MAINPID
 
-User={{ cas.tomcat.user }}
-Group={{ cas.tomcat.group }}
+User={{ cas.tomcat_user }}
+Group={{ cas.tomcat_group }}
 
 [Install]
 WantedBy=multi-user.target

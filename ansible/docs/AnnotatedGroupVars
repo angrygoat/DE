@@ -239,8 +239,11 @@ cas:
   # full path for private key on ansible head node to copy to cas server
   ssl_key_file:
   # tomcat admin user name and password
-  tomcat_admin_user_name: admin
+  tomcat_admin_username: admin
   tomcat_admin_password: CHANGEME
+  # system user/group running tomcat
+  tomcat_user: tomcat
+  tomcat_group: tomcat
 
 
 # we don't use this,
