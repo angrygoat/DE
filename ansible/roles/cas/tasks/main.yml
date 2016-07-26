@@ -32,19 +32,19 @@
     - properties
 
 - name: copy log4j.xml
-  copy: src=log4j.xml dest=/etc/cas/ owner={{ cas.tomcat.user }} group={{ cas.tomcat.group }}
+  copy: src=log4j.xml dest=/etc/cas/ owner={{ cas.tomcat_user }} group={{ cas.tomcat_group }}
   tags:
     - cas
     - properties
 
 - name: set data ownership [all data is owned by tomcat]
-  file: path=/etc/cas owner={{ cas.tomcat.user }} group={{ cas.tomcat.group }} recurse=true
+  file: path=/etc/cas owner={{ cas.tomcat_user }} group={{ cas.tomcat_group }} recurse=true
   tags:
     - cas
     - properties
 
 - name: ensure ssl certificate directory exists (if required)
-  file: path={{ cas.ssl_certificate_server_dir }} state=directory owner={{ cas.tomcat.user }} group={{ cas.tomcat.group }}
+  file: path={{ cas.ssl_certificate_server_dir }} state=directory owner={{ cas.tomcat_user }} group={{ cas.tomcat_group }}
   when: cas.do_ssl_config
   tags:
     - cas
@@ -68,7 +68,7 @@
         - apache_vhost
 
 - name: set data ownership [all data is owned by tomcat]
-  file: path={{ cas.ssl_certificate_server_dir }} owner={{ cas.tomcat.user }} group={{ cas.tomcat.user }} recurse=true
+  file: path={{ cas.ssl_certificate_server_dir }} owner={{ cas.tomcat_user }} group={{ cas.tomcat_user }} recurse=true
   when: cas.do_ssl_config
   tags:
     - cas
