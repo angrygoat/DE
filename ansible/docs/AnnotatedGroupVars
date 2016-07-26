@@ -232,11 +232,14 @@ cas:
   no_logout_url: http://some.server1.at.a.place
   port: 8443
   uid_domain: example.org
-  # directory on the configured cas server that will be created and will receive the ssl keypair for tomcat
+  # directory on the configured cas server that will be created and will receive the ssl keypair for tomcat, define
+  # without trailing slash
   ssl_certificate_server_dir:
-  # full path for public key on ansible head node to copy to cas server
+  # directory on the ansible head node that will contain the source keypair, define without trailing slash
+  ssl_certificate_source_dir:
+  # file name of public key on ansible head node to copy to cas server (not the full path, this is under the ssl_certificate_source_dir)
   ssl_cert_file:
-  # full path for private key on ansible head node to copy to cas server
+  # file name of private key on ansible head node to copy to cas server (not the full path, this is under the ssl_certificate_source_dir)
   ssl_key_file:
   # tomcat admin user name and password
   tomcat_admin_username: admin

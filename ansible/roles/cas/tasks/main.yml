@@ -52,7 +52,7 @@
     - apache_vhost
 
 - name: copy SSL public key
-  copy: src={{ cas.ssl_cert_file }} dest={{ cas.ssl_certificate_server_dir }}/{{ cas.ssl_cert_file }}
+  copy: src={{cas.ssl_certificate_source_dir}}/{{ cas.ssl_cert_file }} dest={{ cas.ssl_certificate_server_dir }}/{{ cas.ssl_cert_file }}
   when: cas.do_ssl_config
   tags:
     - cas
@@ -60,7 +60,7 @@
     - apache_vhost
 
 - name: copy SSL private key
-  copy: src={{ cas.ssl_key_file }} dest={{ cas.ssl_certificate_server_dir }}/{{ cas.ssl_key_file }}
+  copy: src={{cas.ssl_certificate_source_dir}}/{{ cas.ssl_key_file }} dest={{ cas.ssl_certificate_server_dir }}/{{ cas.ssl_key_file }}
   when: cas.do_ssl_config
   tags:
         - cas
