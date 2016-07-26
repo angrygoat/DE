@@ -53,7 +53,14 @@ openssl req -new -x509 -key server.key -out server.crt -days 365
 
 ```
 
-The private and public key are entered in the group vars for the cas.
+The private and public key are entered in the group vars for the cas, and will be copied and configured into tomcat for CAS.  Once the keys are in place, run:
+
+**$ ansible-playbook -i inventory -e @group_vars -s -K playbooks/cas-ldap.yaml** to install the reference implementation
+LDAP.  Beware it sets up testde1, 2, and 3 users and some test groups by default.  You can also run the cas.yaml playbook to just install cas 
+pointed to the configured LDAP.  Note that you may need to update the cas overlay, depending on your particular settings,
+in which case you can alter the git url from which the cas overlay will be downloaded.
+
+
 
 ### Deploy Discovery Environment
 * pull the trigger: **$ ansible-playbook -i inventory -e @group_vars -s -K deploy-all.yaml**
