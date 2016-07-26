@@ -712,6 +712,7 @@ kifshare:
 # Test users may be specified using the LDIF template in the LDAP role.
 ldap_done_dir: /etc/ansible/.done
 ldap:
+  conf_dir: /etc/ldap
   host: "{{ groups['ldap'][0] }}"
   dc: dc=your,dc=org,dc=edu
   domain_name: your.org.edu
