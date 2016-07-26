@@ -1,5 +1,5 @@
 - name: ldap Make an ansible directory for remembering what we previously run
-  file: path={{ ldap.done_dir }} state=directory owner=root group=root
+  file: path={{ ldap_done_dir }} state=directory owner=root group=root
   tags:
     - ldap
     - auth
@@ -89,7 +89,7 @@
 
 - name: add the base domain
   #shell: ldapadd -x -D "cn=Manager,dc={{ ldap.domain_name.split('.')[0] }},dc={{ ldap.domain_name.split('.')[1] }}" -w {{ ldap.password }} -f /tmp/domain.ldif && touch {{ ldap.conf_dir }}/rootdn_created creates={{ ldap.conf_dir }}/rootdn_created
-  shell: ldapadd -x -D "{{ ldap.manager_dn }}" -w {{ ldap.password }} -f /tmp/domain.ldif && touch {{ ldap.done_dir }}/rootdn_created creates={{ ldap.conf_dir }}/rootdn_created
+  shell: ldapadd -x -D "{{ ldap.manager_dn }}" -w {{ ldap.password }} -f /tmp/domain.ldif && touch {{ ldap_done_dir }}/rootdn_created creates={{ ldap.conf_dir }}/rootdn_created
   ignore_errors: yes
   tags:
     - ldap
