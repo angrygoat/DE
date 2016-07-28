@@ -60,6 +60,38 @@ LDAP.  Beware it sets up testde1, 2, and 3 users and some test groups by default
 pointed to the configured LDAP.  Note that you may need to update the cas overlay, depending on your particular settings,
 in which case you can alter the git url from which the cas overlay will be downloaded.
 
+### Grouper
+
+Grouper is used to maintain authorization for the Apps framework.  It relies on a Grouper database, and needs a Grouper
+user entry in LDAP for the Grouper DE user.  As users are added in DE they are automatically added to a default Grouper group.
+DE expects a prefabricated tree for Apps, and this is preconfigured using the Sharkbait tool, in a fashion similar to how
+the Facepalm tool is used to initialize the Postgres databases.
+
+* generate SSL certs for nginx on the Grouper box and configure in the grouper: stanza of the group vars
+
+```
+cd /home/ansibleuser/de/ansible-vars/localdata
+
+mkdir groupercerts
+
+cd groupercerts
+
+```
+
+Now gen the keys in grouper ssl
+
+
+```
+openssl genrsa -out server.key
+
+```
+Now generate a public key
+
+```
+openssl req -new -x509 -key server.key -out server.crt -days 365
+
+```
+
 
 
 ### Deploy Discovery Environment
