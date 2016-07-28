@@ -77,9 +77,7 @@ mkdir groupercerts
 cd groupercerts
 
 ```
-
 Now gen the keys in grouper ssl
-
 
 ```
 openssl genrsa -out server.key
@@ -92,6 +90,9 @@ openssl req -new -x509 -key server.key -out server.crt -days 365
 
 ```
 
+mumble
+
+* pull the trigger: **$ ansible-playbook -i inventory -e @group_vars -s -K grouper-all.yaml**
 
 
 ### Deploy Discovery Environment

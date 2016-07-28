@@ -1,0 +1,4 @@
+# install and configure grouper
+- include: playbooks/grouper.yaml
+- include: playbooks/grouper-config.yaml
+
