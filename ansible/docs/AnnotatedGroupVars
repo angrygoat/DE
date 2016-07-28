@@ -813,6 +813,7 @@ metadata:
   log_file: metadata-docker.log
   max_heap: "{{ max_heap.high }}"
 
+
 # Monkey synchronizes the tag documents in the data search index with the metadata database.
 monkey:
   host: "{{ groups['monkey'][0] }}"
@@ -898,6 +899,10 @@ proxy_env:
   https_proxy: 
   http_proxy:
   use_proxy: false
+  proxy_user:
+  proxy_password:
+  proxy_port:8080
+  non_proxy_hosts: # e.g. local.net|some.host.com
 
 # optional R Server role for use with Dataverse
 rserve:
