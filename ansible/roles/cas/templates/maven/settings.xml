@@ -2,8 +2,8 @@
     <proxies>
         <proxy>
             <id>httpProxy</id>
-            <active>true</active>
-            <protocol>{{proxy_env.use_proxy}}</protocol>
+            <active>{{proxy_env.use_proxy}}</active>
+            <protocol>http</protocol>
             <host>{{proxy_env.http_maven_proxy_host}}</host>
             <port>{{proxy_env.http_maven_proxy_port}}</port>
             <username></username>

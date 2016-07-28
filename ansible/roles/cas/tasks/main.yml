@@ -20,13 +20,13 @@
   sudo: yes
 
 - name: ensure .m2 directory exists
-  file: name=/home/{{ansible_ssh_user}}/.m2/conf state=directory owner={{ansible_ssh_user}}
+  file: name=/home/{{ansible_ssh_user}}/.m2 state=directory owner={{ansible_ssh_user}}
   tags:
     - cas
     - properties
 
 - name: add proxy for maven
-  template: src=maven/settings.xml dest=/home/{{ansible_ssh_user}}/.m2/conf/settings.xml
+  template: src=maven/settings.xml dest=/home/{{ansible_ssh_user}}/.m2/settings.xml
   tags:
     - cas
     - properties
