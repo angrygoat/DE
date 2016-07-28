@@ -23,12 +23,31 @@ Doing this results in
 
 ### Prerequisite Playbooks
 * install CentOS library prereqs: **$ ansible-playbook -i inventory -e @group_vars -s -K playbooks/prereqs.yaml**
-* TODO: add generation of the ssl keypair for use in the private docker repo
-* install docker on "docker-ready" hosts, configure a private registry: **$ ansible-playbook -i inventory -e @group_vars -s -K docker.yaml**
-* install openJDK7 on services VM: **$ ansible-playbook -i inventory -e @group_vars -s -K playbooks/java7.yaml**
-* install timezone packages: **$ ansible-playbook -i inventory -e @group_vars -s -K playbooks/timezone.yaml**
 * configure iptables: **$ ansible-playbook -i inventory -e @group_vars -s -K iptables.yaml**
 
+### Docker and Local Docker Repo
+
+Configure (need to make this optional) a secure private docker repo, install docker, configure if need be for proxies
+
+* create the local copy of the ssl keypair on the ansible head node
+
+```
+
+mkdir /home/ansible/de/ansible-vars/localdata/dockercerts
+
+openssl genrsa -out server.key
+
+openssl req -new -x509 -key server.key -out server.crt -days 365
+
+```
+* update the docker.registry group vars, per the AnnotatedGroupVar example
+
+* run the combined docker playbook: **$ ansible-playbook -i inventory -e @group_vars -s -K docker.yaml**
+
+### Misc Prereqs
+
+* install openJDK7 on services VM: **$ ansible-playbook -i inventory -e @group_vars -s -K playbooks/java7.yaml**
+* install timezone packages: **$ ansible-playbook -i inventory -e @group_vars -s -K playbooks/timezone.yaml**
 
 ### CAS/LDAP
 
