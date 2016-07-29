@@ -8,7 +8,7 @@
 
 - name: create an etc dir for the docker registry
   sudo: yes
-  file: path={{ docker_repo.target_config_dir }} state=directory mode=0700
+  file: path={{ docker.registry.target_config_dir }} state=directory mode=0700
   tags:
       - docker-registry
 
@@ -21,7 +21,7 @@
 
 - name: copy cert public/private key into etc
   sudo: yes
-  copy: src={{ docker.registry.cert_dir }} dest={{ docker_repo.target_config_dir }} owner=root group=root mode=0644
+  copy: src={{ docker.registry.cert_dir }} dest={{ docker.registry.target_config_dir }} owner=root group=root mode=0644
   tags:
         - docker-registry
 
