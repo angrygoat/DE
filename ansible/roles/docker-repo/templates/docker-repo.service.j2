@@ -14,6 +14,6 @@ ExecStart=-/usr/bin/docker run -d -p 443:5000 --restart=always --name docker-reg
                                                                    -v {{  docker_repo_storage_path }}:/var/lib/registry \
                                                                    -v {{ docker_repo_target_config_dir }}:/certs \
                                                                    -v {{ docker_repo_auth_path }}:/auth \
-                                                                   -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/domain.crt \
-                                                                   -e REGISTRY_HTTP_TLS_KEY=/certs/domain.key \
+                                                                   -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/{{docker.registry.public_key}} \
+                                                                   -e REGISTRY_HTTP_TLS_KEY=/certs/{{docker.registry.private_key}} \
                                                                    registry:2

@@ -30,15 +30,15 @@
   tags:
        - docker-registry
 
-- name: make a directory on all docker boxes for cert
-  file: path=/etc/docker/certs.d/myregistrydomain.com:5000/ state=directory state=directory mode=0755
-  tags:
-       - docker-registry
+#- name: make a directory on all docker boxes for cert
+#  file: path=/etc/docker/certs.d/myregistrydomain.com:5000/ state=directory state=directory mode=0755
+#  tags:
+#       - docker-registry
 
-- name: copy docker registry public key to cert
-  copy: src={{ docker.registry.cert_dir }}/{{ docker.registry.public_key }} dest=/etc/docker/certs.d/myregistrydomain.com:{{docker.registry.port}}/ owner=root group=root mode=0744
-  tags:
-        - docker-registry
+#- name: copy docker registry public key to cert
+#  copy: src={{ docker.registry.cert_dir }}/{{ docker.registry.public_key }} dest=/etc/docker/certs.d/myregistrydomain.com:{{docker.registry.port}}/ owner=root group=root mode=0744
+#  tags:
+#        - docker-registry
 
 - name: place Systemd service files
   template: src=docker-repo.service.j2 dest=/usr/lib/systemd/system/docker-repo.service group=root owner=root mode=0664
