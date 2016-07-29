@@ -3,8 +3,8 @@ Description=Docker Application Container Engine
 Documentation=https://docs.docker.com
 BindsTo=network.service iptables.service
 PartOf=network.service iptables.service
-After=network.service docker.socket network-online.target iptables.service
-Requires=docker.socket network.service 
+After=network.service network-online.target iptables.service
+Requires=network.service
 Wants=network-online.target
 
 [Service]
