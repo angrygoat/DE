@@ -23,7 +23,7 @@ TimeoutStartSec=0
 Delegate=yes
 # kill only the docker process, not all processes in the cgroup
 KillMode=process
-EnvironmentFile=/etc/sysconfig/docker
+#EnvironmentFile=/etc/sysconfig/docker
 
 [Install]
 WantedBy=multi-user.target
