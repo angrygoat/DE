@@ -902,7 +902,7 @@ proxy_env:
   proxy_user:
   proxy_password:
   proxy_port:8080
-  non_proxy_hosts: # e.g. local.net|some.host.com
+  non_proxy_hosts: # e.g. .example.org,localhost,127.0.0.1
 
 # optional R Server role for use with Dataverse
 rserve:

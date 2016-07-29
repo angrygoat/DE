@@ -1,7 +1,7 @@
 [Unit]
 Description=Docker private repo service
 BindsTo=docker.service
-After=network.target docker.socket
+After=network.target
 Requires=docker.service 
 
 [Service]

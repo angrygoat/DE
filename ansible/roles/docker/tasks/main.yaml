@@ -46,7 +46,11 @@
   template: src=compose.yaml.j2 dest=/etc/compose.yaml owner=root group=root mode=0644 force=yes
   tags: docker-compose
 
-- include: CentOS-7.yaml
+- name: Place updated docker.service file
+  sudo: yes
+  copy: src=docker.service dest=/usr/lib/systemd/system/ group=root owner=root mode=0664
+  tags:
+      - update_service_files
 
 - name: reload systemd
   sudo: yes
