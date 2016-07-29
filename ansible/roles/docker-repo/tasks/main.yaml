@@ -19,9 +19,15 @@
   tags:
       - docker-registry
 
-- name: copy cert public/private key into etc
+- name: copy cert public key into etc
   sudo: yes
-  copy: src={{ docker.registry.cert_dir }} dest={{ docker.registry.target_config_dir }} owner=root group=root mode=0644
+  copy: src={{ docker.registry.cert_dir }}{{docker.registry.public_key}} dest={{ docker.registry.target_config_dir }}{{docker.registry.public_key}} owner=root group=root mode=0644
+  tags:
+        - docker-registry
+
+- name: copy cert private key into etc
+  sudo: yes
+  copy: src={{ docker.registry.cert_dir }}{{docker.registry.private_key}} dest={{ docker.registry.target_config_dir }}{{docker.registry.private_key}} owner=root group=root mode=0644
   tags:
         - docker-registry
 
