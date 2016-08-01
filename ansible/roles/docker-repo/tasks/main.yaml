@@ -32,18 +32,6 @@
         - docker-registry
 
 
-- name: create a dir for the self signed certificate
-  sudo: yes
-  file: path=/etc/docker/certs.d/{{ docker.registry.host }} state=directory mode=0700
-  tags:
-      - docker-registry
-
-- name: copy domain cert to ca.crt in dropin directory
-  sudo: yes
-  copy: src={{ docker.registry.cert_dir }}{{docker.registry.public_key}} dest=/etc/docker/certs.d/{{ docker.registry.host }}/ owner=root group=root mode=0644
-  tags:
-        - docker-registry
-
 
 - name: add docker registry user/passwd
   shell: docker run --entrypoint htpasswd registry:2 -Bbn {{ docker.registry.user }} {{ docker.registry.pass }} > {{docker_repo_auth_path}}/htpasswd

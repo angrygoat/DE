@@ -14,6 +14,20 @@
   tags: docker
   #pip: name=docker-py version=1.1.0 state=present
 
+
+- name: create a dir for the self signed certificate
+  sudo: yes
+  file: path=/etc/docker/certs.d/{{ docker.registry.host }} state=directory mode=0700
+  tags:
+      - docker-registry
+
+- name: copy domain cert to ca.crt in dropin directory
+  sudo: yes
+  copy: src={{ docker.registry.cert_dir }}{{docker.registry.public_key}} dest=/etc/docker/certs.d/{{ docker.registry.host }}/ owner=root group=root mode=0644
+  tags:
+        - docker-registry
+
+
 - name: login to private Docker remote registry
   docker_login:
     registry: "{{ docker.registry.base }}"
