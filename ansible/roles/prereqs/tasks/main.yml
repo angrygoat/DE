@@ -18,3 +18,12 @@
 
 - name: install latest version of pip
   shell: "easy_install pip"
+
+- name: add the iplant group
+  group: name=iplant state=present
+
+- name: add the iplant user
+  user: name=iplant shell=/bin/bash groups=iplant append=yes uid=1337
+
+- name: add the iplant user to docker group
+  user: name=iplant groups=docker append=yes
