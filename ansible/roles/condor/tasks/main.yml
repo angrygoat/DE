@@ -43,7 +43,7 @@
 
 - name: create cred_dir
   sudo: yes
-  file: path="{{condor.cred_dir}}" state=directory owner=condor group=condor mode=0755
+  file: path="{{condor.cred_dir}}" state=directory owner=condor group=condor mode=0700
 
 - name: ensure condor user can write to condor.cred_dir
   sudo: yes
