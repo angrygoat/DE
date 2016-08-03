@@ -109,7 +109,6 @@ openssl req -new -x509 -key server.key -out server.crt -days 365
 
 ```
 
-mumble
 
 * pull the trigger: **$ ansible-playbook -i inventory -e @group_vars -s -K grouper-all.yaml**
 

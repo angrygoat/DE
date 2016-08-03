@@ -15,7 +15,8 @@ ExecStart=/usr/bin/docker run --name {{grouper.container_name}} \
     -v /etc/tomcat/tomcat-users.xml:/opt/tomcat/conf/tomcat-users.xml \
     -v /etc/tomcat/setenv.sh:/opt/tomcat/bin/setenv.sh \
     -v /var/log/grouper:/var/log/grouper \
-    -v /etc/localtime:/etc/localtime -v /etc/timezone:/etc/timezone \
+    -v /etc/localtime:/etc/localtime
+    -v /etc/timezone:/etc/timezone \
     --log-driver={{grouper.log_driver}} \
     {{docker.user}}/{{grouper.image_name}}:{{grouper.image_tag}}
 ExecStop=/usr/bin/docker stop {{grouper.container_name}}

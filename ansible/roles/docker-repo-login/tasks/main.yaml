@@ -23,7 +23,7 @@
 
 - name: copy domain cert to ca.crt in dropin directory
   sudo: yes
-  copy: src={{ docker.registry.cert_dir }}{{docker.registry.public_key}} dest=/etc/docker/certs.d/{{ docker.registry.host }}/ owner=root group=root mode=0644
+  copy: src={{ docker.registry.cert_dir }}{{docker.registry.public_key}} dest=/etc/docker/certs.d/{{ docker.registry.base }}/ owner=root group=root mode=0644
   tags:
         - docker-registry
 
