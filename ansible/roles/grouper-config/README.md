@@ -19,7 +19,7 @@ Role Variables
 
 |   Variable         | required | default | choices | comments                                |
 |--------------------|----------|---------|---------|-----------------------------------------|
-| grouper_config_dir | yes      |         |         | The directory to place the files under. |
+| grouper.config_dir | yes      |         |         | The directory to place the files under. |
 
 Dependencies
 ------------
@@ -31,7 +31,7 @@ Example Playbook
 
     - hosts: grouper
       vars:
-          grouper_config_dir: /path/to/config/base
+          grouper.config_dir: /path/to/config/base
       roles:
         - role: grouper-config
 

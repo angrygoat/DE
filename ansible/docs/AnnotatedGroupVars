@@ -478,6 +478,7 @@ fs_max_paths_in_request: 1000
 gpg_home_dir:
 
 grouper:
+  config_dir: /etc/grouper
   service_name: iplant-grouper.service
   service_name_short: iplant-grouper
   compose_service: iplant_grouper
