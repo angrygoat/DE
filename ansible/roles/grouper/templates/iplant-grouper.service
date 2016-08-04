@@ -7,7 +7,7 @@ Requisite=docker.service
 
 [Service]
 User=iplant
-ExecStartPre=/bin/docker rm -v {{grouper.container_name}}
+ExecStartPre=-/bin/docker rm -v {{grouper.container_name}}
 ExecStart=/bin/docker run --name {{grouper.container_name}} \
     -p 8080:8080 \
     -v /etc/grouper:/etc/grouper \

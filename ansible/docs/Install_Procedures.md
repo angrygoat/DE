@@ -44,6 +44,16 @@ openssl req -new -x509 -key server.key -out server.crt -days 365
 
 * run the combined docker playbook: **$ ansible-playbook -i inventory -e @group_vars -s -K docker.yaml**
 
+
+* install the data container by building and pushing to the private docker repo
+
+```
+docker images
+  936  docker tag 12239e411d9f xxx.renci.org:443/de-data
+  937  docker push xxx.renci.org:443/de-data
+
+```
+
 ### Misc Prereqs
 
 * install openJDK7 on services VM: **$ ansible-playbook -i inventory -e @group_vars -s -K playbooks/java7.yaml**
