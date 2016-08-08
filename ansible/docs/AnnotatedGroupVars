@@ -836,7 +836,7 @@ net:
   trust: CHANGEME
   vpn: CHANGEME
   wifi: CHANGEME
-  docker: CHANGEME
+  docker: CHANGEME # this is the ip of the docker bridge, typically 192.0.0.0/8 to allow containers to talk to each other
 
 # Nginx handles SSL and proxy/auth for the UI container.
 nginx_ssl:

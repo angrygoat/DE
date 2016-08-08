@@ -119,8 +119,76 @@ openssl req -new -x509 -key server.key -out server.crt -days 365
 
 ```
 
+* Run Grouper install playbooks: **$ ansible-playbook -i inventory -e @group_vars -s -K grouper-all.yaml**
 
-* pull the trigger: **$ ansible-playbook -i inventory -e @group_vars -s -K grouper-all.yaml**
+* Run the Sharkbait tool to initialize Grouper structures for DE
+
+This installs and configures Grouper.  Once Grouper is running, it needs to be initialized with some basic DE group structures,
+using the DE tool 'sharkbait', which can be found in tools/sharkbait.  The standalong jar file can be built via clojore, or
+downloaded from the DE releases page, where available.  
+
+This utility expects the Grouper configuration files to be present in `/etc/grouper` on the local host before it can be
+executed. It is generally best to run this utility on the Grouper host itself. This utility also expects an account by
+the name of `de_grouper` to exist in the LDAP directory that is used as Grouper's subject source. (NB the reference
+implementation cas-ldap playbook will add this de_grouper user to the LDAP directory).
+
+wget the sharkbait jar, or build it from the DE source, and then execute the command with the following options. Note
+the database coordinates map to the de database setting in the AnnotatedGroupVars
+
+
+```
+
+java -jar /path/to/sharkbait-standalone.jar  OPTIONS
+
+  -h, --host HOST                localhost  The database hostname.
+  -p, --port PORT                5432       The database port number.
+  -d, --database DATABASE        de         The database name.
+  -U, --user USER                de         The database username.
+  -v, --version                             Show the sharkbait version.
+  -e, --environment ENVIRONMENT  dev        The name of the DE environment.
+
+
+```
+
+
+A sample run looks as follows:
+
+
+```
+
+root@dfc-de-grouper ~]# java -jar sharkbait-standalone.jar -h host.example.org -d de -U de -e de
+WARNING: update already refers to: #'clojure.core/update in namespace: sharkbait.db, being replaced by: #'honeysql.helpers/update
+WARNING: read already refers to: #'clojure.core/read in namespace: sharkbait.permissions, being replaced by: #'sharkbait.permissions/read
+de password: 
+Grouper starting up: version: 2.2.1, build date: null, env: <no label configured>
+grouper.properties read from: /root/file:/root/sharkbait-standalone.jar!/grouper.properties
+Grouper current directory is: /root
+log4j.properties read from:   /root/file:/root/sharkbait-standalone.jar!/log4j.properties
+Grouper is logging to file:   console, at min level WARN for package: edu.internet2.middleware.grouper, based on log4j.properties
+grouper.hibernate.properties: /root/file:/root/sharkbait-standalone.jar!/grouper.hibernate.properties
+grouper.hibernate.properties: null@null
+sources.xml read from:         [cant find sources.xml]
+sources.xml ldap source id:   dfc: cn=Manager,dc=xxx,dc=example,dc=org@ldap://ldap.example.org:389
+sources.xml groupersource id: g:gsa
+sources.xml groupersource id: grouperEntities
+2016-08-08 14:32:18,326: [main] WARN  GrouperStartup.printConfigOnce(167) -  - Grouper starting up: version: 2.2.1, build date: null, env: <no label configured>
+Grouper warning: Not checking configuration integrity due to grouper.properties: configuration.detect.errors
+2016-08-08 14:32:20,338: [main] WARN  GrouperCheckConfig.configCheckDisabled(296) -  - Not checking configuration integrity due to grouper.properties: configuration.detect.errors
+Loading DE subjects...
+"Elapsed time: 46.252702 msecs"
+Registering DE users...
+"Elapsed time: 374.047179 msecs"
+Creating DE permission definitions...
+Creating permission def:app-permission-def...
+Creating permission def:analysis-permission-def...
+"Elapsed time: 388.3188 msecs"
+Registering DE apps...
+"Elapsed time: 204.134627 msecs"
+
+
+
+```
+
 
 
 ### Deploy Discovery Environment
@@ -128,7 +196,6 @@ openssl req -new -x509 -key server.key -out server.crt -days 365
 
 ### Other Dependencies
 * install Condor: **$ ansible-playbook -i inventory -e @group_vars -s -K playbooks/condor.yaml**
-* install and configure cas using our dfc-cas-overlay: **$ ansible-playbook -i inventory -e @group_vars -s -K playbooks/cas-ldap.yaml**
 
 ### Setup databases (if doing this manually, otherwise, skip ahead to the data container)
 
