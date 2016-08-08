@@ -27,3 +27,4 @@
 
 - name: add the iplant user to docker group
   user: name=iplant groups=docker append=yes
+  when: ('docker-ready' in group_names)
