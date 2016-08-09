@@ -8,8 +8,8 @@ Requires={{grouper.service_name}}
 
 [Service]
 User=iplant
-ExecStartPre=-/bin/docker rm -v {{grouper.http_server.image_name}}
-ExecStart=/bin/docker run --name {{grouper.http_server.image_name}} \
+ExecStartPre=-/usr/bin/docker rm -v {{grouper.http_server.image_name}}
+ExecStart=/usr/bin/docker run --name {{grouper.http_server.image_name}} \
     -p 80:80 -p 443:443 \
     -v /etc/nginx/nginx.conf:/etc/nginx/nginx.conf \
     -v /etc/localtime:/etc/localtime \
@@ -17,7 +17,7 @@ ExecStart=/bin/docker run --name {{grouper.http_server.image_name}} \
     --volumes-from {{data_container.container_name}} \
     --log-driver={{de.http_server.log_driver}} \
     {{docker.user}}/{{grouper.http_server.image_name}}:{{docker.tag}}
-ExecStop=/bin/docker stop {{grouper.http_server.image_name}}
+ExecStop=/usr/bin/docker stop {{grouper.http_server.image_name}}
 Restart=on-failure
 
 SyslogIdentifier={{grouper.http_server.container_name}}
