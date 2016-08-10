@@ -7,7 +7,7 @@
         state: latest
 
     - name: enable RabbitMQ service
-      when: result|changed
+      when: (result) or (changed)
       service: 
         name: rabbitmq-server
         state: enabled
