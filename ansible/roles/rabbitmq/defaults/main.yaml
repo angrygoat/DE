@@ -1,5 +1,8 @@
 ---
 install: false
+result: false
+changed: false
+
 enable_ldap_with: null
 
 broker_port: 5432
