@@ -122,6 +122,15 @@ openssl req -new -x509 -key server.key -out server.crt -days 365
 
 * Run Grouper install playbooks: **$ ansible-playbook -i inventory -e @group_vars -s -K grouper-all.yaml**
 
+* Run GSH utility to initialize Grouper registry:
+```
+$ sudo docker exec -it iplant-grouper sh
+$ cd /opt/grouper/api  # may not be necessary as GROUPER_HOME should be set, but...
+$ bin/gsh -registry -init
+# in case GSH balks, check the last line and follow its instructions, par ejemplo:
+$ /opt/grouper/api # gsh -registry -runsqlfile /opt/grouper/api/ddlScripts/grouperDdl_20160810_13_41_50_782.sql
+```
+
 * Run the Sharkbait tool to initialize Grouper structures for DE
 
 This installs and configures Grouper.  Once Grouper is running, it needs to be initialized with some basic DE group structures,
