@@ -33,15 +33,15 @@
  
     - name: Create admin user for /
       rabbitmq_user:
-        user: "{{ admin_user }}"
-        password: "{{ admin_password }}"
+        user: "{{ amqp_broker.user }}"
+        password: "{{ amqp_broker.password }}"
         configure_priv: .*
         write_priv: .*
         read_priv: .*
         tags: administrator
 
     - name: Remove guest user
-      when: admin_user != 'guest'
+      when: amqp_broker.user != 'guest'
       rabbitmq_user:
         user: guest
         state: absent
@@ -90,8 +90,8 @@
 - name: add admin perms to vhosts
   with_items: "{{ vhosts }}"
   rabbitmq_user: 
-    user: "{{ admin_user }}"
-    password: "{{ admin_password }}"
+    user: "{{ amqp_broker.user }}"
+    password: "{{ amqp_broker.password }}"
     vhost: "{{ item }}"
     configure_priv: .*
     write_priv: .*
@@ -127,9 +127,9 @@
   with_items: "{{ exchanges }}"  
   rabbitmq_exchange:
     name: "{{ item.name }}"
-    login_port: "{{ mgmt_port }}"
-    login_user: "{{ admin_user }}"
-    login_password: "{{ admin_password }}"
+    login_port: "{{ amqp_broker.mgmt_port }}"
+    login_user: "{{ amqp_broker.user }}"
+    login_password: "{{ amqp_broker.password }}"
     vhost: "{{ item.vhost | default('/') }}"
     auto_delete: false
     exchange_type: "{{ item.type | default('direct') }}"
@@ -139,9 +139,9 @@
   rabbitmq_queue:
     name: "{{ item.name }}"
     vhost: "{{ item.vhost | default('/') }}"
-    login_port: "{{ mgmt_port }}"
-    login_user: "{{ admin_user }}"
-    login_password: "{{ admin_password }}"
+    login_port: "{{ amqp_broker.mgmt_port }}"
+    login_user: "{{ amqp_broker.user }}"
+    login_password: "{{ amqp_broker.password }}"
     auto_delete: false
     max_length: "{{ item.max_length | default(omit) }}"
 
@@ -151,9 +151,9 @@
   rabbitmq_binding:
     name: "{{ item.exchange | default('amq.default') }}"
     vhost: "{{ item.vhost | default('/') }}"
-    login_port: "{{ mgmt_port }}"
-    login_user: "{{ admin_user }}"
-    login_password: "{{ admin_password }}"
+    login_port: "{{ amqp_broker.mgmt_port }}"
+    login_user: "{{ amqp_broker.user }}"
+    login_password: "{{ amqp_broker.password }}"
     destination: "{{ item.name }}"
     destination_type: queue
     routing_key: "{{ item.routing_key | default(omit) }}"
