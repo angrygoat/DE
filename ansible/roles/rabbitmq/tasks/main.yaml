@@ -5,9 +5,10 @@
       package:
         name: rabbitmq-server
         state: latest
+      register: result
 
     - name: enable RabbitMQ service
-      when: (result) or (changed)
+      when: result|changed
       service: 
         name: rabbitmq-server
         state: enabled
