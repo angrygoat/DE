@@ -4,11 +4,11 @@ infosquito.es.port        = {{ elasticsearch.port }}
 infosquito.es.scroll-size = {{ elasticsearch.scroll_size }}
 
 # ICAT Database Connection Settings
-infosquito.icat.host     = {{ icat.host }}
-infosquito.icat.port     = {{ icat.port }}
-infosquito.icat.user     = {{ icat.user }}
-infosquito.icat.password = {{ icat.password }}
-infosquito.icat.db       = {{ icat.db }}
+infosquito.icat.host     = {{ irods.icat.host }}
+infosquito.icat.port     = {{ irods.icat.dbport }}
+infosquito.icat.user     = {{ irods.icat.user }}
+infosquito.icat.password = {{ irods.icat.password }}
+infosquito.icat.db       = {{ irods.icat.db }}
 
 # Indexing Options
 infosquito.base-collection  = /{{ irods.zone }}
