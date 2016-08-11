@@ -7,5 +7,6 @@
 
 - name: Place service config file
   template: src={{src}} dest={{dest}} owner={{owner}} group={{group}} mode=0644
+  sudo: true
   tags:
       - service_config
