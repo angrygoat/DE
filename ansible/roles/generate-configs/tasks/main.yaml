@@ -7,7 +7,7 @@
       - service_config
 
 - name: ensure target directories exist nginx
-  file: dest={{local_cfg_dest}}/iplant/de/nginx state=directory
+  file: dest={{local_cfg_dest}}/nginx state=directory
   #with_items:
   #  - /etc/docker-gc
   #  - /etc/nginx
