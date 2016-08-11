@@ -6,6 +6,14 @@
   tags:
       - service_config
 
+- name: ensure target directories exist nginx
+  file: dest={{local_cfg_dest}}/nginx state=directory
+  #with_items:
+  #  - /etc/docker-gc
+  #  - /etc/nginx
+  tags:
+      - service_config
+
 - name: Place docker-cleanup, ui config files
   template: src={{item.src}} dest={{item.dest}} owner=root group=root mode=0644
   with_items:
