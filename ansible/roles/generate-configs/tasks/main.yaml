@@ -1,5 +1,5 @@
 - name: ensure target directories exist
-  file: dest={{local_cfg_dest}} state=directory
+  file: dest={{local_cfg_dest}}/iplant/de state=directory
   #with_items:
   #  - /etc/docker-gc
   #  - /etc/nginx
