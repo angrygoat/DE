@@ -18,7 +18,7 @@
         - service_config
 
     - name: create the logging directory
-      file: path={{local_cfg_dest}}/logging state=directory
+      file: path={{local_cfg_dest}}/iplant/de/logging state=directory
       tags:
         - logging_config
 
