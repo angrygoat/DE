@@ -1,0 +1,70 @@
+# mccrole to install docker private registry, requires docker to be installed and configured
+# https://docs.docker.com/registry/deploying/
+
+- name: install docker-engine
+  yum: name=docker-engine state=latest
+  tags:
+      - docker-registry
+
+- name: create an etc dir for the docker registry
+  sudo: yes
+  file: path={{ docker_repo_target_config_dir }} state=directory mode=0700
+  tags:
+      - docker-registry
+
+
+- name: create a dir for the http auth
+  sudo: yes
+  file: path={{ docker_repo_auth_path }} state=directory mode=0700
+  tags:
+      - docker-registry
+
+- name: copy cert public/private key into etc
+  sudo: yes
+  copy: src={{ docker.registry.cert_dir }} dest={{ docker_repo_target_config_dir }} owner=root group=root mode=0644
+  tags:
+        - docker-registry
+
+- name: add docker registry user/passwd
+  shell: docker run --entrypoint htpasswd registry:2 -Bbn {{ docker.registry.user }} {{ docker.registry.pass }} > {{docker_repo_auth_path}}/htpasswd
+  tags:
+       - docker-registry
+
+- name: make a directory on all docker boxes for cert
+# see https://docs.docker.com/registry/insecure/
+  file: path=/etc/docker/certs.d/myregistrydomain.com:5000/ state=directory state=directory mode=0755
+  tags:
+       - docker-registry
+
+- name: copy docker registry public key to cert
+# see https://docs.docker.com/registry/insecure/
+  copy: src={{ docker.registry.cert_dir }}/{{ docker.registry.public_key }} dest=/etc/docker/certs.d/myregistrydomain.com:{{docker.registry.port}}/ owner=root group=root mode=0744
+  tags:
+         - docker-registry
+
+- name: Run docker registry with inline compose
+  sudo: yes
+  tasks:
+
+
+    - docker_service:
+#        project_name: registry
+#        version: 2
+#        definition:
+#         registry:
+#           restart: always
+#           image: registry:2
+#           ports:
+#             - "443:5000"
+#           environment:
+#             REGISTRY_HTTP_TLS_CERTIFICATE: /certs/{{docker.repo.public_key}}
+#             REGISTRY_HTTP_TLS_KEY: /certs/{{docker.repo.private_key}}
+#             REGISTRY_AUTH: htpasswd
+#             REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
+#             REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
+#           volumes:
+#             - "{{ docker_repo_storage_path }}:/var/lib/registry"
+#             - "{{ docker_repo_target_config_dir }}:/certs"
+#             - "{{ docker_repo_auth_path }}:/auth"
+#  tags:
+#      - docker-registry
