@@ -1,7 +1,5 @@
 ---
 install: false
-result: false
-changed: false
 
 enable_ldap_with: null
 

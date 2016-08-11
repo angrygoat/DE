@@ -25,6 +25,11 @@ Doing this results in
 * install CentOS library prereqs: **$ ansible-playbook -i inventory -e @group_vars -s -K playbooks/prereqs.yaml**
 * configure iptables: **$ ansible-playbook -i inventory -e @group_vars -s -K iptables.yaml**
 
+
+## Data Container
+
+Data container work - this is not covered in this document.  
+
 ### Docker and Local Docker Repo
 
 Configure (need to make this optional) a secure private docker repo, install docker, configure if need be for proxies
@@ -200,10 +205,6 @@ Registering DE apps...
 ```
 
 
-
-### Deploy Discovery Environment
-* pull the trigger: **$ ansible-playbook -i inventory -e @group_vars -s -K deploy-all.yaml**
-
 ### Other Dependencies
 * install Condor: **$ ansible-playbook -i inventory -e @group_vars -s -K playbooks/condor.yaml**
 
@@ -259,11 +260,6 @@ java -jar facepalm-standalone.jar -m  init -h localhost -p 5432 -d de -U de -A p
 ```
 
 
-## Data Container
-
-Data container work is in a private repo, which we need to formalize (mc), in the meantime, we build our own data container docker image and serve it out of a private docker registry, per this [nice setup instructions](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-private-docker-registry-on-ubuntu-14-04)
-
-
 ## Build configs
 
 Edit the generate_configs.sh to point to the correct location for variables and inventory files.  This will generate a set of .properties files for each service, typically in the /etc/iplant/de directory like this:
@@ -305,3 +301,7 @@ Once the configs are in place, run the build_config_images.sh to copy the config
 To set up a private repo consult this link: https://docs.docker.com/registry/deploying/
 
 The script may need to be configured for your particular Docker repo
+
+
+### Deploy Discovery Environment
+* pull the trigger: **$ ansible-playbook -i inventory -e @group_vars -s -K deploy-all.yaml**
