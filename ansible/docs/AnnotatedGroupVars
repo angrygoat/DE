@@ -675,7 +675,7 @@ jexevents:
  base: "http://{{ jexevents_host }}:{{jexevents_port}}/"
  event_url: "{{ apps.base }}/callbacks/de-job"
  service_name: jexevents.service
- service_name_short: jexevents
+ service_name_short: jex-events
  compose_service: jex_events
  service_description: jex events service
  image_name: jex-events
