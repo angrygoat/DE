@@ -512,7 +512,7 @@ grouper:
     log_driver: "{{ docker.log_driver }}"
     ssl:
       servers:
-        - server_name: "{{ nginx_ssl.server_name }}"
+        - server_name: "{{ groups['grouper'][0] }}"
           #ssl_certificate: "{{ nginx_ssl.cert }}"
           ssl_certificate: /etc/iplant/ssl/de-grouper_irss_unc_edu_cert.cer
           #ssl_certificate_key: "{{ nginx_ssl.cert_key }}"
@@ -731,6 +731,7 @@ ldap:
   state: CHANGEME
   location: CHANGEME
   organization: CHANGEME
+  # this is the password for the ldap root user
   admin_password: CHANGEME
   authn_format:
   enable_ssl: false
@@ -756,7 +757,8 @@ ldap:
   include_testde: true
   manager_dn: cn=Manager,dc=your,dc=org,dc=edu
   port: 389
-  password: CHANGEME
+  # this is the password for the ldap manager
+  manager_password: CHANGEME
   password_size: 8
   search_base_dn: ou=Users,dc=your,dc=org,dc=edu
   slapd_dpkg_reconfigure_done: "{{ldap.done_dir}}/slapd-dpkg-reconfigure-done"
