@@ -7,6 +7,10 @@
   vars_files:
     - ../group_vars/{{de_env}}
   pre_tasks:
+
+    - name: twiddle owner and group to avoid shooting ones self in foot
+    - file: path=path={{local_cfg_dest}} owner={{ansible_ssh_user}} group={{ansible_ssh_user}} mode=0755 recurse=true
+
     - name: create the output directory
       file: path={{local_cfg_dest}}/iplant/de state=directory
       tags:
