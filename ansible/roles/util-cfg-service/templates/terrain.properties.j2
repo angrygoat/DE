@@ -78,11 +78,11 @@ terrain.irods.use-trash     = true
 terrain.irods.admin-users   = {{ irods_admin_users }}
 
 # ICAT configuration
-terrain.icat.host           = {{ icat.host }}
-terrain.icat.port           = {{ icat.port }}
-terrain.icat.user           = {{ icat.user }}
-terrain.icat.password       = {{ icat.password }}
-terrain.icat.db             = {{ icat.db }}
+terrain.icat.host           = {{ irods.icat.host }}
+terrain.icat.port           = {{ irods.icat.dbport }}
+terrain.icat.user           = {{ irods.icat.user }}
+terrain.icat.password       = {{ irods.icat.password }}
+terrain.icat.db             = {{ irods.icat.db }}
 
 # Garnish configuration
 terrain.garnish.type-attribute = ipc-filetype
