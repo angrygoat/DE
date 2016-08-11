@@ -606,6 +606,7 @@ iplant_groups:
 # Optional role to stand up a basic iRODS iCat.
 irods:
   admin: rodsadmin
+  admins: CHANGEME # we don't know what all this means, let's ask dennis
   admin_users: CHANGEME
   admin_password: CHANGEME
   bad_chars: \u0060\u0027\u000A\u0009
