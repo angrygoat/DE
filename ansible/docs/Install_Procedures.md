@@ -303,5 +303,25 @@ To set up a private repo consult this link: https://docs.docker.com/registry/dep
 The script may need to be configured for your particular Docker repo
 
 
+## Build an iplant-groups docker image and push to an available docker repo
+
+If you are using self-signed certificates for Grouper, it is necessary to import this ssl cert into the keystore of the jvm that 
+will run iplant groups, using a docker image like this
+
+```docker
+
+ADD ssl/grouper.crt /home/iplant/
+#ADD ssl/public-key.pem /home/iplant/
+
+#RUN echo iplant:iplant | chpasswd
+RUN chown -R iplant:iplant /home/iplant/
+RUN yes | keytool -import -keystore /opt/jdk/jre/lib/security/cacerts -alias grouper  -storepass changeit -file /home/iplant/grouper.crt
+
+```
+
+And example Docker build is available, send us a message! (TODO: add a gist with this stuff)
+
+This is configured in your group vars under iplant_groups_docker_repo
+
 ### Deploy Discovery Environment
 * pull the trigger: **$ ansible-playbook -i inventory -e @group_vars -s -K deploy-all.yaml**
