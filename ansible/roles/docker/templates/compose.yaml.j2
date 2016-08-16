@@ -128,7 +128,7 @@ anon_files:
     - "{{anon_files.port}}:60000"
   log_driver: "syslog"
   log_opt:
-    syslog-tag: anon-files
+    tag: anon-files
   volumes_from:
     - config_anon_files
   volumes:
@@ -146,7 +146,7 @@ apps:
     - "{{apps.port}}:60000"
   log_driver: "syslog"
   log_opt:
-    syslog-tag: apps
+    tag: apps
   volumes_from:
     - iplant_data_apps
     - config_apps
@@ -163,7 +163,7 @@ clockwork:
     - JAVA_TOOL_OPTIONS="-Xmx512M"
   log_driver: "syslog"
   log_opt:
-    syslog-tag: clockwork
+    tag: clockwork
   volumes_from:
     - config_clockwork
   volumes:
@@ -177,7 +177,7 @@ clm:
   restart: on-failure:3
   log_driver: "syslog"
   log_opt:
-    syslog-tag: condor-log-monitor
+    tag: condor-log-monitor
   volumes_from:
     - config_clm
   volumes:
@@ -196,7 +196,7 @@ data_info:
     - "{{data_info.port}}:60000"
   log_driver: "syslog"
   log_opt:
-    syslog-tag: data-info
+    tag: data-info
   volumes_from:
     - config_data_info
   volumes:
@@ -210,8 +210,8 @@ de_ui:
   expose:
     - "8080"
   log_driver: "syslog"
-#  log_opt:
-#    syslog-tag: ui
+  log_opt:
+    tag: ui
   volumes_from:
     - iplant_data_de_ui
     - config_de_ui
@@ -229,7 +229,7 @@ de_ui_nginx:
     - "443:443"
   log_driver: "syslog"
   log_opt:
-    syslog-tag: de-ui-nginx
+    tag: de-ui-nginx
   volumes_from:
     - iplant_data_de_ui_nginx
     - config_de_ui_nginx
@@ -248,7 +248,7 @@ dewey:
     - JAVA_TOOL_OPTIONS="-Xmx512M"
   log_driver: "syslog"
   log_opt:
-    syslog-tag: dewey
+    tag: dewey
   volumes_from:
     - config_dewey
   volumes:
@@ -264,7 +264,7 @@ exim_sender:
     - ALLOWED_HOSTS=*
   log_driver: "syslog"
   log_opt:
-    syslog-tag: exim-sender
+    tag: exim-sender
   volumes:
     - /etc/localtime:/etc/localtime
     - /etc/timezone:/etc/timezone
@@ -278,7 +278,7 @@ info_typer:
     - JAVA_TOOL_OPTIONS="-Xmx512M"
   log_driver: "syslog"
   log_opt:
-    syslog-tag: info-typer
+    tag: info-typer
   volumes_from:
     - config_info_typer
   volumes:
@@ -294,7 +294,7 @@ infosquito:
     - JAVA_TOOL_OPTIONS="-Xmx512M"
   log_driver: "syslog"
   log_opt:
-    syslog-tag: infosquito
+    tag: infosquito
   volumes_from:
     - config_infosquito
   volumes:
@@ -312,7 +312,7 @@ iplant_email:
     - "{{iplant_email.port}}:60000"
   log_driver: "syslog"
   log_opt:
-    syslog-tag: iplant-email
+    tag: iplant-email
   volumes_from:
     - config_iplant_email
   volumes:
@@ -332,7 +332,7 @@ iplant_groups:
     - "{{iplant_groups.port}}:60000"
   log_driver: "syslog"
   log_opt:
-    syslog-tag: iplant-groups
+    tag: iplant-groups
   volumes_from:
     - config_iplant_groups
   volumes:
@@ -348,7 +348,7 @@ jex_events:
     - "{{jexevents.port}}:60000"
   log_driver: "syslog"
   log_opt:
-    syslog-tag: jexevents
+    tag: jexevents
   volumes_from:
     - config_jex_events
   volumes:
@@ -366,7 +366,7 @@ kifshare:
     - "{{kifshare.port}}:60000"
   log_driver: "syslog"
   log_opt:
-    syslog-tag: kifshare
+    tag: kifshare
   volumes_from:
     - config_kifshare
   volumes:
@@ -384,7 +384,7 @@ metadata:
     - "{{metadata.port}}:60000"
   log_driver: "syslog"
   log_opt:
-    syslog-tag: metadata
+    tag: metadata
   volumes_from:
     - config_metadata
   volumes:
@@ -400,7 +400,7 @@ monkey:
     - JAVA_TOOL_OPTIONS="-Xmx512M"
   log_driver: "syslog"
   log_opt:
-    syslog-tag: monkey
+    tag: monkey
   volumes_from:
     - config_monkey
   volumes:
@@ -418,7 +418,7 @@ notification_agent:
     - "{{notificationagent.port}}:60000"
   log_driver: "syslog"
   log_opt:
-    syslog-tag: notificationagent
+    tag: notificationagent
   volumes_from:
     - config_notification_agent
   volumes:
@@ -436,7 +436,7 @@ saved_searches:
     - "{{saved_searches.port}}:60000"
   log_driver: "syslog"
   log_opt:
-    syslog-tag: saved-searches
+    tag: saved-searches
   volumes_from:
     - config_saved_searches
   volumes:
@@ -452,7 +452,7 @@ templeton_periodic:
   #  - "{{templeton_periodic.port}}:60000"
   log_driver: "syslog"
   log_opt:
-    syslog-tag: templeton
+    tag: templeton
   volumes_from:
     - config_templeton_periodic
   volumes:
@@ -470,7 +470,7 @@ terrain:
     - "{{terrain.port}}:60000"
   log_driver: "syslog"
   log_opt:
-    syslog-tag: terrain
+    tag: terrain
   volumes_from:
     - iplant_data_terrain
     - config_terrain
@@ -489,7 +489,7 @@ tree_urls:
     - "{{tree_urls.port}}:60000"
   log_driver: "syslog"
   log_opt:
-    syslog-tag: tree-urls
+    tag: tree-urls
   volumes_from:
     - config_tree_urls
   volumes:
@@ -507,7 +507,7 @@ user_preferences:
     - "{{user_preferences.port}}:60000"
   log_driver: "syslog"
   log_opt:
-    syslog-tag: user-preferences
+    tag: user-preferences
   volumes_from:
     - config_user_preferences
   volumes:
@@ -525,7 +525,7 @@ user_sessions:
     - "{{user_sessions.port}}:60000"
   log_driver: "syslog"
   log_opt:
-    syslog-tag: user-sessions
+    tag: user-sessions
   volumes_from:
     - config_user_sessions
   volumes:
