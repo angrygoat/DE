@@ -59,16 +59,16 @@
       ignore_errors: yes
       service_name: "{{iplant_groups.compose_service}}"
 
-- name: Stop jex-adapter
-  hosts: jexevents
-  sudo: true
-  gather_facts: false
-  tags:
-    - services
-    - jex-adapter
-  roles:
-    - role: util-cfg-docker-stop
-      service_name: jex_adapter
+#- name: Stop jex-adapter
+#  hosts: jexevents
+#  sudo: true
+#  gather_facts: false
+#  tags:
+#    - services
+#    - jex-adapter
+#  roles:
+#    - role: util-cfg-docker-stop
+#      service_name: jex_adapter
 
 - name: Stop kifshare
   hosts: kifshare:&systems
