@@ -325,3 +325,6 @@ This is configured in your group vars under iplant_groups_docker_repo
 
 ### Deploy Discovery Environment
 * pull the trigger: **$ ansible-playbook -i inventory -e @group_vars -s -K deploy-all.yaml**
+
+### Custom UI container
+* note that the UI container must container appropriate PKCS/javastore keys to talk to CAS/LDAP. This will require a custom UI container per installation, determined by the group_var de.docker_repository:
