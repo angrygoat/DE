@@ -132,6 +132,7 @@ de:
   image_name: de-ui
   compose_service: de_ui
   container_name: de-ui
+  docker_repository: discoenv # update to cause de-ui to be pulled from an alternative location
   log_driver: "{{ docker.log_driver }}"
   log_file: de-ui.log
   context_menu_enabled: false

@@ -204,7 +204,7 @@ data_info:
     - /etc/timezone:/etc/timezone
 
 de_ui:
-  image: {{ data_container.unc_remote_registry }}/{{ de.container_name }}:{{ compose.de_tag }}
+  image: {{ de.docker_repository }}/{{ de.container_name }}:{{ compose.de_tag }}
   container_name: {{ de.container_name }}
   restart: on-failure:3
   expose:
