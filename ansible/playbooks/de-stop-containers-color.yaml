@@ -70,6 +70,17 @@
 #    - role: util-cfg-docker-stop
 #      service_name: jex_adapter_{{color}}
 
+- name: Stop jex
+  hosts: jex
+  sudo: true
+  gather_facts: false
+  tags:
+    - services
+    - jex
+  roles:
+    - role: util-cfg-docker-stop
+      service_name: jex_{{color}}
+
 - name: Stop kifshare
   hosts: kifshare:&systems
   become: true

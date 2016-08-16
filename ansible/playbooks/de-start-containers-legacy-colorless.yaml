@@ -54,16 +54,16 @@
     - role: util-cfg-docker-up
       service_name: "{{iplant_groups.compose_service}}"
 
-- name: Start jex-adapter
+- name: Start jex
   hosts: jexevents
   sudo: true
   gather_facts: false
   tags:
     - services
-    - jex-adapter
+    - jex
   roles:
     - role: util-cfg-docker-up
-      service_name: "jex_adapter"
+      service_name: "jex"
 
 - name: Start kifshare
   hosts: kifshare:&systems
