@@ -859,7 +859,7 @@ notificationagent:
   service_name_short: notificationagent
   compose_service: notification_agent
   service_description: notification agent service
-  image_name: notificationagent
+  image_name: notification-agent
   container_name: notificationagent
   properties_file: notificationagent.properties
   log_file: notificationagent-docker.log

@@ -408,7 +408,7 @@ monkey:
     - /etc/timezone:/etc/timezone
 
 notification_agent:
-  image: discoenv/notificationagent:{{compose.de_tag}}
+  image: discoenv/notification-agent:{{compose.de_tag}}
   container_name: notification-agent
   command: --config /etc/iplant/de/notificationagent.properties
   restart: on-failure:3
