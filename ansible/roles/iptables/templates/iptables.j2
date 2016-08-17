@@ -13,6 +13,12 @@
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport 22 -j ACCEPT
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.trust }} --dport 22 -j ACCEPT
 
+{% if inventory_hostname in groups['docker-ready'] %}
+# allow inter container docker connections
+-A INPUT -m state --state NEW -m tcp -p tcp -s 192.0.0.0/8 -j ACCEPT
+{% endif %}
+
+
 {% if inventory_hostname in groups['amqp-brokers'] %}
 # allow AMQP broker port from DMZ
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ amqp_broker.port }} -j ACCEPT
