@@ -94,9 +94,9 @@ config_saved_searches:
   image: {{ docker.registry.base }}/config_{{compose.de_env}}:{{compose.de_tag}}
   container_name: config-saved-searches
 
-config_templeton_periodic:
-  image: {{ docker.registry.base }}/config_{{compose.de_env}}:{{compose.de_tag}}
-  container_name: config-templeton
+#config_templeton_periodic:
+#  image: {{ docker.registry.base }}/config_{{compose.de_env}}:{{compose.de_tag}}
+#  container_name: config-templeton
 
 config_terrain:
   image: {{ docker.registry.base }}/config_{{compose.de_env}}:{{compose.de_tag}}
@@ -443,21 +443,21 @@ saved_searches:
     - /etc/localtime:/etc/localtime
     - /etc/timezone:/etc/timezone
 
-templeton_periodic:
-  image: discoenv/templeton:{{compose.de_tag}}
-  container_name: templeton-periodic
-  command: --mode periodic --config /etc/iplant/de/templeton-periodic.properties
-  restart: on-failure:3
-  #ports:
-  #  - "{{templeton_periodic.port}}:60000"
-  log_driver: "syslog"
-  log_opt:
-    tag: templeton
-  volumes_from:
-    - config_templeton_periodic
-  volumes:
-    - /etc/localtime:/etc/localtime
-    - /etc/timezone:/etc/timezone
+#templeton_periodic:
+#  image: discoenv/templeton:{{compose.de_tag}}
+#  container_name: templeton-periodic
+#  command: --mode periodic --config /etc/iplant/de/templeton-periodic.properties
+#  restart: on-failure:3
+#  #ports:
+#  #  - "{{templeton_periodic.port}}:60000"
+#  log_driver: "syslog"
+#  log_opt:
+#    syslog-tag: templeton
+#  volumes_from:
+#    - config_templeton_periodic
+#  volumes:
+#    - /etc/localtime:/etc/localtime
+#    - /etc/timezone:/etc/timezone
 
 terrain:
   image: discoenv/terrain:{{compose.de_tag}}
@@ -470,7 +470,7 @@ terrain:
     - "{{terrain.port}}:60000"
   log_driver: "syslog"
   log_opt:
-    tag: terrain
+    syslog-tag: terrain
   volumes_from:
     - iplant_data_terrain
     - config_terrain
@@ -489,7 +489,7 @@ tree_urls:
     - "{{tree_urls.port}}:60000"
   log_driver: "syslog"
   log_opt:
-    tag: tree-urls
+    syslog-tag: tree-urls
   volumes_from:
     - config_tree_urls
   volumes:
@@ -507,7 +507,7 @@ user_preferences:
     - "{{user_preferences.port}}:60000"
   log_driver: "syslog"
   log_opt:
-    tag: user-preferences
+    syslog-tag: user-preferences
   volumes_from:
     - config_user_preferences
   volumes:
@@ -525,7 +525,7 @@ user_sessions:
     - "{{user_sessions.port}}:60000"
   log_driver: "syslog"
   log_opt:
-    tag: user-sessions
+    syslog-tag: user-sessions
   volumes_from:
     - config_user_sessions
   volumes:
