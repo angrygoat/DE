@@ -616,7 +616,7 @@ irods:
   default_resource: "demoResc"
   default_resource_path: "/var/lib/irods/iRODS/demoResc"
   federation_host: 
-  home: CHANGEME
+  home: CHANGEME # /zone/home format do not put a trailing slash on there or you will get path not found
   host: CHANGEME
   icat:
     host: CHANGEME
