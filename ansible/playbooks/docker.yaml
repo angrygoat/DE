@@ -2,8 +2,9 @@
 
 - hosts: docker-ready
   sudo: yes
+  gather_facts: false
   roles:
-      - docker-proxy
       - docker
+      - docker-proxy
   environment:
     https_proxy: "{{ proxy_env.https_proxy }}"

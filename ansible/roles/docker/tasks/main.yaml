@@ -35,11 +35,14 @@
   yum: name=docker-engine state=latest
   tags: docker
 
-- name: install/update docker-compose
-  sudo: yes
-  get_url: url=https://github.com/docker/compose/releases/download/1.7.0/docker-compose-Linux-x86_64 dest=/usr/bin/docker-compose mode=0755 owner=root group=root validate_certs=no force=yes
-  tags:
-      - install_docker-compose
+- name: install docker-py for logins
+  pip:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - docker-py>=1.2.3
+    - six>=1.4.0
+  tags: docker
 
 - name: place the docker-compose yaml file
   sudo: yes
@@ -69,7 +72,7 @@
 
 - name: install/update docker-compose
   sudo: yes
-  get_url: url=https://github.com/docker/compose/releases/download/1.7.1/docker-compose-Linux-x86_64 dest=/usr/bin/docker-compose mode=0755 owner=docker group=docker validate_certs=no
+  get_url: url=https://github.com/docker/compose/releases/download/1.8.0/docker-compose-Linux-x86_64 dest=/usr/bin/docker-compose mode=0755 owner=docker group=docker validate_certs=no
   tags:
       - install_docker-compose
 
