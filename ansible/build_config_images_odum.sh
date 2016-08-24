@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-docker build -t docker.irss.unc.edu/config_de -f DockerfileConfigs .
-docker push docker.irss.unc.edu/config_de
+docker build --no-cache -t visr-docker-registry.irss.unc.edu:443/config_de:2.5 -f DockerfileConfigs .
+docker push visr-docker-registry.irss.unc.edu:443/config_de:2.5
