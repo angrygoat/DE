@@ -182,8 +182,8 @@
 
 - name: enable grouper services
   service: name={{item}} enabled={{enable_services}}
-  when: service_file_grouper_v.changed or
-        service_file_grouper_nginx_v.changed
+  #when: service_file_grouper_v.changed or
+  #      service_file_grouper_nginx_v.changed
   with_items:
     - "{{grouper.service_name}}"
     - "{{grouper.http_server.service_name}}"

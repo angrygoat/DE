@@ -19,7 +19,7 @@ http {
 {% for server in grouper.http_server.ssl.servers %}
     server {
         listen 443 ssl;
-        server_name {{ grouper.server_name }};
+        server_name {{ server.server_name }};
 
         ssl_certificate {{ server.ssl_certificate }};
         ssl_certificate_key {{ server.ssl_certificate_key }};
@@ -36,7 +36,6 @@ http {
 
             proxy_read_timeout 3600s;
 
-            #proxy_pass http://{{ ansible_hostname }}:8080/;
             proxy_pass http://{{ groups['grouper'][0] }}:8080/;
         }
     }
