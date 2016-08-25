@@ -204,7 +204,7 @@ data_info:
     - /etc/timezone:/etc/timezone
 
 de_ui:
-  image: {{ de.docker_repository }}/{{ de.container_name }}:{{ compose.de_tag }}
+  image: {{ docker.internal_registry }}/{{ de.container_name }}:{{ compose.de_tag }}
   container_name: {{ de.container_name }}
   restart: on-failure:3
   expose:
@@ -452,7 +452,7 @@ saved_searches:
 #  #  - "{{templeton_periodic.port}}:60000"
 #  log_driver: "syslog"
 #  log_opt:
-#    syslog-tag: templeton
+#    tag: templeton
 #  volumes_from:
 #    - config_templeton_periodic
 #  volumes:
@@ -470,7 +470,7 @@ terrain:
     - "{{terrain.port}}:60000"
   log_driver: "syslog"
   log_opt:
-    syslog-tag: terrain
+    tag: terrain
   volumes_from:
     - iplant_data_terrain
     - config_terrain
@@ -489,7 +489,7 @@ tree_urls:
     - "{{tree_urls.port}}:60000"
   log_driver: "syslog"
   log_opt:
-    syslog-tag: tree-urls
+    tag: tree-urls
   volumes_from:
     - config_tree_urls
   volumes:
@@ -507,7 +507,7 @@ user_preferences:
     - "{{user_preferences.port}}:60000"
   log_driver: "syslog"
   log_opt:
-    syslog-tag: user-preferences
+    tag: user-preferences
   volumes_from:
     - config_user_preferences
   volumes:
@@ -525,7 +525,7 @@ user_sessions:
     - "{{user_sessions.port}}:60000"
   log_driver: "syslog"
   log_opt:
-    syslog-tag: user-sessions
+    tag: user-sessions
   volumes_from:
     - config_user_sessions
   volumes:
