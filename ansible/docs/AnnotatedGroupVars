@@ -621,7 +621,7 @@ irods:
   icat:
     host: CHANGEME
     db: CHANGEME
-    dbport: 5432
+    db_port: 5432
     password: CHANGEME
     user: CHANGEME
   password: CHANGEME
