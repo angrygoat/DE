@@ -26,11 +26,11 @@
         force: false
       register: result
 
-    - name: reload RabbitMQ configuration
+    - name: restart RabbitMQ configuration
       when: result|changed
       service: 
         name: rabbitmq-server
-        state: reloaded
+        state: restarted
  
     - name: Create admin user for /
       rabbitmq_user:
