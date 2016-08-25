@@ -70,3 +70,8 @@
   tags:
     - jex
     - config
+
+- name: start jex
+  service: name=jex state=started
+  tags:
+    - jex
