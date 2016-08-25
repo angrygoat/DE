@@ -8,4 +8,4 @@ Requires=docker.service
 Type=oneshot
 # Ignore errors with "-" since the container may already exist
 ExecStartPre=-/usr/bin/docker rm -v {{data_container.container_name}}
-ExecStart=/usr/bin/docker run --name {{data_container.container_name}} {{data_container.unc_remote_registry}}/{{data_container.image_name}}:latest
+ExecStart=/usr/bin/docker run --name {{data_container.container_name}} {{data_container.unc_remote_registry}}/{{data_container.image_name}}:{{compose.de_tag}}
