@@ -11,7 +11,7 @@
     - auth
 
 - name: Generate the root password for ldap
-  shell: slappasswd -s {{ ldap.password }}
+  shell: slappasswd -s {{ ldap.admin_password }}
   register: root_password
   tags:
     - ldap
