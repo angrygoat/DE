@@ -22,7 +22,7 @@ echo "{{ irods.admin }}" >> $RESPFILE       		# iRODS admin account
 echo "{{ irods.admin_password }}" >> $RESPFILE      	# iRODS admin password
 echo "yes" >> $RESPFILE                   		# confirm iRODS settings
 echo "{{ irods.icat.host }}" >> $RESPFILE    		# database hostname
-echo "{{ irods.icat.db_port }}" >> $RESPFILE            # database port
+echo "{{ irods.icat.dbport }}" >> $RESPFILE            # database port
 echo "{{ irods.icat.db }}" >> $RESPFILE               	# database DB name
 echo "{{ irods.icat.user }}" >> $RESPFILE       	# database admin username
 echo "{{ irods.icat.password }}" >> $RESPFILE   	# database admin password
