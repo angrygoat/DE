@@ -8,7 +8,7 @@
   "Autodelete" : {{ amqp_broker.condor_events.exchange_auto_delete | to_nice_json }},
   "Internal" : false,
   "NoWait" : false,
-  "EventLog" : "{{ condor_log_monitor_event_log }}",
+  "EventLog" : "{{ condor_log_monitor.event_log }}",
   "LogPath" : "/logs/condor-log-monitor.log",
   "LogMaxSize" : 500,
   "LogMaxBackeups" : 3
