@@ -400,7 +400,7 @@ docker:
     # public/private keys for private docker registry as set up  by the docker_repo role
     public_key: server.crt
     private_key: server.key
-  internal_registry: "CHANGEME"
+  internal_registry: CHANGEME # name of internal docker repo e.g. my.example.com:443 where you run your private docker repo
 
 email_smtp_host: CHANGEME
 email_smtp_from_address: CHANGEME
