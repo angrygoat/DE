@@ -289,8 +289,8 @@ condor:
   allow_read: "{{ condor_allow_write }}"
 
 # Condor Log Monitor does exactly that, and reports to jexevents.
-condor_log_monitor_event_log: /var/log/condor/event_log
 condor_log_monitor:
+  event_log: /var/log/condor/event_log
   service_name: condor-log-monitor.service
   service_name_short: condor-log-monitor
   service_description: CLM; Condor log monitor

@@ -1,6 +1,6 @@
 {
   "AMQPURI" : "amqp://{{ amqp_broker.user }}:{{ amqp_broker.password }}@{{ amqp_broker.host }}:{{ amqp_broker.port }}/",
-  "EventLog" : "{{ condor_log_monitor.log_file }}",
+  "EventLog" : "{{ condor_log_monitor.event_log }}",
   "ExchangeName" : "{{ amqp_broker.condor_events.exchange }}",
   "ExchangeType" : "{{ amqp_broker.condor_events.exchange_type }}",
   "RoutingKey" : "{{ amqp_broker.condor_events.exchange_routing_key }}",
