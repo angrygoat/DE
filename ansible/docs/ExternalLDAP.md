@@ -10,5 +10,8 @@ point /etc/grouper/grouper.client.properties at external LDAP
 
 point /etc/grouper/sources.xml SubjectResolve at external LDAP
 
-###Then re-initialize Grouper:
+###Re-initialize Grouper:
 $ bin/gsh -registry -init
+
+###Each user must exist in iRODS
+[irods@visr-de-irods1 ~]$ ./add_irods_user.sh
