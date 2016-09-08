@@ -8,7 +8,11 @@ point /etc/grouper/client.properties at external LDAP
 
 point /etc/grouper/grouper.client.properties at external LDAP
 
-point /etc/grouper/sources.xml SubjectResolve at external LDAP
+point /etc/grouper/sources.xml "Entity Subject Resolver" section at external LDAP
+point /etc/grouper/sources.xml base
+
+###On CAS machine:
+point /etc/cas/cas.properties ldap.url to external LDAP
 
 ###Re-initialize Grouper:
 $ bin/gsh -registry -init
