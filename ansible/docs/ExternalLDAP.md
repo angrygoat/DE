@@ -17,5 +17,8 @@ point /etc/cas/cas.properties ldap.url to external LDAP
 ###Re-initialize Grouper:
 $ bin/gsh -registry -init
 
+###Re-run sharkbait on DE database:
+$ java -jar sharkbait-standalone.jar -h <dbhost> -d <dbname> -U <dbuser> -e de
+
 ###Each user must exist in iRODS
 [irods@visr-de-irods1 ~]$ ./add_irods_user.sh
