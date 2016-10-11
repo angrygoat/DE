@@ -9,3 +9,11 @@
   sudo: yes
   template: src=http-proxy.conf.j2 dest=/etc/systemd/system/docker.service.d/http-proxy.conf owner=root group=root mode=0644
 
+- name: reload systemd
+  sudo: yes
+  shell: "/usr/bin/systemctl daemon-reload"
+  tags: docker
+
+- name: restart docker
+  service: name=docker state=restarted enabled=yes
+  tags: docker

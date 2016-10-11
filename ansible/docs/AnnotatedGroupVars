@@ -298,7 +298,7 @@ condor_log_monitor:
   container_name: clm
   compose_service: clm
   properties_file: condor_log_monitor.properties
-  log_file: condor-log-monitor-docker.log
+  log_file: condor-log-monitor-docker.logt5g
 
 # Coge is unavailable to external entities.
 coge_genome_load_url: https://genomevolution.org/CoGe/services/service.pl/genome/load
