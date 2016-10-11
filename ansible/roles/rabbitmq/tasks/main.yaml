@@ -7,11 +7,11 @@
         state: latest
       register: result
 
-    - name: enable RabbitMQ service
+    - name: start RabbitMQ service
       when: result|changed
       service: 
         name: rabbitmq-server
-        state: enabled
+        state: started
  
     - name: enable RabbitMQ Management plugin
       rabbitmq_plugin:
