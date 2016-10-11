@@ -19,17 +19,17 @@
       - docker-registry
 
 # need to add when_install_certs flag
-#- name: copy cert public key into etc
-#  sudo: yes
-#  copy: src={{ docker.registry.cert_dir }}{{docker.registry.public_key}} dest={{ docker.registry.target_config_dir }}{{docker.registry.public_key}} owner=root group=root mode=0644
-#  tags:
-#        - docker-registry
+- name: copy cert public key into etc
+  sudo: yes
+  copy: src={{ docker.registry.cert_dir }}{{docker.registry.public_key}} dest={{ docker.registry.target_config_dir }}{{docker.registry.public_key}} owner=root group=root mode=0644
+  tags:
+        - docker-registry
 #
-#- name: copy cert private key into etc
-#  sudo: yes
-#  copy: src={{ docker.registry.cert_dir }}{{docker.registry.private_key}} dest={{ docker.registry.target_config_dir }}{{docker.registry.private_key}} owner=root group=root mode=0644
-#  tags:
-#        - docker-registry
+- name: copy cert private key into etc
+  sudo: yes
+  copy: src={{ docker.registry.cert_dir }}{{docker.registry.private_key}} dest={{ docker.registry.target_config_dir }}{{docker.registry.private_key}} owner=root group=root mode=0644
+  tags:
+        - docker-registry
 
 - name: add docker registry user/passwd
   shell: docker run --entrypoint htpasswd registry:2 -Bbn {{ docker.registry.user }} {{ docker.registry.pass }} > {{docker_repo_auth_path}}/htpasswd
