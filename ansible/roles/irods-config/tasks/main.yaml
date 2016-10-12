@@ -10,10 +10,14 @@
     - core.re
     - ipc-amqp.re
     - ipc-custom.re
-    - ipc-env.re
     - ipc-json.re
     - ipc-logic.re
     - ipc-uuid.re
+
+- name: place ipc-env.re template into place
+  sudo: yes
+  sudo_user: irods
+  template: src=ipc-env.re.j2 dest=/etc/irods/ipc-env.re owner=irods group=irods mode=0644
 
 - name: copy DE scripts into iRODS bin/ directory
   sudo: yes

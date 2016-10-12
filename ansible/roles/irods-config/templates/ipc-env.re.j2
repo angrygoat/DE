@@ -1,0 +1,12 @@
+# VERSION: 3-dfc
+#
+# The localhost environment rule customizations belong in this file.
+
+ipc_AMQP_HOST = '{{ groups['amqp-brokers'][0] }}'
+ipc_AMQP_PORT = {{ amqp_broker.port }}
+ipc_AMQP_USER = '{{ amqp_broker.user }}'
+ipc_AMQP_PASSWORD = '{{ amqp_broker.password }}'
+ipc_AMQP_EPHEMERAL = false
+
+ipc_RODSADMIN = '{{ irods.admin }}'
+ipc_RE_HOST = 'localhost'
