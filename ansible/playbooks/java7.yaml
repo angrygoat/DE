@@ -1,4 +1,4 @@
-- hosts: services
+- hosts: db:services
   sudo: yes
   roles:
     - java7
