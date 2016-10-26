@@ -129,6 +129,8 @@
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.trust }} --match multiport --dports {{ irods.portrange.start }}:{{ irods.portrange.end }} -j ACCEPT
 -A INPUT -m state --state NEW -m udp -p udp -s {{ net.trust }} --match multiport --dports {{ irods.portrange.start }}:{{ irods.portrange.end }} -j ACCEPT
 -A INPUT -m state --state NEW -m tcp -p tcp -s {{ net.dmz }} --dport {{ irods.icat.db_port }} -j ACCEPT
+# data-info needs direct access to iCAT DB
+-A INPUT -m state --state NEW -m tcp -s {{ hostvars[groups['services']['ansible_eth0']['ipv4']['address']] }} --dport {{ irods.icat.dbport }} -j ACCEPT
 
 {% endif %}
 {% if inventory_hostname in groups['jex'] %}
