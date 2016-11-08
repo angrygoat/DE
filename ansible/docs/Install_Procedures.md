@@ -3,7 +3,7 @@
 For the purposes of this fork of DE, we standardized on CentOS 7 VMs, though the number required will be up to the organization. Some services (jex, condor log monitor, condor) need to run on the same machine but most may be safely run on their own node or on shared hardware. Note that if you intend to run all internal services on one node, you'll want to throw a fair amount of resources at that box. Elasticsearch in particular may require a larger RAM allocation, and Condor will need the CPU, RAM, and disk space (/var) to accommodate the needs of your users.
 
 ### Ansible Setup
-* Create a privileged Ansible user on all boxes, select a head node, generate ssh key, distribute public keys, grant sudo to Ansible user.
+* Create a privileged Ansible user on all boxes, select a head node, generate ssh key, distribute public keys, grant sudo to Ansible user. Here's a good [reference](https://www.digitalocean.com/community/tutorials/how-to-set-up-ssh-keys--2)
 * on ansible head node, create a de directory under the ansible home dir (this is just suggested).  Under this, 
 create an ansible-vars dir.  In here you will place your inventory file, and your Ansible group vars.  You can use the Annotated
 group vars and annotated inventory (TODO) as a start
