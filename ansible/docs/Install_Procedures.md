@@ -21,11 +21,6 @@ Doing this results in
 * install ansible on each machine
 ``` yum install ansible ```
 
-### Prerequisite Playbooks
-* install CentOS library prereqs: **$ ansible-playbook -i inventory -e @group_vars -s -K playbooks/prereqs.yaml**
-* configure iptables: **$ ansible-playbook -i inventory -e @group_vars -s -K iptables.yaml**
-
-
 ## Data Container
 
 Data container work - this is not covered in this document.  
@@ -59,11 +54,25 @@ docker images
 
 ```
 
+
+### Prerequisite Playbooks
+* install CentOS library prereqs: **$ ansible-playbook -i inventory -e @group_vars -s -K playbooks/prereqs.yaml**
+* configure iptables: **$ ansible-playbook -i inventory -e @group_vars -s -K iptables.yaml**
+
+
+
 ### Misc Prereqs
 
 * install openJDK7 on services VM: **$ ansible-playbook -i inventory -e @group_vars -s -K playbooks/java7.yaml**
 * install timezone packages: **$ ansible-playbook -i inventory -e @group_vars -s -K playbooks/timezone.yaml**
 * install amqp: **$ ansible-playbook -i inventory -e @group_vars -s -K playbooks/amqp-brokers.yaml**
+
+
+### Setup databases (if doing this manually, otherwise, skip ahead to the data container)
+
+* install postgres: **$ ansible-playbook -i inventory -e @group_vars -s -K playbooks/postgres.yaml**
+* create DBs: **$ ansible-playbook -i inventory -e @group_vars -s -K playbooks/db-creator.yaml**
+
 
 ### CAS/LDAP
 
